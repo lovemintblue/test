@@ -1,0 +1,138 @@
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header system-main-nav">搜索</div>
+        <div class="layui-card-body">
+            <form class="layui-form toolbar" lay-filter="searchForm">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">月份:</label>
+                        <div class="layui-input-inline">
+                            <input name="month" id="report-date" value="<?php echo date("Y-m");?>" class="layui-input icon-date" placeholder="请输入日期"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button type="button" class="layui-btn layui-btn-sm" lay-active="searchFormBtn">搜索</button>
+                        <button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+            <!-- 数据表格 -->
+            <table class="layui-hide" id="table" lay-filter="table"></table>
+            <div id="pager"></div>
+        </div>
+    </div>
+</div>
+<script>
+    var layerIndex,layer,table,form,laydate,treeTable,laypage,util,$;
+    layui.use(['layer', 'form','treeTable', 'admin','laydate','laypage','util'], function () {
+        $ = layui.jquery;
+        layer = layui.layer;
+        form = layui.form;
+        laydate = layui.laydate;
+        treeTable = layui.treeTable;
+        laypage = layui.laypage;
+        util = layui.util;
+        /*初始化表格*/
+        var insTb = treeTable.render({
+            elem: '#table'
+            ,url: location.href
+            ,method: "post"
+            ,where: form.val("searchForm")
+            ,skin:'row'
+            ,size: 'sm' //小尺寸的表格
+            ,even: true //开启隔行背景
+            // ,toolbar: '#table-toolbar'
+            ,request: {
+                pidName: 'pid',
+                limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            }
+            ,tree: {
+                arrowType: 'arrow2',
+                iconIndex: 0,           // 折叠图标显示在第几列
+                isPidData: true,        // 是否是id、pid形式数据
+                idName: '_id',  // id字段名称
+                pidName: 'pid',     // pid字段名称
+                getIcon:function(){return ''},
+            }
+            ,reqData: function(data, callback) {
+                var filter=form.val("searchForm");
+                filter.page = 1;
+                filter.pageSize = 1000;
+                filter.pid = data?data._id:'0';
+                $.post(location.href,filter, function (res) {
+                    callback(res.data.items,res.data.totalRow);
+                    pageRender(res);
+                });
+            }
+            ,parseData: function(res){ //res 即为原始返回的数据
+                //执行一个laypage实例
+                if(res.data.haveChild===false){
+                    pageRender(res);
+                }
+                return {"code": res.status==='y'?0:1, "data": res.data.items};
+            }
+            ,cols: [[
+                {field: 'date', title: '日期',align: 'left',width:230},
+                {field: 'dau', title: '总日活',align: 'center'},
+                {field: 'dau_android', title: '安卓日活',align: 'center'},
+                {field: 'dau_h5', title: 'H5日活',align: 'center',},
+                {field: 'reg', title: '注册',align: 'center'},
+                {field: 'reg_android', title: '安卓注册',align: 'center'},
+                {field: 'reg_h5', title: 'H5注册',align: 'center'},
+                {field: 'order', title: '订单数',align: 'center'},
+                {field: 'order_success', title: '成功订单数',align: 'center'},
+                {field: 'order_money', title: '订单金额',align: 'center'},
+                {field: 'tav', title: '客单价',align: 'center'},
+                {field: 'payr', title: '支付成功率',align: 'center'},
+                {field: 'apr', title: '日付费率',align: 'center'},
+                {field: 'arpu', title: 'ARPU',align: 'center'},
+            ]],
+        });
+
+        laydate.render({
+            elem: '#report-date',
+            type: 'month'
+        });
+        //监听其他事件
+        util.event('lay-active', {
+            searchFormBtn: function(e){
+                var loadIndex=layer.load(0,{time: 30*1000});
+                var filter=form.val("searchForm");
+                filter.page = 1;
+                filter.pageSize = 30;
+                $.post(location.href,filter, function (res) {
+                    layer.close(loadIndex);
+                    insTb.refresh(res.data.items);
+                    pageRender(res);
+                });
+            }
+        });
+
+        function pageRender(res) {
+            laypage.render({
+                elem: 'pager' //注意，这里的 test1 是 ID，不用加 # 号
+                ,layout: ['prev', 'page', 'next', 'skip', 'count', 'limit']
+                ,curr: res.data.page //设定初始在第 1 页
+                ,groups: 6 //只显示 5 个连续页码
+                ,first: '首页'
+                ,last: '尾页'
+                ,limit:res.data.page===1?res.data.pageSize:30
+                ,limits:[10,30,50,100]
+                ,count: res.data.count //数据总数，从服务端得到
+                ,jump: function(obj, first){
+                    if(!first){
+                        var loadIndex=layer.load(0,{time: 30*1000});
+                        var filter=form.val("searchForm");
+                        filter.page = obj.curr;
+                        filter.pageSize = obj.limit;
+                        $.post(location.href,filter, function (res) {
+                            layer.close(loadIndex);
+                            insTb.refresh(res.data.items);
+                        });
+                    }
+                }
+            });
+        }
+
+    })
+</script>

@@ -1,0 +1,159 @@
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header system-main-nav">搜索</div>
+        <div class="layui-card-body">
+            <form class="layui-form toolbar" lay-filter="searchForm">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">状态:</label>
+                        <div class="layui-input-inline">
+                            <select name="type" lay-search>
+                                <option value="">请选择..</option>
+                                <?php foreach ($logArr as $key=>$item): ?>
+                                    <option value="<?php echo $key; ?>"><?php echo $item; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">操作类型:</label>
+                        <div class="layui-input-inline">
+                            <select name="record_type" lay-search>
+                                <option value="">请选择..</option>
+                                <?php foreach ($recordArr as $key=>$item): ?>
+                                    <option value="<?php echo $key; ?>"><?php echo $item; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="start_time"  readonly="" id="laydate-start-at" placeholder="yyyy-MM-dd HH:mm:ss">
+                        </div>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="end_time"  readonly="" id="laydate-end-at" placeholder="yyyy-MM-dd HH:mm:ss">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">用户ID</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="user_id" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">订单编号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="order_sn" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="searchFormBtn">搜索</button>
+                        <button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+            <!-- 数据表格 -->
+            <table class="layui-hide" id="table" lay-filter="table"></table>
+            <!-- 数据表格-顶部工具条 -->
+            <script type="text/html" id="table-toolbar">
+                <div class="layui-btn-container">
+
+                </div>
+            </script>
+            <!-- 数据表格-行工具条 -->
+            <script type="text/html" id="table-item-toolbar">
+                <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+            </script>
+        </div>
+    </div>
+</div>
+<script>
+    var layerIndex,layer,table,form,laydate,$;
+    layui.use(['layer', 'form', 'table', 'admin','laydate'], function () {
+        $ = layui.jquery;
+        layer = layui.layer;
+        form = layui.form;
+        table = layui.table;
+        laydate = layui.laydate;
+
+        /*初始化表格*/
+        table.render({
+            elem: '#table'
+            ,url: location.href
+            ,method: "post"
+            ,where: form.val("searchForm")
+            ,skin:'line'
+            ,size: 'sm' //小尺寸的表格
+             ,toolbar: '#table-toolbar'
+            ,request: {
+                limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            }
+            ,page: {
+                layout: ['prev', 'page', 'next', 'skip', 'count', 'limit']
+                ,curr: 1 //设定初始在第 1 页
+                ,groups: 6 //只显示 5 个连续页码
+                ,first: '首页'
+                ,last: '尾页'
+                ,limit:30
+                ,limits:[10,30,50,100,500]
+            }
+            ,parseData: function(res){ //res 即为原始返回的数据
+                return res;
+            }
+            ,cols: [[
+                {type: 'checkbox'}
+                ,{field:'_id', title: 'ID',width:80}
+                ,{field:'order_sn', title: '订单编号',width:200}
+                ,{field:'user_id', title: '用户ID',width:120}
+                ,{field:'type_text', title: '类型',width:100,}
+                ,{field:'record_type_text', title: '操作类型',width:120}
+                ,{field:'num', title: '金币',width:150}
+                ,{field:'num_log', title: '余额',width:150}
+                ,{field:'ext', title: '备注',templet:function (row) {
+                    return row.remark+(row.ext?' => '+row.ext:'');
+                },align: 'center'}
+                ,{field:'created_at', title: '创建时间',width:180}
+            ]],
+        });
+        //日期时间选择器
+        laydate.render({
+            elem: '#laydate-start-at'
+            ,type: 'datetime'
+        });
+        laydate.render({
+            elem: '#laydate-end-at'
+            ,type: 'datetime'
+        });
+
+        /*表格搜索事件*/
+        form.on('submit(searchFormBtn)', function(obj){
+            table.reload('table',{where:obj.field,page:{curr:1}});
+            return false;
+        });
+        /*表格排序事件*/
+        table.on('sort(table)', function(obj){
+            var order=obj.type==='asc'?1:-1;
+            table.reload('table', {initSort: obj,where: {sort: obj.field,order: order }});
+        });
+
+        /*表格-顶部工具条事件*/
+        table.on('toolbar(table)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            var data = checkStatus.data;
+            var ids = new Array();
+            for(var index=0;index<data.length;index++)
+            {
+                ids.push(data[index]._id)
+            }
+        });
+        /*表格-行事件*/
+        table.on('tool(table)', function(obj){
+            var data = obj.data;
+        });
+    })
+</script>

@@ -1,0 +1,94 @@
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">批量设置</div>
+                <div class="layui-card-body">
+                    <form class="layui-form" action="" lay-filter="info-form">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">ID:</label>
+                            <div class="layui-input-block">
+                                <input type="text" readonly name="id" value="<?php echo $ids;?>"  placeholder="" autocomplete="off" class="layui-input layui-disabled">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">金币:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="money" value=""  placeholder="" autocomplete="off" class="layui-input">
+                                <div class="layui-form-mid layui-word-aux">金币>0 免费<=0</div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">联系方式</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="contact" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">审核状态</label>
+                            <div class="layui-input-block">
+                                <?php foreach ($statusArr as $key=>$val):?>
+                                    <input lay-filter="select-status" type="radio" <?php if($key==1):?>checked<?php endif;?> name="status" value="<?php echo $key;?>" title="<?php echo $val;?>" >
+                                <?php endforeach;?>
+                            </div>
+                        </div>
+<!--                        <div class="layui-form-item select-status select-status2">-->
+<!--                            <label class="layui-form-label">审核未通过原因</label>-->
+<!--                            <div class="layui-input-block">-->
+<!--                                <input type="text" name="deny_msg" placeholder="" autocomplete="off" class="layui-input">-->
+<!--                            </div>-->
+<!--                        </div>-->
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit lay-filter="info-form">立即提交</button>
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['index', 'form','upload','laydate'], function(){
+        var $ = layui.$,element = layui.element,form = layui.form,upload = layui.upload,laydate = layui.laydate;
+        //日期时间选择器
+        laydate.render({
+            elem: '#laydate-start-at'
+            ,type: 'datetime'
+        });
+        form.render(null, 'info-form');
+        element.render('breadcrumb', 'breadcrumb');
+
+        //初始化状态
+        changeStatusType(form.val("info-form").status);
+        //选择状态
+        form.on('radio(select-status)', function(data){
+            changeStatusType(data.value);
+        });
+        function changeStatusType(status){
+            $('.select-status').hide();
+            $('.select-status'+status).show();
+        }
+
+        form.on('submit(info-form)', function(obj){
+            var loadIndex=layer.load(0,{time: 30*1000});
+            obj.field.act='update';
+            doAjax("<?php echo createUrl('/play/do')?>",obj.field,function (res) {
+                layer.close(loadIndex);
+                if(res.status==='y'){
+                    showSuccessMsg("保存成功!");
+                    parent.layer.close(parent.layerIndex);
+                    parent.table.reload('table');
+                    return;
+                }
+                showErrorMsg(res.error);
+            });
+            return false;
+        });
+
+    });
+</script>

@@ -1,0 +1,65 @@
+{
+  "table_name": "comment",
+  "class_name": "CommentModel",
+  "description": "评论表",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "评论编号"
+    },
+    {
+      "name": "from_uid",
+      "type": "int",
+      "description": "发表评论的用户id",
+      "index": "Normal"
+    },
+    {
+      "name": "object_id",
+      "type": "int",
+      "description": "资源编号",
+      "index": "Normal"
+    },
+    {
+      "name": "object_type",
+      "type": "string",
+      "description": "类型 漫画:cartoon 视频:movie",
+      "index": "Normal"
+    },
+    {
+      "name": "content",
+      "type": "string",
+      "description": "内容"
+    },
+    {
+      "name": "ip",
+      "type": "string",
+      "description": "IP"
+    },
+    {
+      "name": "love",
+      "type": "int",
+      "description": "点赞个数"
+    },
+    {
+      "name": "status",
+      "type": "int",
+      "description": "状态 正常1 删除0"
+    },
+    {
+      "name": "time",
+      "type": "int",
+      "description": "时间 用于弹幕"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

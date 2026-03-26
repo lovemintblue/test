@@ -1,0 +1,48 @@
+{
+  "table_name": "comics_chapter",
+  "class_name": "ComicsChapterModel",
+  "description": "漫画章节",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "名称"
+    },
+    {
+      "name": "img",
+      "type": "string",
+      "description": "封面"
+    },
+    {
+      "name": "content",
+      "type": "string",
+      "description": "内容"
+    },
+    {
+      "name": "sort",
+      "type": "int",
+      "description": "排序"
+    },
+    {
+      "name": "comics_id",
+      "type": "string",
+      "description": "漫画编号",
+      "index": "Normal"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

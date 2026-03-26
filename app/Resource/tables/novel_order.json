@@ -1,0 +1,38 @@
+{
+  "table_name": "novel_order",
+  "class_name": "NovelOrderModel",
+  "description": "小说购买",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "novel_id",
+      "type": "string",
+      "description": "编号",
+      "index": "Normal"
+    },
+    {
+      "name": "user_id",
+      "type": "int",
+      "description": "用户编号"
+    },
+    {
+      "name": "money",
+      "type": "int",
+      "description": "费用"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "table_name": "sms_log",
+  "class_name": "SmsLogModel",
+  "description": "短信日志",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "phone",
+      "type": "string",
+      "description": "手机号码",
+      "index": "Normal"
+    },
+    {
+      "name": "content",
+      "type": "string",
+      "description": "短信内容"
+    },
+    {
+      "name": "error_info",
+      "type": "string",
+      "description": "错误内容"
+    },
+    {
+      "name": "ip",
+      "type": "string",
+      "description": "ip"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

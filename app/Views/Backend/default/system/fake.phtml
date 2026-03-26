@@ -1,0 +1,191 @@
+<!-- 正文开始 -->
+<div class="layui-fluid ew-console-wrapper">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    会员总数
+                </div>
+                <div class="layui-card-body">
+                    <p class="lay-big-font"><?php echo $data['user_total']['value'];?></p>
+                    <p>统计日期<span class="pull-right"><?php echo date('Y-m-d H:i:s',$data['user_total']['updated_at']);?></span></p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    今日注册
+                </div>
+                <div class="layui-card-body">
+                    <p class="lay-big-font"><?php echo $data['user_reg_today']['value'];?></p>
+                    <p>统计日期<span class="pull-right"><?php echo date('Y-m-d H:i:s',$data['user_reg_today']['updated_at']);?></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    用户注册
+                </div>
+                <div class="layui-card-body"  style="height: 350px;" id="userChat">
+
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    日活统计
+                </div>
+                <div class="layui-card-body" style="height: 350px" id="appDayChat" >
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div style="margin-bottom: 12px">
+        <button id="imgupBtn" type="button" class="layui-btn layui-btn-primary">上传</button>
+    </div>
+</div>
+<script src="<?php  echo createStaticUrl('/admin/default/assets/libs/echarts/echarts.min.js'); ?>"></script>
+<?php
+$userOrderData = array();
+foreach ($data['money'] as $item){
+    $userOrderData[$item['date']] = $item['total_amount'];
+}
+$userData = array();
+foreach ($data['user_reg'] as $item){
+    $userData[$item['date']] = $item['value'];
+}
+
+
+
+$appDayData = array();
+foreach ($data['app_day'] as $item){
+    $appDayData[$item['date']] = $item['value'];
+}
+
+?>
+
+<script>
+    layui.use(['layer','upload'], function () {
+        var $ = layui.jquery;
+        var upload = layui.upload;
+        /** 用户注册 */
+        var userCharts = echarts.init(document.getElementById('userChat'));
+        userCharts.setOption({
+            color: ['#3398DB'],
+            title: {text: ''},
+            tooltip: {trigger: 'axis'},
+            legend: {data:['注册人数']},
+            grid: {left: '3%', right: '4%', bottom: '3%', containLabel: true},
+            toolbox: {feature: {saveAsImage: {}}},
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                axisLine: {lineStyle: {color: '#E0E0E0'}, symbol: ['none', 'arrow'], symbolOffset: [0, 10]},
+                axisLabel: {color: '#8c8c8c', interval: function (index, value) {return index === 0 || ((index + 1) % 5 === 0);}},
+                axisTick: {alignWithLabel: true},
+                data: <?php echo json_encode(array_reverse(array_keys($userData))); ?>
+            },
+            yAxis: {
+                type: 'value',
+                boundaryGap: ['0', '20%'],
+                axisTick: {show: false},
+                axisLine: {lineStyle: {color: '#E0E0E0'}, symbol: ['none', 'arrow'], symbolOffset: [0, 10]},
+                axisLabel: {color: '#8c8c8c'},
+                splitArea: {show: false},
+            },
+            series: [
+                {
+                    name:'注册人数',
+                    type:'line',
+                    stack: '人数',
+                    data:<?php echo json_encode(array_reverse(array_values($userData))); ?>
+                }
+            ]
+        });
+
+        /** 日活统计 */
+        var appDayCharts = echarts.init(document.getElementById('appDayChat'));
+        appDayCharts.setOption({
+            color: ['#3398DB'],
+            title: {text: ''},
+            tooltip: {trigger: 'axis'},
+            legend: {data:['日活']},
+            grid: {left: '3%', right: '4%', bottom: '3%', containLabel: true},
+            toolbox: {feature: {saveAsImage: {}}},
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                axisLine: {lineStyle: {color: '#E0E0E0'}, symbol: ['none', 'arrow'], symbolOffset: [0, 10]},
+                axisLabel: {color: '#8c8c8c', interval: function (index, value) {return index === 0 || ((index + 1) % 5 === 0);}},
+                axisTick: {alignWithLabel: true},
+                data: <?php echo json_encode(array_reverse(array_keys($appDayData))); ?>
+            },
+            yAxis: {
+                type: 'value',
+                boundaryGap: ['0', '20%'],
+                axisTick: {show: false},
+                axisLine: {lineStyle: {color: '#E0E0E0'}, symbol: ['none', 'arrow'], symbolOffset: [0, 10]},
+                axisLabel: {color: '#8c8c8c'},
+                splitArea: {show: false},
+            },
+            series: [
+                {
+                    name:'日活',
+                    type:'line',
+                    stack: '人数',
+                    data:<?php echo json_encode(array_reverse(array_values($appDayData))); ?>
+                }
+            ]
+        });
+
+        window.onresize = function () {
+            userCharts.resize();
+            appDayCharts.resize();
+        };
+
+        upload.render({
+            elem: '#imgupBtn' //绑定元素
+            , exts: "csv|pdf"
+            ,url: '<?php echo createUrl('/system/uploadCsv'); ?>' //上传接口
+            ,data:{dirname:'other'}
+            ,done: function(res){
+                //上传完毕回调
+                // $('#pic').val(res.data.file_path);
+                // var showHtml = res.data.name;
+                // $('#imgshow').html(showHtml);
+                location.reload();
+            }
+            ,error: function(){
+                //请求异常回调
+            }
+        });
+
+    });
+
+</script>

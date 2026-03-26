@@ -1,0 +1,31 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Models;
+
+use App\Core\Mongodb\MongoModel;
+
+/**
+ * 帖子收藏
+ * @package App\Models
+ * @property string _id 编号
+ * @property integer user_id 用户编号
+ * @property integer post_id 帖子编号
+ * @property integer created_at 创建时间
+ * @property integer updated_at 更新时间
+ */
+class PostFavoriteModel extends MongoModel
+{
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setCollectionName();
+    }
+
+    public function setCollectionName(string $name='post_favorite'): MongoModel
+    {
+        $this->_collection=$name;
+        return $this;
+    }
+}

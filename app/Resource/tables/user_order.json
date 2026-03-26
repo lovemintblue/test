@@ -1,0 +1,166 @@
+{
+  "table_name": "user_order",
+  "class_name": "UserOrderModel",
+  "description": "用户订单",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "order_sn",
+      "type": "string",
+      "description": "订单编号",
+      "index": "Unique"
+    },
+    {
+      "name": "user_id",
+      "type": "int",
+      "description": "用户编号",
+      "index": "Normal"
+    },
+    {
+      "name": "device_type",
+      "type": "string",
+      "description": "设备类型"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "用户名"
+    },
+    {
+      "name": "channel_name",
+      "type": "string",
+      "description": "渠道名称",
+      "index": "Normal"
+    },
+    {
+      "name": "register_at",
+      "type": "int",
+      "description": "注册日期",
+      "index": "Normal"
+    },
+    {
+      "name": "group_id",
+      "type": "int",
+      "description": "用户组"
+    },
+    {
+      "name": "group_name",
+      "type": "string",
+      "description": "用户组名称"
+    },
+    {
+      "name": "level",
+      "type": "int",
+      "description": "用户等级"
+    },
+    {
+      "name": "status",
+      "type": "int",
+      "description": "支付状态 0未支付 1已支付 -1支付失败",
+      "index": "Normal"
+    },
+    {
+      "name": "day_num",
+      "type": "int",
+      "description": "天数"
+    },
+    {
+      "name": "gift_num",
+      "type": "int",
+      "description": "赠送金币"
+    },
+    {
+      "name": "download_num",
+      "type": "int",
+      "description": "下载次数"
+    },
+    {
+      "name": "discount_coupon",
+      "type": "int",
+      "description": "折扣券张数"
+    },
+    {
+      "name": "group_rate",
+      "type": "int",
+      "description": "折扣率"
+    },
+    {
+      "name": "price",
+      "type": "int",
+      "description": "价格"
+    },
+    {
+      "name": "real_price",
+      "type": "double",
+      "description": "真实价格"
+    },
+    {
+      "name": "pay_id",
+      "type": "int",
+      "description": "支付编号"
+    },
+    {
+      "name": "pay_name",
+      "type": "string",
+      "description": "支付名称"
+    },
+    {
+      "name": "pay_at",
+      "type": "int",
+      "description": "支付时间"
+    },
+    {
+      "name": "pay_rate",
+      "type": "double",
+      "description": "费率"
+    },
+    {
+      "name": "trade_sn",
+      "type": "string",
+      "description": "交易单号",
+      "index": "Normal"
+    },
+    {
+      "name": "register_ip",
+      "type": "string",
+      "description": "注册ip"
+    },
+    {
+      "name": "created_ip",
+      "type": "string",
+      "description": "购买ip"
+    },
+    {
+      "name": "register_date",
+      "type": "string",
+      "description": "注册时间"
+    },
+    {
+      "name": "is_new_user",
+      "type": "int",
+      "description": "是否新用户",
+      "index": "Normal"
+    },
+    {
+      "name": "pay_date",
+      "type": "string",
+      "description": "支付日期",
+      "index": "Normal"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间",
+      "index": "Normal"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

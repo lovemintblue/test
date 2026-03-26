@@ -1,0 +1,2 @@
+对es的comics type要进行字段设置 采用put方式提交 不然搜索会出问题
+{"mappings" : {"bcy_comics" : {"properties" : {"cat_id" : {"type" : "keyword","index": true},"update_date":{"type" : "keyword","index": true}}}}}

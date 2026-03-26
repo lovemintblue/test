@@ -1,0 +1,428 @@
+<style>
+    #list-chapter {
+        margin-right: 10px;
+        margin-left: 10px;
+        height: 650px;
+        overflow: scroll;
+    }
+
+    #chapter-content {
+        height: 650px;
+        overflow: scroll;
+        text-align: center;
+        width: 430px;
+        margin: 10px auto;
+        border: 1px solid #8c8c8c;
+        border-radius: 5px;
+    }
+    .chapter-body{
+        line-height: 20px;
+        text-indent: 5px;
+    }
+
+    #chapter-content img {
+        max-width: 100%;
+    }
+    .chapter-item {
+        display: block;
+        height: 28px;
+        line-height: 28px;
+        border: 1px solid #1890FF;
+        border-radius: 4px;
+        margin-right: 8px;
+        cursor: pointer;
+        padding: 0px 10px;
+        font-size: 12px;
+        color: #1890FF;
+        white-space: nowrap;
+        text-align: center;
+        width: 80%;
+        overflow: hidden;
+        background: #FFFFFF;
+    }
+
+    #list-chapter .on {
+        color: #FFFFFF;
+        background-color: #1890FF;
+    }
+    #list-chapter .layui-row{
+        margin-bottom: 10px;
+    }
+</style>
+<div class="layui-fluid">
+    <form class="layui-form" action="" lay-filter="info-form">
+    <div class="layui-tab" lay-filter="info-tab">
+        <ul class="layui-tab-title">
+            <li class="layui-this">基础信息</li>
+            <li>章节</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item  layui-show">
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-header">漫画详情</div>
+                            <div class="layui-card-body">
+                                    <input type="hidden" name="_id" placeholder="" autocomplete="off"
+                                           class="layui-input">
+                                    <div class="layui-form-item">
+                                        <div class="layui-col-md6">
+                                            <label class="layui-form-label layui-form-required">名称</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="name" lay-verify="required" placeholder=""
+                                                       autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md6">
+                                            <label class="layui-form-label">别名</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="alias_name" placeholder="" autocomplete="off"
+                                                       class="layui-input">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <div class="layui-col-md6">
+                                            <label class="layui-form-label layui-form-required">分类</label>
+                                            <div class="layui-input-block">
+                                                <select name="cat_id" lay-search>
+                                                    <option value="">请选择..</option>
+                                                    <?php foreach ($catArr as $value => $text): ?>
+                                                        <option value="<?php echo $value; ?>"><?php echo $text; ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md6">
+                                            <label class="layui-form-label layui-form-required">章节数</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="chapter_count" lay-verify="required"
+                                                       placeholder="" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item" pane="">
+                                        <?php foreach ($tagArr as $group => $tag): ?>
+                                            <div class="layui-row">
+                                                <div class="layui-col-md1">
+                                                    <label class="layui-form-label"><?php echo $group; ?>:</label>
+                                                </div>
+                                                <div class="layui-col-md11">
+                                                    <?php foreach ($tag as $item): ?>
+                                                        <input type="checkbox" name="tags[]"
+                                                               <?php if ($row['tags'] && in_array($item['id'], $row['tags'])): ?>checked<?php endif; ?>
+                                                               value="<?php echo $item['id']; ?>" lay-skin="primary"
+                                                               title="<?php echo $item['id'] . ' | ' . $item['name']; ?>">
+                                                    <?php endforeach; ?>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                    <div class="layui-row">
+                                        <div class="layui-col-md6">
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label layui-form-required">竖图:</label>
+                                                <div class="layui-input-block">
+                                                    <div id="imgY" class="adv-type-image upload-select-picture-card">
+                                                        <span class="layui-icon layui-icon-addition"></span>
+                                                    </div>
+                                                    <input name="img" id="imgYInput" value="" type="hidden"
+                                                           class="layui-input"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md6">
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label">竖图:</label>
+                                                <div class="layui-input-block">
+                                                    <div id="imgX" class="adv-type-image upload-select-picture-card">
+                                                        <span class="layui-icon layui-icon-addition"></span>
+                                                    </div>
+                                                    <input name="img_x" id="imgXInput" value="" type="hidden"
+                                                           class="layui-input"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-row">
+                                        <div class="layui-col-md6">
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label ">更新表</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" name="update_date" placeholder=""
+                                                           autocomplete="off" class="layui-input">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md6">
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label ">更新时间</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" name="last_update" placeholder=""
+                                                           autocomplete="off" class="layui-input">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-row">
+                                        <div class="layui-col-md6">
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label layui-form-required">虚拟点击</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" name="click" placeholder="" autocomplete="off"
+                                                           class="layui-input">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md6">
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label layui-form-required">虚拟收藏</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" name="favorite" placeholder="" autocomplete="off"
+                                                           class="layui-input">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                <div class="layui-row">
+                                    <div class="layui-col-md6">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label layui-form-required">金币</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="money" placeholder="" autocomplete="off"
+                                                   class="layui-input">
+                                            <div class="layui-form-mid layui-word-aux">金币>0 vip=0 免费<0</div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="layui-col-md6">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">作者</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="author" placeholder="" autocomplete="off"
+                                                       class="layui-input">
+                                                <div class="layui-form-mid layui-word-aux"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">描述</label>
+                                        <div class="layui-input-block">
+                                            <textarea name="description" rows="3" maxlength="100" placeholder="请输入"
+                                                      class="layui-textarea"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <div class="layui-col-md6">
+                                            <label class="layui-form-label">评分</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" class="layui-input" name="score"
+                                                       placeholder="范围0-100">
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md6">
+                                            <label class="layui-form-label">上架日期</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" class="layui-input" name="show_at" readonly=""
+                                                       id="laydate-show-at" placeholder="yyyy-MM-dd HH:mm:ss">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <div class="layui-col-md6">
+                                            <label class="layui-form-label">免费章节</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="free_chapter" placeholder="" autocomplete="off"
+                                                       class="layui-input">
+                                                <div class="layui-word-aux">免费章节编号,多个用,分开</div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md6">
+                                            <label class="layui-form-label">排序</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="sort" placeholder="" autocomplete="off"
+                                                       class="layui-input">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <div class="layui-col-md6">
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label layui-form-required">热门</label>
+                                                <div class="layui-input-block">
+                                                    <?php foreach ($hotArr as $key => $item): ?>
+                                                        <input type="radio" name="is_hot" value="<?php echo $key; ?>"
+                                                               title="<?php echo $item; ?>"
+                                                               <?php if ($key == 0): ?>checked<?php endif ?> >
+                                                    <?php endforeach; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md6">
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label layui-form-required">最新</label>
+                                                <div class="layui-input-block">
+                                                    <?php foreach ($newArr as $key => $item): ?>
+                                                        <input type="radio" name="is_new" value="<?php echo $key; ?>"
+                                                               title="<?php echo $item; ?>"
+                                                               <?php if ($key == 0): ?>checked<?php endif ?> >
+                                                    <?php endforeach; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label layui-form-required">状态</label>
+                                        <div class="layui-input-block">
+                                            <?php foreach ($statusArr as $key => $item): ?>
+                                                <input type="radio" name="status" value="<?php echo $key; ?>"
+                                                       title="<?php echo $item; ?>"
+                                                       <?php if ($key == 0): ?>checked<?php endif ?> >
+                                            <?php endforeach; ?>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-block">
+                                            <button class="layui-btn" lay-submit lay-filter="info-form">立即提交</button>
+                                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                                        </div>
+                                    </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div class="layui-row">
+                    <div class="layui-col-md4">
+                        <div id="list-chapter">
+                            <?php
+                             $freeChapters = [];
+                             if($row['free_chapter']){
+                                 $freeChapters = explode(',',$row['free_chapter']);
+                             }
+                            ?>
+                            <?php foreach ($chapterList as $chapter): ?>
+                              <div class="layui-row">
+                                <div class="layui-col-md2">
+                                    <input type="checkbox" name="free_ids[]"
+                                           <?php if ($freeChapters && in_array($chapter['_id'], $freeChapters)): ?>checked<?php endif; ?>
+                                           value="<?php echo $chapter['_id']; ?>"  lay-skin="primary"
+                                           title="免费">
+                                </div>
+                                <div class="layui-col-md10">
+                                    <div class="chapter-item"
+                                         data-id="<?php echo $chapter['_id']; ?>"><?php echo $chapter['_id']; ?>
+                                        ||<?php echo $chapter['name']; ?></div>
+                                </div>
+                              </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                    <div class="layui-col-md8">
+                        <div id="chapter-content">
+                            请选择需要查看的章节
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </form>
+</div>
+<script src="<?php  echo createStaticUrl('/admin/default/assets/js/hls.min.js'); ?>"></script>
+<script>
+    layui.use(['index', 'form', 'upload', 'laydate', 'element', 'util'], function () {
+        var $ = layui.$, element = layui.element, form = layui.form, upload = layui.upload, laydate = layui.laydate,
+            util = layui.util;
+
+        form.val('info-form',<?php echo json_encode($row);?>);
+        if (form.val("info-form").img) {
+            $("#imgY").html("<img height='230' src='<?php echo $mediaUrl;?>" + form.val("info-form").img + "'>");
+        }
+        if (form.val("info-form").img_x) {
+            $("#imgX").html("<img width='102' height='102' src='<?php echo $mediaUrl;?>" + form.val("info-form").img_x + "'>");
+        }
+        //日期时间选择器
+        laydate.render({
+            elem: '#laydate-start-at'
+            , type: 'date'
+        });
+        laydate.render({
+            elem: '#laydate-show-at'
+            , type: 'datetime'
+        });
+        form.render(null, 'info-form');
+        element.render('breadcrumb', 'breadcrumb');
+        upload.render({
+            elem: '#imgY' //绑定元素
+            , url: '<?php echo $uploadUrl; ?>' //上传接口
+            , done: function (res) {
+                $("#imgY").html("<img height='230' src='<?php echo $mediaUrl;?>" + res.data + "'>");
+                $("#imgYInput").val(res.data);
+            }
+            , error: function () {
+                //请求异常回调
+            }
+        });
+
+        upload.render({
+            elem: '#imgX' //绑定元素
+            , url: '<?php echo $uploadUrl; ?>' //上传接口
+            , done: function (res) {
+                $("#imgX").html("<img width='102' height='102' src='<?php echo $mediaUrl;?>" + res.data + "'>");
+                $("#imgXInput").val(res.data);
+            }
+            , error: function () {
+                //请求异常回调
+            }
+        });
+        form.on('submit(info-form)', function (obj) {
+            var loadIndex = layer.load(0, {time: 30 * 1000});
+            doAjax("<?php echo createUrl('/novel/save')?>", obj.field, function (res) {
+                layer.close(loadIndex);
+                if (res.status === 'y') {
+                    showSuccessMsg("保存成功!");
+                    // showSuccessMsg("保存成功!请手动刷新页面");
+                    parent.layer.close(parent.layerIndex);
+                    parent.table.reload('table');
+                    return;
+                }
+                showErrorMsg(res.error);
+            });
+            return false;
+        });
+        var hlsOriginal = new Hls();
+        $("#list-chapter .chapter-item").click(function () {
+            $("#list-chapter .chapter-item").removeClass('on');
+            $(this).addClass('on');
+            $("#chapter-content").empty();
+            var chapterId = $(this).attr('data-id');
+            doAjax("<?php echo createUrl('/novel/chapterDetail')?>", {"id": chapterId}, function (res) {
+                if (res.status === 'y') {
+                    var html = '';
+                    $("#chapter-content").empty();
+                    if(res.data.is_audio===1){
+                        html = ' <video controls="controls" style="width:100%;height: 300px" id="originalPlayer"></video>';
+                        $("#chapter-content").html(html);
+                        hlsOriginal.loadSource("<?php echo $mediaUrl;?>"+res.data.content); // 传入路径
+                        hlsOriginal.attachMedia(document.getElementById('originalPlayer'));
+                    }else{
+                        html= '<div class="chapter-body">'+res.data.content_text+'</div>';
+                        $("#chapter-content").html(html);
+                    }
+                } else {
+                    $("#chapter-content").empty();
+                    showErrorMsg(res.error);
+                }
+            });
+        })
+
+    });
+</script>

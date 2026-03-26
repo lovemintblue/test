@@ -1,0 +1,63 @@
+{
+  "table_name": "movie_block",
+  "class_name": "MovieBlockModel",
+  "description": "视频模块",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "名称"
+    },
+    {
+      "name": "style",
+      "type": "int",
+      "description": "风格 样式1:1x1 样式2:1xN(横向滚动) 样式3:2x2 样式4:3x3"
+    },
+    {
+      "name": "is_disabled",
+      "type": "int",
+      "description": "是否显示",
+      "index": "Normal"
+    },
+    {
+      "name": "sort",
+      "type": "int",
+      "description": "排序"
+    },
+    {
+      "name": "ico",
+      "type": "string",
+      "description": "图标"
+    },
+    {
+      "name": "filter",
+      "type": "string",
+      "description": "检索条件"
+    },
+    {
+      "name": "num",
+      "type": "int",
+      "description": "展示数量"
+    },
+    {
+      "name": "position",
+      "type": "string",
+      "description": "位置"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

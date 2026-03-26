@@ -1,0 +1,78 @@
+{
+  "table_name": "article",
+  "class_name": "ArticleModel",
+  "description": "文章",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "title",
+      "type": "string",
+      "description": "标题"
+    },
+    {
+      "name": "category_code",
+      "type": "string",
+      "description": "分类",
+      "index": "Normal"
+    },
+    {
+      "name": "content",
+      "type": "string",
+      "description": "内容"
+    },
+    {
+      "name": "img",
+      "type": "string",
+      "description": "图片"
+    },
+    {
+      "name": "seo_keywords",
+      "type": "string",
+      "description": "Seo关键字"
+    },
+    {
+      "name": "seo_description",
+      "type": "string",
+      "description": "Seo描述"
+    },
+    {
+      "name": "url",
+      "type": "string",
+      "description": "url链接"
+    },
+    {
+      "name": "is_recommend",
+      "type": "int",
+      "description": "是否推荐"
+    },
+    {
+      "name": "sort",
+      "type": "int",
+      "description": "排序"
+    },
+    {
+      "name": "click",
+      "type": "int",
+      "description": "点击"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    },
+    {
+      "name": "show_dialog",
+      "type": "int",
+      "description": "是否显示弹窗"
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">分类详情</div>
+                <div class="layui-card-body">
+                    <form class="layui-form" action="" lay-filter="info-form">
+                        <input type="hidden" name="_id"  placeholder="" autocomplete="off" class="layui-input">
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">名称:</label>
+                            <div class="layui-input-block">
+                                <input name="name" placeholder="请输入名称" autocomplete="off" class="layui-input" lay-verType="tips"
+                                       lay-verify="required" required/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">图片:</label>
+                            <div class="layui-input-block">
+                                <div id="imgX" class="user-tag upload-select-picture-card">
+                                    <span class="layui-icon layui-icon-addition"></span>
+                                </div>
+                                <input name="img" id="imgXInput"  value="" type="text" class="layui-input" style="display: none" />
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">所属模块:</label>
+                            <div class="layui-input-block">
+                                <select name="block_id" lay-verType="tips" lay-verify="required" required>
+                                    <option value="">请选择..</option>
+                                    <?php foreach ($blockArr as  $block):?>
+                                        <option value="<?php echo $block['id'];?>"><?php echo sprintf('%s(%s)',$block['name'],$block['position']);?></option>
+                                    <?php endforeach;?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">排序:</label>
+                            <div class="layui-input-block">
+                                <input name="sort" placeholder="请输入排序" class="layui-input" type="number" value="0" lay-verType="tips"
+                                       lay-verify="required" required/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">描述:</label>
+                            <div class="layui-input-block">
+                                <textarea name="description"  style="height: 280px" class="layui-textarea editer-text"  lay-verType="tips"
+                                          lay-verify="required" required></textarea>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit lay-filter="info-form">立即提交</button>
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['index', 'form', 'upload'], function(){
+        var $ = layui.$
+            ,element = layui.element
+            ,upload = layui.upload
+            ,form = layui.form
+            ,row = <?php echo json_encode($row);?>;
+
+        form.val('info-form', row);
+        form.render(null, 'info-form');
+
+        element.render('breadcrumb', 'breadcrumb');
+
+        //回显部分数据
+        if(row&&row.img){
+            $("#imgX").html("<img width='102' height='102' src='<?php echo $mediaUrl;?>"+row.img+"'>");
+        }
+        //上传图片
+        upload.render({
+            elem: '#imgX' //绑定元素
+            ,url: '<?php echo $uploadUrl; ?>' //上传接口
+            ,done: function(res){
+                var item = this.elem;
+                $("#imgX").html("<img width='102' height='102' src='<?php echo $mediaUrl;?>"+res.data+"'>");
+                $("#imgXInput").val(res.data);
+            }
+            ,error: function(){
+                //请求异常回调
+            }
+        });
+
+        form.on('submit(info-form)', function(obj){
+            var loadIndex=layer.load(0,{time: 30*1000});
+            doAjax("<?php echo createUrl('/postCategory/save')?>",obj.field,function (res) {
+                layer.close(loadIndex);
+                if(res.status==='y'){
+                    showSuccessMsg("保存成功!");
+                    parent.layer.close(parent.layerIndex);
+                    parent.table.reload('table');
+                    return;
+                }
+                showErrorMsg(res.error);
+            });
+            return false;
+        });
+
+    });
+</script>

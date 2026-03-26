@@ -1,0 +1,33 @@
+{
+  "table_name": "comment_love",
+  "class_name": "CommentLoveModel",
+  "description": "评论点赞",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "comment_id",
+      "type": "string",
+      "description": "评论编号"
+    },
+    {
+      "name": "user_id",
+      "type": "int",
+      "description": "用户编号",
+      "index": "Normal"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

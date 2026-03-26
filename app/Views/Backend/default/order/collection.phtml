@@ -1,0 +1,173 @@
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header system-main-nav">搜索</div>
+        <div class="layui-card-body">
+            <form class="layui-form toolbar" lay-filter="searchForm">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">类型:</label>
+                        <div class="layui-input-inline">
+                            <select name="record_type">
+                                <option value="" selected>请选择..</option>
+                                <?php foreach ($groupArr as $value => $label): ?>
+                                    <option value="<?php echo $value; ?>"><?php echo $label; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">设备:</label>
+                        <div class="layui-input-inline">
+                            <select name="device_type">
+                                <option value="" selected>请选择..</option>
+                                <?php foreach ($deviceArr as $device => $label): ?>
+                                    <option value="<?php echo $device; ?>"><?php echo $label; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">支付时间:</label>
+                        <div class="layui-input-inline">
+                            <input name="start_time"  id="start_time" value="<?php echo date("Y-m-d H:i:s",\App\Utils\CommonUtil::getTodayZeroTime());?>"  class="layui-input icon-date" placeholder="开始时间"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">支付时间:</label>
+                        <div class="layui-input-inline">
+                            <input name="end_time" id="end_time" value="<?php echo date("Y-m-d H:i:s",\App\Utils\CommonUtil::getTodayEndTime());?>" class="layui-input icon-date" placeholder="结束时间"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">注册时间:</label>
+                        <div class="layui-input-inline">
+                            <input name="reg_start_time"  id="reg_start_time" class="layui-input date" placeholder="开始时间"/>
+                        </div>
+
+                        <label class="layui-form-label">~</label>
+                        <div class="layui-input-inline">
+                            <input name="reg_end_time" id="reg_end_time" class="layui-input date" placeholder="结束时间"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">用户编号:</label>
+                        <div class="layui-input-inline">
+                            <input name="user_id" class="layui-input" />
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">订单编号:</label>
+                        <div class="layui-input-inline">
+                            <input name="order_sn" class="layui-input" />
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">支付编号:</label>
+                        <div class="layui-input-inline">
+                            <input name="trade_sn" class="layui-input" />
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">渠道名称:</label>
+                        <div class="layui-input-inline">
+                            <input name="channel_name" class="layui-input" />
+                        </div>
+                    </div>
+                    <div class="layui-inline">&emsp;
+                        <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="searchFormBtn">搜索</button>
+                        <button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+            <!-- 数据表格 -->
+            <table class="layui-hide" id="table" lay-filter="table"></table>
+        </div>
+    </div>
+</div>
+<script>
+    var layerIndex,layer,table,form,laydate,$;
+    layui.use(['layer', 'form', 'table', 'admin','laydate'], function () {
+        $ = layui.jquery;
+        layer = layui.layer;
+        form = layui.form;
+        table = layui.table;
+        laydate = layui.laydate;
+
+        /*初始化表格*/
+        table.render({
+            elem: '#table'
+            ,url: location.href
+            ,method: "post"
+            ,where: form.val("searchForm")
+            ,skin:'line'
+            ,size: 'sm' //小尺寸的表格
+            ,toolbar: '#table-toolbar'
+            ,request: {
+                limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            }
+            ,page: {
+                layout: ['prev', 'page', 'next', 'skip', 'count', 'limit']
+                ,curr: 1 //设定初始在第 1 页
+                ,groups: 6 //只显示 5 个连续页码
+                ,first: '首页'
+                ,last: '尾页'
+                ,limit:30
+                ,limits:[10,30,50,100]
+            }
+            ,totalRow:true
+            ,parseData: function(res){ //res 即为原始返回的数据
+                return res;
+            }
+            ,cols: [[
+                {field: '_id', title: '编号', width: 80, align: 'center', sort:true},
+                {field: 'order_sn', title: '订单编号', width: 200, align: 'center', sort:true},
+                {field: 'user_id', title: '用户编号', width: 100, align: 'center'},
+                {field: 'channel_name', title: '渠道',width:120,align: 'center',},
+                {field: 'device_type', title: '设备',width:80,align: 'center'},
+                {field: 'price', title: '金额', align: 'center'},
+                {field: 'real_price', title: '实际金额', align: 'center'},
+                {field: 'record_type_text', title: '类型', align: 'center'},
+                {field: 'trade_sn', title: '交易单号', width: 220, align: 'center', sort:true},
+                {field: 'pay_id', title: '支付方式ID', align: 'center'},
+                {field: 'pay_name', title: '支付方式', align: 'center'},
+                {field: 'pay_at', title: '支付时间', width: 120, align: 'center', sort:true},
+                {field: 'register_at', title: '注册时间', width: 120, align: 'center'},
+                {field: 'created_at', title: '创建时间', width: 120, align: 'center', sort:true},
+            ]],
+        });
+        /*表格搜索事件*/
+        form.on('submit(searchFormBtn)', function(obj){
+            table.reload('table',{where:obj.field,page:{curr:1}});
+            return false;
+        });
+        /*表格排序事件*/
+        table.on('sort(table)', function(obj){
+            var order=obj.type==='asc'?1:-1;
+            table.reload('table', {initSort: obj,where: {sort: obj.field,order: order }});
+        });
+        laydate.render({
+            elem: '#start_time'//指定元素
+            , trigger: 'click'
+            , type: 'datetime'
+        });
+        laydate.render({
+            elem: '#end_time'//指定元素
+            , trigger: 'click'
+            , type: 'datetime'
+        });
+        laydate.render({
+            elem: '#reg_start_time'//指定元素
+            , trigger: 'click'
+            , type: 'datetime'
+        });
+        laydate.render({
+            elem: '#reg_end_time'//指定元素
+            , trigger: 'click'
+            , type: 'datetime'
+        });
+    })
+</script>

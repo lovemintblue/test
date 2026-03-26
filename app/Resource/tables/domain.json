@@ -1,0 +1,44 @@
+{
+  "table_name": "domain",
+  "class_name": "DomainModel",
+  "description": "域名管理",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "url",
+      "type": "string",
+      "description": "域名",
+      "index": "Normal"
+    },
+    {
+      "name": "status",
+      "type": "int",
+      "description": "0正常 -1已墙"
+    },
+    {
+      "name": "type",
+      "type": "string",
+      "description": "类型"
+    },
+    {
+      "name": "remark",
+      "type": "string",
+      "description": "备注"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间",
+      "index": "Normal"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

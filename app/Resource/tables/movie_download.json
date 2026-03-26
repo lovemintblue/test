@@ -1,0 +1,53 @@
+{
+  "table_name": "movie_download",
+  "class_name": "MovieDownloadModel",
+  "description": "视频下载",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "status",
+      "type": "int",
+      "description": "状态 1正常 -1删除"
+    },
+    {
+      "name": "movie_id",
+      "type": "int",
+      "description": "视频编号"
+    },
+    {
+      "name": "user_id",
+      "type": "int",
+      "description": "用户编号",
+      "index": "Normal"
+    },
+    {
+      "name": "link",
+      "type": "string",
+      "description": "视频链接"
+    },
+    {
+      "name": "pay_type",
+      "type": "string",
+      "description": "视频购买类型"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "description": "日期时间"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

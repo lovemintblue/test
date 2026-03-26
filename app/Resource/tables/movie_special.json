@@ -1,0 +1,64 @@
+{
+  "table_name": "movie_special",
+  "class_name": "MovieSpecialModel",
+  "description": "视频专题",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "名称"
+    },
+    {
+      "name": "img",
+      "type": "string",
+      "description": "图片"
+    },
+    {
+      "name": "bg_img",
+      "type": "string",
+      "description": "背景图片"
+    },
+    {
+      "name": "position",
+      "type": "string",
+      "description": "位置"
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "description": "描述"
+    },
+    {
+      "name": "sort",
+      "type": "int",
+      "description": "排序",
+      "index": "Normal"
+    },
+    {
+      "name": "filter",
+      "type": "string",
+      "description": "检索条件"
+    },
+    {
+      "name": "is_disabled",
+      "type": "int",
+      "description": "是否显示",
+      "index": "Normal"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

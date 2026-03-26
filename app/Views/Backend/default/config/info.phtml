@@ -1,0 +1,143 @@
+<!-- 正文开始 -->
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header system-main-nav">系统管理<small>系统设置</small></div>
+        <div class="layui-card-body">
+            <!-- 表单开始 -->
+            <form class="layui-form" id="baseDataForm" lay-filter="baseDataForm">
+                <?php foreach ($items as $item): ?>
+                    <div class="layui-form-item  layui-row">
+                        <label class="layui-col-xs12 layui-col-sm5 layui-col-md3"><?php echo $item['name'] ?>:</label>
+                        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                            <?php if ($item['type'] == 1): ?>
+                                <input name="<?php echo $item['code'] ?>" value="<?php echo $item['value'] ?>"
+                                       class="layui-input"/>
+                            <?php elseif ($item['type'] == 2): ?>
+                                <textarea name="<?php echo $item['code'] ?>"
+                                          class="layui-textarea"><?php echo $item['value'] ?></textarea>
+                            <?php elseif ($item['type'] == 3):?>
+                                <?php $values = explode(';', $item['values']);?>
+                                <?php foreach ($values as $value):?>
+                                    <?php $value = explode('|', $value);?>
+                                    <input type="radio" class="flat" name="<?php echo $item['code'] ?>"
+                                           value="<?php echo $value[0] ?>"
+                                           title="<?php echo $value[1] ?>" <?php if ($value[0] == $item['value']): ?> checked=""<?php endif; ?> />
+                                <?php endforeach;?>
+                            <?php elseif ($item['type'] == 4):?>
+                                <textarea style="height:300px;visibility:hidden;" name="<?php echo $item['code'] ?>"
+                                          class="layui-textarea editer-text"><?php echo $item['value'] ?></textarea>
+                            <?php elseif ($item['type'] == 5):?>
+                                <?php $values = explode(';', $item['values']);?>
+                                <select name="<?php echo $item['code'] ?>">
+                                    <option value="">请选择</option>
+                                    <?php foreach ($values as $value): ?>
+                                        <?php $value = explode('|', $value); ?>
+                                        <option <?php if ($value[0] == $item['value']): ?>selected="selected"<?php endif; ?>
+                                                value="<?php echo $value[0] ?>"> <?php echo $value[1] ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            <?php elseif ($item['type'] == 6)://文件上传?>
+                                <button type="button" class="layui-btn btn-upload" >
+                                    <i class="layui-icon">&#xe67c;</i>上传图片
+                                </button>
+                                <input type="hidden" name="<?php echo $item['code']; ?>" class="img-value"  value="<?php echo $item['value']; ?>">
+                                <div class="img-show">
+                                    <?php if (isset($item['value']) && $item['value']): ?>
+                                        <a target="_blank" href="<?php echo $mediaUrl . $item['value']; ?>">
+                                            <img src="<?php echo $mediaUrl . $item['value']; ?>" width="100" height="50"/>
+                                        </a>
+                                    <?php endif; ?>
+                                </div>
+                            <?php elseif ($item['type'] == 7)://多图?>
+                                <button type="button" class="layui-btn btn-upload <?php echo $item['code'];?>" >
+                                    <i class="layui-icon">&#xe67c;</i>上传图片
+                                </button>
+                                <input type="hidden" name="<?php echo $item['code']; ?>[]" value="">
+                                <div class="upload-select-picture-cards" style="margin-top: 12px;max-height: 330px;overflow-y: scroll">
+                                    <div class="cares" style="display: flex;flex-wrap: wrap;">
+                                        <?php foreach (json_decode($item['value'],true) as $key=>$val):?>
+                                            <div style="margin-bottom: 8px" class="card-item">
+                                                <input type="hidden" name="<?php echo $item['code']; ?>[]" value="<?php echo $val;?>">
+                                                <a target="_blank" href="<?php echo $mediaUrl.$val;?>"><img width="102" height="102" src="<?php echo $mediaUrl.$val;?>"></a>
+                                                <i class="del layui-icon layui-icon-close" lay-active="del"></i>
+                                            </div>
+                                        <?php endforeach;?>
+                                    </div>
+                                </div>
+                            <?php endif;?>
+                            <div class="layui-word-aux"><?php echo $item['help'] ?></div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+                <div class="ln_solid"></div>
+                <div class="layui-form-item layui-row">
+                    <label class="layui-col-xs12 layui-col-sm5 layui-col-md3"></label>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                        <button class="layui-btn" lay-filter="baseDataFormSubmit" lay-submit>&emsp;提交&emsp;</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">&emsp;重置&emsp;</button>
+                    </div>
+                </div>
+            </form>
+            <!-- //表单结束 -->
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['layer', 'form', 'laydate','upload'], function () {
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var form = layui.form;
+        var laydate = layui.laydate;
+        var upload = layui.upload;
+
+        /* 监听表单提交 */
+        form.on('submit(baseDataFormSubmit)', function (data) {
+            doLoadAjax("<?php  echo createUrl('/config/save');?>",data.field,function (res) {
+                showSuccessMsg("保存成功!",window.location.href);
+            });
+            return false;
+        });
+
+        //执行实例
+        var list = <?php echo json_encode($items);?>;
+        $.each(list,function (i,e) {
+            if(e.type==6){
+                var uploadInst = upload.render({
+                    elem: '.btn-upload' //绑定元素
+                    ,url: '<?php echo $uploadUrl; ?>' //上传接口
+                    ,done: function(res){
+                        var item = this.elem;
+                        //上传完毕回调
+                        item.siblings('.img-value').val(res.data);
+                        var showHtml = '<a target="_blank" href="<?php echo $mediaUrl;?>'+res.data+'"><img width="100" height="50" src="<?php echo $mediaUrl;?>'+res.data+'" /></a>';
+                        item.siblings('.img-show').html(showHtml);
+                    }
+                    ,error: function(){
+                        //请求异常回调
+                    }
+                });
+            }else if(e.type==7){
+                var imgKey = $(".upload-select-picture-cards .card-item").length;
+                upload.render({
+                    elem: '.'+e.code //绑定元素
+                    ,url: '<?php echo $uploadUrl; ?>' //上传接口
+                    ,multiple: true
+                    ,done: function(res){
+                        var html= [
+                            '<div style="margin-bottom: 8px" class="card-item">',
+                            '<input type="hidden" lay-verify="required" required name="'+e.code+'['+imgKey+']" value="'+res.data+'">',
+                            '<a target="_blank" href="<?php echo $mediaUrl;?>'+res.data+'"><img width="102" height="102" src="<?php echo $mediaUrl;?>'+res.data+'"></a>',
+                            '<i class="del layui-icon layui-icon-close" lay-active="del"></i>',
+                            '</div>',
+                        ].join('');
+                        $(".upload-select-picture-cards .cares").append(html);
+                        imgKey++;
+                    }
+                    ,error: function(){
+                        //请求异常回调
+                    }
+                });
+            }
+        });
+    });
+</script>

@@ -1,0 +1,73 @@
+{
+  "table_name": "user_agent",
+  "class_name": "UserAgentModel",
+  "description": "用户代理",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号(即用户ID)"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "用户名",
+      "index": "Unique"
+    },
+    {
+      "name": "balance",
+      "type": "double",
+      "description": "余额"
+    },
+    {
+      "name": "amount",
+      "type": "double",
+      "description": "总收益,只增不减"
+    },
+    {
+      "name": "bill",
+      "type": "double",
+      "description": "总业绩,只增不减"
+    },
+    {
+      "name": "level1_num",
+      "type": "int",
+      "description": "一级代理数量"
+    },
+    {
+      "name": "level2_num",
+      "type": "int",
+      "description": "二级代理数量"
+    },
+    {
+      "name": "level3_num",
+      "type": "int",
+      "description": "三级代理数量"
+    },
+    {
+      "name": "level1_bill",
+      "type": "double",
+      "description": "一级代理业绩"
+    },
+    {
+      "name": "level2_bill",
+      "type": "double",
+      "description": "二级代理业绩"
+    },
+    {
+      "name": "level3_bill",
+      "type": "double",
+      "description": "三级代理业绩"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

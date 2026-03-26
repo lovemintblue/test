@@ -1,0 +1,182 @@
+<style>
+    .message-text{padding-top: 10px;}
+    .layadmin-homepage-list-imgtxt .media-body .pad-btm p:first-child{padding-bottom: 5px;}
+</style>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header system-main-nav">
+            <span style="color:#0000cc"><?php echo '@'.$comment['nickname']."(ID:{$comment['from_uid']})";?></span> 说:<?php echo $comment['content'];?>
+            <button class="layui-btn layui-btn-sm" lay-active="doReply" data-id="<?php echo $comment['_id'];?>" data-type="comment" data-name="<?php echo $comment['nickname'];?>" >回复TA</button>
+        </div>
+
+        <div class="layui-card-header system-main-nav">
+            <label>全选:
+                <input type="checkbox" lay-skin="primary"  class="layui-form-checkbox"  title="全选" lay-active="selectAll"   />
+            </label>
+            <button class="layui-btn layui-btn-xs layui-btn-danger"  lay-active="doDels">批量删除</button>
+        </div>
+        <div class="layui-card-body">
+            <div id="replyList"></div>
+        </div>
+    </div>
+</div>
+<div id="replyDialog" style="display: none">
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户ID:</label>
+            <div class="layui-input-inline">
+                <input name="user_id"  class="layui-input"  autocomplete="off" placeholder="请输入回复用户ID"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">回复内容:</label>
+            <div class="layui-input-inline">
+                <textarea name="content" placeholder="请输入内容" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item text-center">
+            <button class="layui-btn" lay-filter="btnReplySubmit" lay-submit>回复</button>
+            <button class="layui-btn layui-btn-primary" type="button" ew-event="closeDialog">取消</button>
+        </div>
+    </form>
+</div>
+<script>
+    var layerIndex,layer,form,admin,flow,laytpl,util,$;
+    layui.use(['layer', 'form', 'admin','flow','util','laytpl'], function () {
+        $ = layui.jquery;
+        layer = layui.layer;
+        form = layui.form;
+        admin = layui.admin;
+        flow = layui.flow;
+        util = layui.util;
+        laytpl = layui.laytpl;
+        //信息流
+        flow.load({
+            elem: '#replyList' //指定列表容器
+            ,done: function(page, next){ //到达临界点（默认滚动触发），触发下一页
+                var lis = [];
+                //以jQuery的Ajax请求为例，请求下一页数据（注意：page是从2开始返回）
+                doAjax(location.href,{page:page},function(res){
+                    layui.each(res.data.items, function(index, item){
+                        var html='<div class="media-body" style="">'+
+                            '<input type="checkbox" class="layui-form-checkbox item-checkbox" value="'+item.id+'" style="float:left"/>'+
+                            '<a href="javascript:;" class="media-left" style="float: left;"><img src="<?php echo $mediaUrl;?>'+item.from_uimg+'" height="46px" width="46px"></a>'+
+                            '<div class="pad-btm">'+
+                                '<p class="fontColor"><a href="javascript:;" style="font-weight: 600;color: #337ab7;margin-left:20px">'+item.from_uname+'(ID:'+item.from_uid+')'+'</a></p>'+
+                            '<div style="float:right">' +
+                                '<button class="layui-btn layui-btn-sm" lay-active="doReply" data-id="'+item.id+'" data-type="reply" data-name="'+item.from_uname+'">回复TA</button>' +
+                                '<button class="layui-btn layui-btn-danger layui-btn-sm" style="float:right" lay-active="doDel" data-id="'+item.id+'">删除</button>' +
+                            '</div>'+
+                            '<p class="min-font"><a href="javascript:;" style="font-size: 11px;color:#999;margin-left:20px">'+item.label+'</a></p>';
+                            if(item.reply_type==='reply'){
+                                //删除
+                                if(item.status===1){
+                                    html+='<p class="message-text">回复:<a style="color:#0000cc" href="javascript:void(0)">@'+item.to_uname+'(ID:'+item.to_uid+')'+'</a> :'+item.content +'</p>';
+                                }else{
+                                    html+='<p class="message-text" style="text-decoration:line-through;color: red">(已删除)回复:<a style="color:#0000cc" href="javascript:void(0)">@'+item.to_uname+'(ID:'+item.to_uid+')'+'</a> :'+item.content +'</p>';
+                                }
+                            }else{
+                                //删除
+                                if(item.status===1){
+                                    html+='<p class="message-text">'+item.content+'</p>'
+                                }else{
+                                    html+='<p class="message-text" style="text-decoration:line-through;color: red">(已删除)'+item.content+'</p>'
+                                }
+                            }
+                            html+='<hr class="layui-border-black">'+
+                                '</div>'+
+                                '</div>';
+                        lis.push(html);
+                    });
+                    //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
+                    //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
+                    next(lis.join(''), page < res.data.last_page);
+                });
+            }
+        });
+        //监听其他事件
+        util.event('lay-active', {
+            selectAll:function(e){
+                var checked=e.prop('checked');
+                $(".item-checkbox").each(function (i,v) {
+                    this.checked = checked;
+                });
+            },
+            doReply: function(e){
+                var commentId=e.attr('data-id');
+                var nickname=e.attr('data-name');
+                var type=e.attr('data-type');
+                admin.open({
+                    type: 1,
+                    area: '400px',
+                    title:'回复 @'+nickname,
+                    content: laytpl($('#replyDialog').html()).render({}),
+                    success: function (layero, dIndex) {
+                        // 表单提交事件
+                        form.on('submit(btnReplySubmit)', function (data) {
+                            data.field.comment_id=commentId;
+                            data.field.type=type;
+                            doLoadAjax("<?php  echo createUrl('/comment/doReply');?>", data.field, function (res) {
+                                if (res.status === 'y') {
+                                    layer.close(dIndex);
+                                    location.reload();
+                                } else {
+                                    showErrorMsg(res.error);
+                                }
+                            })
+                            return false;
+                        });
+                        // 禁止弹窗出现滚动条
+                        $(layero).children('.layui-layer-content').css('overflow', 'visible');
+                    }
+                });
+            },
+            doDel: function (e) {
+                var id=e.attr('data-id');
+                layer.confirm('确定操作吗?', {
+                    title:"系统提示",
+                    skin: 'layui-layer-admin',
+                    shade: .1,
+                    btn: ['确定','取消']
+                }, function(){
+                    var loadIndex=layer.load(0,{time: 30*1000});
+                    doAjax("<?php echo createUrl('/comment/do')?>",{act:'del',id:id,table:'reply'},function(res){
+                        layer.close(loadIndex);
+                        if(res.status=='y'){
+                            showSuccessMsg("操作成功!");
+                            location.reload();
+                        }else{
+                            showErrorMsg(res.error);
+                        }
+                    });
+                },function(){});
+            },
+            doDels: function (e) {
+                var items=$(".item-checkbox:checked");
+                var ids=new Array();
+                for(var i=0;i<items.length;i++){
+                    ids.push(items[i].value);
+                }
+                layer.confirm('确定操作吗?', {
+                    title:"系统提示",
+                    skin: 'layui-layer-admin',
+                    shade: .1,
+                    btn: ['确定','取消']
+                }, function(){
+                    var loadIndex=layer.load(0,{time: 30*1000});
+                    doAjax("<?php echo createUrl('/comment/do')?>",{act:'del',id:ids.join(','),table:'reply'},function(res){
+                        layer.close(loadIndex);
+                        if(res.status=='y'){
+                            showSuccessMsg("操作成功!");
+                            location.reload();
+                        }else{
+                            showErrorMsg(res.error);
+                        }
+                    });
+                },function(){});
+            },
+
+        });
+
+    })
+</script>

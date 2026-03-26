@@ -1,0 +1,70 @@
+{
+  "table_name": "comment_reply",
+  "class_name": "CommentReplyModel",
+  "description": "评论回复表",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "回复编号"
+    },
+    {
+      "name": "comment_id",
+      "type": "string",
+      "description": "评论id",
+      "index": "Normal"
+    },
+    {
+      "name": "reply_id",
+      "type": "string",
+      "description": "回复目标id",
+      "index": "Normal"
+    },
+    {
+      "name": "reply_type",
+      "type": "string",
+      "description": "回复类型 针对评论:comment 针对恢复:reply(reply_id＝comment_id)"
+    },
+    {
+      "name": "object_type",
+      "type": "string",
+      "description": "资源类型",
+      "index": "Normal"
+    },
+    {
+      "name": "content",
+      "type": "string",
+      "description": "内容"
+    },
+    {
+      "name": "from_uid",
+      "type": "int",
+      "description": "回复用户id"
+    },
+    {
+      "name": "to_uid",
+      "type": "int",
+      "description": "目标用户id"
+    },
+    {
+      "name": "status",
+      "type": "int",
+      "description": "状态 正常1 删除0"
+    },
+    {
+      "name": "time",
+      "type": "int",
+      "description": "时间 用于弹幕"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

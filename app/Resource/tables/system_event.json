@@ -1,0 +1,38 @@
+{
+  "table_name": "system_event",
+  "class_name": "SystemEventModel",
+  "description": "系统事件",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "type",
+      "type": "string",
+      "description": "类型"
+    },
+    {
+      "name": "message",
+      "type": "string",
+      "description": "数据"
+    },
+    {
+      "name": "source_data",
+      "type": "string",
+      "description": "原始数据"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间",
+      "index": "Normal"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

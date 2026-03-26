@@ -1,0 +1,64 @@
+{
+  "table_name": "config",
+  "class_name": "ConfigModel",
+  "description": "系统配置",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "code",
+      "type": "string",
+      "description": "配置code",
+      "index": "Unique"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "配置名称"
+    },
+    {
+      "name": "type",
+      "type": "tinyint",
+      "description": "类型1文本框,2多行,3单选,4下拉,5富文本 6上传文件"
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "description": "配置值"
+    },
+    {
+      "name": "values",
+      "type": "string",
+      "description": "配置值选型"
+    },
+    {
+      "name": "group",
+      "type": "string",
+      "description": "分组key,base,other,app",
+      "index": "Normal"
+    },
+    {
+      "name": "sort",
+      "type": "int",
+      "description": "配置排序"
+    },
+    {
+      "name": "help",
+      "type": "string",
+      "description": "帮助信息"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

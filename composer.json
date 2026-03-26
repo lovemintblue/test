@@ -1,0 +1,45 @@
+{
+  "name" : "hesheng/mrs",
+  "description" : "This is video manager system!",
+  "license" : "Apache-2.0",
+  "type" : "project",
+  "keywords" : [
+    "phalcon",
+    "mrs"
+  ],
+  "require" : {
+    "php" : ">=7.0",
+    "ext-mongodb": ">=1.6",
+    "ext-redis": ">=2.0",
+    "ext-json": "*",
+    "phpoffice/phpspreadsheet": "^1.16",
+    "php-parallel-lint/php-console-color": "^1.0",
+    "ext-openssl": "*",
+    "ext-pdo": "*",
+    "symfony/var-dumper": "^5.2"
+  },
+  "require-dev": {
+    "phalcon/ide-stubs": "^4.1"
+  },
+  "suggest": {
+    "ext-openssl": "Required to use HTTPS.",
+    "ext-json": "Required to use JSON.",
+    "ext-pdo": "Required to use MySQL Client.",
+    "ext-pdo_mysql": "Required to use MySQL Client.",
+    "ext-redis": "Required to use Redis Client."
+  },
+  "autoload" : {
+    "psr-4": {
+      "App\\": "app/"
+    },
+    "files": [
+      "app/Core/Container/Functions.php",
+      "config/common.php"
+    ]
+  },
+  "scripts": {
+    "post-root-package-install": [
+      "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+    ]
+  }
+}

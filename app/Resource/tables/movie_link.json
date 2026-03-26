@@ -1,0 +1,57 @@
+{
+  "table_name": "movie_link",
+  "class_name": "MovieLinkModel",
+  "description": "剧集",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "名称"
+    },
+    {
+      "name": "movie_id",
+      "type": "string",
+      "description": "视频编号"
+    },
+    {
+      "name": "movie_name",
+      "type": "string",
+      "description": "视频名称"
+    },
+    {
+      "name": "preview_m3u8_url",
+      "type": "string",
+      "description": "线路"
+    },
+    {
+      "name": "m3u8_url",
+      "type": "string",
+      "description": "线路"
+    },
+    {
+      "name": "mp4_path",
+      "type": "string",
+      "description": "来源站链接"
+    },
+    {
+      "name": "sort",
+      "type": "int",
+      "description": "排序"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

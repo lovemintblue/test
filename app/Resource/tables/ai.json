@@ -1,0 +1,116 @@
+{
+  "table_name": "ai",
+  "class_name": "AiModel",
+  "description": "AI订单",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "order_sn",
+      "type": "string",
+      "description": "订单编号",
+      "index": "Unique"
+    },
+    {
+      "name": "user_id",
+      "type": "int",
+      "description": "用户编号",
+      "index": "Normal"
+    },
+    {
+      "name": "device_type",
+      "type": "string",
+      "description": "设备类型"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "用户名",
+      "index": "Normal"
+    },
+    {
+      "name": "extra",
+      "type": "array",
+      "description": "订单需求"
+    },
+    {
+      "name": "out_data",
+      "type": "array",
+      "description": "返回处理结果"
+    },
+    {
+      "name": "money",
+      "type": "double",
+      "description": "金额"
+    },
+    {
+      "name": "real_money",
+      "type": "double",
+      "description": "实际支付金额"
+    },
+    {
+      "name": "position",
+      "type": "string",
+      "description": "位置",
+      "index": "Normal"
+    },
+    {
+      "name": "status",
+      "type": "int",
+      "description": "状态 异常0 成功1 待处理2 处理中3 失败退款-1 已删除-2",
+      "index": "Normal"
+    },
+    {
+      "name": "channel_name",
+      "type": "string",
+      "description": "渠道",
+      "index": "Normal"
+    },
+    {
+      "name": "register_at",
+      "type": "int",
+      "description": "注册时间",
+      "index": "Normal"
+    },
+    {
+      "name": "register_date",
+      "type": "string",
+      "description": "注册时间"
+    },
+    {
+      "name": "is_new_user",
+      "type": "int",
+      "description": "是否新用户",
+      "index": "Normal"
+    },
+    {
+      "name": "register_ip",
+      "type": "string",
+      "description": "注册ip"
+    },
+    {
+      "name": "created_ip",
+      "type": "string",
+      "description": "ip"
+    },
+    {
+      "name": "is_disabled",
+      "type": "int",
+      "description": "是否显示",
+      "index": "Normal"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "table_name": "channel_app",
+  "class_name": "ChannelAppModel",
+  "description": "渠道包管理",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "名称"
+    },
+    {
+      "name": "code",
+      "type": "string",
+      "description": "渠道码",
+      "index": "Unique"
+    },
+    {
+      "name": "link",
+      "type": "string",
+      "description": "下载链接"
+    },
+    {
+      "name": "is_disabled",
+      "type": "int",
+      "description": "状态"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

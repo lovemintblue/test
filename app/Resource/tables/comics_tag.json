@@ -1,0 +1,42 @@
+{
+  "table_name": "comics_tag",
+  "class_name": "ComicsTagModel",
+  "description": "漫画标签管理",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "名称"
+    },
+    {
+      "name": "attribute",
+      "type": "string",
+      "description": "所属系列 全部 动漫 视频"
+    },
+    {
+      "name": "is_hot",
+      "type": "int",
+      "description": "是否热门 1是 0否"
+    },
+    {
+      "name": "count",
+      "type": "int",
+      "description": "资源数量"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

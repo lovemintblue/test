@@ -1,0 +1,34 @@
+{
+  "table_name": "play_favorite",
+  "class_name": "PlayFavoriteModel",
+  "description": "收藏",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "user_id",
+      "type": "int",
+      "description": "用户编号",
+      "index": "Normal"
+    },
+    {
+      "name": "play_id",
+      "type": "int",
+      "description": "编号",
+      "index": "Normal"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

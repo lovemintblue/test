@@ -1,0 +1,211 @@
+{
+  "table_name": "movie",
+  "class_name": "MovieModel",
+  "description": "视频管理",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "mid",
+      "type": "string",
+      "description": "媒资库id {媒资库_mid} 例如 xb_1024",
+      "index": "Unique"
+    },
+    {
+      "name": "user_id",
+      "type": "int",
+      "description": "用户ID"
+    },
+    {
+      "name": "categories",
+      "type": "int",
+      "description": "分类id"
+    },
+    {
+      "name": "tags",
+      "type": "array",
+      "description": "标签id"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "名称 {剧集追加}-01 {xxx}-02 {xxx}-03"
+    },
+    {
+      "name": "name_tw",
+      "type": "string",
+      "description": "名称-繁体"
+    },
+    {
+      "name": "number",
+      "type": "string",
+      "description": "番号(厂牌视频,可用于视频关联,默认生成编号)"
+    },
+    {
+      "name": "sort",
+      "type": "int",
+      "description": "排序"
+    },
+    {
+      "name": "is_new",
+      "type": "int",
+      "description": "是否最新 1是 0否 无效",
+      "index": "Normal"
+    },
+    {
+      "name": "is_hot",
+      "type": "int",
+      "description": "是否热门 1是 0否",
+      "index": "Normal"
+    },
+    {
+      "name": "is_more_link",
+      "type": "int",
+      "description": "是否多剧集 1是 0否",
+      "index": "Normal"
+    },
+    {
+      "name": "img_x",
+      "type": "string",
+      "description": "图片-横"
+    },
+    {
+      "name": "img_y",
+      "type": "string",
+      "description": "图片-竖"
+    },
+    {
+      "name": "favorite",
+      "type": "int",
+      "description": "虚拟收藏数"
+    },
+    {
+      "name": "real_favorite",
+      "type": "int",
+      "description": "真实收藏数"
+    },
+    {
+      "name": "click",
+      "type": "int",
+      "description": "虚拟点击数"
+    },
+    {
+      "name": "real_click",
+      "type": "int",
+      "description": "真实点击数"
+    },
+    {
+      "name": "favorite_rate",
+      "type": "int",
+      "description": "收藏率"
+    },
+    {
+      "name": "score",
+      "type": "int",
+      "description": "评分 0-100"
+    },
+    {
+      "name": "buy",
+      "type": "int",
+      "description": "购买次数"
+    },
+    {
+      "name": "comment",
+      "type": "int",
+      "description": "真实评论数"
+    },
+    {
+      "name": "money",
+      "type": "int",
+      "description": "金币"
+    },
+    {
+      "name": "pay_type",
+      "type": "string",
+      "description": "购买类型 money<0免费 money=0vip money>0金币"
+    },
+    {
+      "name": "original_link",
+      "type": "string",
+      "description": "完整版地址"
+    },
+    {
+      "name": "original_duration",
+      "type": "string",
+      "description": "完整版时长"
+    },
+    {
+      "name": "preview_link",
+      "type": "string",
+      "description": "预览版地址"
+    },
+    {
+      "name": "original_size",
+      "type": "double",
+      "description": "完整版大写"
+    },
+    {
+      "name": "preview_size",
+      "type": "double",
+      "description": "预览版大小"
+    },
+    {
+      "name": "preview_duration",
+      "type": "string",
+      "description": "预览版时长"
+    },
+    {
+      "name": "width",
+      "type": "string",
+      "description": "宽度"
+    },
+    {
+      "name": "height",
+      "type": "string",
+      "description": "高度"
+    },
+    {
+      "name": "position",
+      "type": "string",
+      "description": "视频所属板块 动漫 视频 "
+    },
+    {
+      "name": "canvas",
+      "type": "string",
+      "description": "视频画布 long横 short竖"
+    },
+    {
+      "name": "status",
+      "type": "int",
+      "description": "0未上架 1已上架 -1已下架"
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "description": "描述"
+    },
+    {
+      "name": "show_at",
+      "type": "int",
+      "description": "上架时间"
+    },
+    {
+      "name": "async_at",
+      "type": "int",
+      "description": "同步时间"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

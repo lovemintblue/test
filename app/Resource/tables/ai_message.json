@@ -1,0 +1,70 @@
+{
+  "table_name": "ai_message",
+  "class_name": "AiMessageModel",
+  "description": "AI消息管理",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "user_id",
+      "type": "int",
+      "description": "用户编号",
+      "index": "Normal"
+    },
+    {
+      "name": "ai_model",
+      "type": "string",
+      "description": "AI模型 deepseek grok3",
+      "index": "Normal"
+    },
+    {
+      "name": "type",
+      "type": "string",
+      "description": "message类型 text文字"
+    },
+    {
+      "name": "content",
+      "type": "string",
+      "description": "用户发送消息内容"
+    },
+    {
+      "name": "reply_content",
+      "type": "string",
+      "description": "AI回答消息内容"
+    },
+    {
+      "name": "ip",
+      "type": "string",
+      "description": "发送IP"
+    },
+    {
+      "name": "fee",
+      "type": "string",
+      "description": "费用"
+    },
+    {
+      "name": "status",
+      "type": "int",
+      "description": "状态 0待处理 1正常 -1失败",
+      "index": "Normal"
+    },
+    {
+      "name": "error_msg",
+      "type": "string",
+      "description": "失败原因"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

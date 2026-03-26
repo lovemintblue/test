@@ -1,0 +1,419 @@
+<style>
+    .upload-select-picture-card{
+        display: inline-block;
+        position: relative;
+        width: 200px;
+        height: 200px;
+    }
+    .upload-select-picture-card > span{
+        margin-top: 85px;
+    }
+    .upload-select-picture-card>.btn-delete{
+        position: absolute;
+        right: 5px;
+        top: 0px;
+        color: red;
+        cursor:pointer;
+        z-index: 100;
+    }
+</style>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">帖子详情</div>
+                <div class="layui-card-body">
+                    <form class="layui-form" action="" lay-filter="info-form">
+                        <input type="hidden" name="_id"  placeholder="" autocomplete="off" class="layui-input">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">标题</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="title" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">用户ID:</label>
+                            <div class="layui-input-block">
+                                <input name="user_id" placeholder="请输入用户ID" class="layui-input" autocomplete="off" type="number" lay-verType="tips" lay-verify="required|number" required/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">热门/精华:</label>
+                            <div class="layui-input-block">
+                                <?php foreach ($hotArr as $key=>$item): ?>
+                                    <input type="radio" name="is_hot" value="<?php echo $key; ?>" title="<?php echo $item; ?>" <?php if($key==0):?>checked<?php endif?> >
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">置顶:</label>
+                            <div class="layui-input-block">
+                                <?php foreach ($topArr as $key=>$item): ?>
+                                    <input type="radio" name="is_top" value="<?php echo $key; ?>" title="<?php echo $item; ?>" <?php if($key==0):?>checked<?php endif?> >
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                        <div class="layui-form-item" pane="">
+                            <label class="layui-form-label  layui-form-required">板块:</label>
+                            <div class="layui-input-block">
+                                <?php foreach ($categoryItems as $key=>$val):?>
+                                    <input type="checkbox" name="categories[]" <?php if($row['categories']&&in_array($val['id'],$row['categories'])):?>checked<?php endif;?> value="<?php echo $val['id'];?>" lay-skin="primary" title="<?php echo $val['name'];?>">
+                                <?php endforeach;?>
+                            </div>
+                            <div class="layui-input-block">
+                               帖子分区 暗圈和社区 是跟随第一个板块所属分区
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">图片:</label>
+                            <div class="layui-input-block" id="uploadImageBox">
+
+                            </div>
+                            <div class="layui-input-block">
+                                图片,上传时候默认取第一张作为封面
+                            </div>
+                        </div>
+                        <div class="layui-row">
+                            <div class="layui-col-md5">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">视频地址:</label>
+                                    <div class="layui-input-block">
+                                        <input name="video_path" id="video_path" placeholder="请输入视频地址" class="layui-input" type="text" value=""/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md7">
+                                <button class="layui-btn" type="button" id="btnPlay">播放</button>
+                                <button class="layui-btn" type="button" id="btnUpload">上传</button>
+                                <div style="display: inline-block" id="upload-box"></div>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">内容</label>
+                            <div class="layui-input-block">
+                                <div id="content">
+                                    <textarea name="content"  style="height: 280px" class="layui-textarea editer-text"></textarea>
+                                </div>
+                            </div>
+                            <div class="layui-input-block">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">附件:</label>
+                            <div class="layui-input-block">
+                                <textarea name="files" placeholder="请输入" class="layui-textarea layui-content"></textarea>
+                            </div>
+                            <div class="layui-input-block">
+                                附件格式：羞羞小游戏=>https://l.h-comic.org/NErcOVhB（文件名称=>文件链接 多个换行）
+                            </div>
+                        </div>
+                        <div class="layui-row">
+                            <div class="layui-col-md6">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">虚拟点击次数:</label>
+                                    <div class="layui-input-block">
+                                        <input name="click" placeholder="请输入点击次数" class="layui-input" type="number" value="0"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md6">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">虚拟收藏次数:</label>
+                                    <div class="layui-input-block">
+                                        <input name="favorite" placeholder="请输入点击次数" class="layui-input" type="number" value="0"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">金币:</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="money" value="0"  placeholder="" autocomplete="off" class="layui-input">
+                                <div class="layui-form-mid layui-word-aux">金币>0 vip=0 免费<0 主要用于附件</div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">排序:</label>
+                            <div class="layui-input-block">
+                                <input name="sort" placeholder="请输入排序" class="layui-input" type="number" value="0" lay-verType="tips" lay-verify="required" required/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">审核状态</label>
+                            <div class="layui-input-block">
+                                <?php foreach ($statusArr as $key=>$val):?>
+                                    <input type="radio" <?php if($key==1):?>checked<?php endif;?> name="status" value="<?php echo $key;?>" title="<?php echo $val;?>" >
+                                <?php endforeach;?>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">审核未通过原因</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="deny_msg" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">上架时间</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="created_at" id="created_at" placeholder="" autocomplete="off" class="layui-input  icon-date">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit lay-filter="info-form">立即提交</button>
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="<?php  echo createStaticUrl('/admin/default/assets/js/hls.min.js'); ?>"></script>
+<script src="<?php  echo createStaticUrl('/admin/default/assets/js/Sortable.js'); ?>"></script>
+<script src="<?php  echo createStaticUrl('/admin/default/assets/js/jquery-sortable.js'); ?>"></script>
+<script>
+    var  $,element,form,upload;
+    layui.use(['index', 'form','upload','laydate'], function(){
+        $ = layui.$,
+        element = layui.element,
+        laydate = layui.laydate,
+        upload = layui.upload,
+        form = layui.form;
+
+        var row = <?php echo json_encode($row);?>;
+        form.val('info-form',row);
+        form.render(null, 'info-form');
+        element.render('breadcrumb', 'breadcrumb');
+
+        laydate.render({
+            elem: '#created_at',
+            type: 'datetime'
+        });
+
+        //生成9个图片位置便于
+        var uploadHtml ='';
+        for (var i=0;i<9;i++)
+        {
+            uploadHtml+='<div data-index="'+i+'" id="upload_image_'+i+'" class="user-tag upload-select-picture-card"><span class="layui-icon layui-icon-addition"></span></div>';
+            uploadHtml+='<input type="hidden" value="" name="images[]" id="image_'+i+'">';
+        }
+        $("#uploadImageBox").html(uploadHtml);
+        $("#uploadImageBox").on('click','.btn-delete',function (event) {
+            event.stopPropagation();
+            event.preventDefault();
+            $(this).parent().find("img").remove();
+            var index= $(this).parent().attr("data-index");
+            $("#image_"+index).val("");
+            $(this).parent().html("<span class=\"layui-icon layui-icon-addition\"></span>")
+            $(this).remove();
+        })
+
+        if(row && row.images){
+            for (var index in row.images){
+                $("#image_"+index).val(row.images[index]);
+                $('#upload_image_'+index).html("<img width='196' height='196' src='<?php echo $mediaUrl;?>" + row.images[index]+ "'><i class='layui-icon layui-icon-delete btn-delete'></i>");
+            }
+        }
+        //上传图片
+        for (var index=0;index<9;index++) {
+            upload.render({
+                elem: '#upload_image_'+index //绑定元素
+                , url: '<?php echo $uploadUrl; ?>&small=1' //上传接口
+                , before: function (obj) {
+                    layer.load(0, {time: 30 * 1000});
+                }
+                , done: function (res) {
+                    layer.closeAll('loading');
+                    if (res.status === 'y') {
+                        $(this.elem).html("<img width='196' height='196' src='<?php echo $mediaUrl;?>" + res.data + "'><i class='layui-icon layui-icon-delete btn-delete'></i>");
+                        var valueIndex = $(this.elem).attr('data-index');
+                        $("#image_"+valueIndex).val(res.data);
+                    } else {
+                        showErrorMsg(res.error)
+                    }
+                }
+                , error: function () {
+                    //请求异常回调
+                    showErrorMsg('上传异常')
+                }
+            });
+        }
+
+        $("#btnPlay").click(function () {
+             var url = $("#video_path").val();
+             if(url.length<5){
+                 showErrorMsg('播放地址错误!');
+                 return;
+             }
+            layer.open({
+                type: 1,
+                shade: 0.8,
+                title:'视频播放',
+                content: '<video controls="controls" style="width:640px;height: 360px; margin: 0 auto"  id="player"></video>',
+                area: ["650px", "410px"]
+            });
+            var hlsOriginal = new Hls();
+            hlsOriginal.loadSource("<?php echo $mediaUrlVideo;?>"+url); // 传入路径
+            hlsOriginal.attachMedia(document.getElementById('player'));
+        })
+
+        function randomString(e) {
+            e = e || 32;
+            var t = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678",
+                a = t.length,
+                n = "";
+            for (i = 0; i < e; i++) n += t.charAt(Math.floor(Math.random() * a));
+            return n
+        }
+
+        /**上传文件**/
+        function uploadFile() {
+            if ( $("#video_file").val() === "") {
+                showErrorMsg("请选择文件!");
+                return;
+            }
+            var uploadFile = $("#video_file")[0].files[0];
+            if (uploadFile) {
+                var fileName = uploadFile.name;
+                /*
+                 * 参数解释 接口支持多进程 网页js端口建议单进程上传
+                 * dirname 存储的二级路径
+                 * preview  0/1 是否生成预览视频 上传内容为视频的时候使用 如果不要则设置0
+                 * more_quality 0/1是否生成多码率视频 目前只是生成480  上传内容为视频的时候使用 如果不需要多码率的就不要使用
+                 * is_done  0/1 是否进行切片转码等 如果只是单纯的保存一个mp4视频就设置为0
+                 * user_id 用户编号如果有则上传没得不上传
+                 * file_name文件名 如果没得就使用file的name 但是建议使用用户输入的做为识别
+                 * key 为应用的编号
+                 * md5  文件的md5值  如果是web端不能获取可以随机生成32位字符串 这个在上传文件的时候保持一致
+                 * page 当前上传的片段 每一个片段最大2M
+                 * total_page 总片段
+                 * 只有上传完成后才会返回id和file，单个片段完成的时候不会返回 上传成功后返回的id保留  如果是视频可以用这个id查询转码状态
+                  */
+                var md5 =randomString(32);
+                var  postUrl ="<?php echo $uploadVideoUrl;?>&more_quality=0&preview=0&md5="+md5+"&user_id=-1&file_name="+fileName;
+                var pageSize = 1024 * 1024;//每片为1MB
+                var page =1;
+                var totalPage = Math.ceil(uploadFile.size/pageSize);
+                doUploadFile(md5,uploadFile,postUrl,pageSize,page,totalPage,function (res) {
+                    if(res.status && res.status==='y' && res.data.id!=="")
+                    {
+                        queryUploadFile(res.data.id);
+                    }
+                });
+            }
+        }
+        /**
+         * 分片上传文件
+         **/
+        function doUploadFile(fileMd5,uploadFile,postUrl,pageSize,page,totalPage,callback) {
+            var blobSlice = File.prototype.slice || File.prototype.mozSlice || File.prototype.webkitSlice;
+            var fileReader = new FileReader();
+            var offset = (page-1) * pageSize;
+            var bufferSize = (uploadFile.size-offset)>pageSize?pageSize:uploadFile.size-offset;
+            var errorCountKey = "file-error-"+fileMd5;
+            var errorCount = $('body').data(errorCountKey);
+            var maxTryNum  = 5;
+            /**尝试的只是单纯的网络错误**/
+            if(errorCount && maxTryNum<errorCount){
+                callback(null);
+                return;
+            }
+            $("#upload-box").find('.info').html(page+"/"+totalPage);
+            fileReader.onload = function (e) {
+                var buffer = e.target.result;
+                console.log(buffer);
+                console.log(bufferSize);
+                const blob = new Blob([new Uint8Array(buffer, 0, bufferSize)]);
+                $.ajax({
+                    url: postUrl+"&page="+page+"&total_page="+totalPage,
+                    type: "post",
+                    data: blob,
+                    processData: false,
+                    tentType: false,
+                    headers: {
+                        "Content-Type": "application/octet-stream"
+                    },
+                    success: function (res) {
+                        $('body').data(errorCountKey,0);
+                        callback(res)
+                        if(res.status==='y' && page<totalPage){
+                            doUploadFile(fileMd5,uploadFile,postUrl,pageSize,page+1,totalPage,callback);
+                        }
+                    },
+                    error: function (error) {
+                        window.setTimeout(function () {
+                            doUploadFile(fileMd5,uploadFile,postUrl,pageSize,page,totalPage,callback);
+                        },2000);
+                    }
+                });
+            };
+            fileReader.readAsArrayBuffer(blobSlice.call(uploadFile,offset, offset+bufferSize));
+        }
+
+        function queryUploadFile(id)
+        {
+            $("#upload-box").find('.info').html('转码中..');
+            var intervalHandle=  window.setInterval(function () {
+                var  postUrl="<?php echo $uploadVideoQueryUrl;?>&id="+id;
+                $.ajax({
+                    url: postUrl,
+                    type: "post",
+                    success: function (res) {
+                        if(res.status==='n'){
+                            showErrorMsg('上传失败');
+                            $("#upload-box").find('.info').html('上传失败!');
+                            clearInterval(intervalHandle);
+                            return
+                        }
+                        if(res.status==='y' && res.data.file_m3u8){
+                            clearInterval(intervalHandle);
+                            $("#video_path").val(res.data.file_m3u8);
+                            $("#upload-box").find('.info').html('视频地址:'+res.data.file_m3u8);
+                            return
+                        }
+                    },
+                    error: function (error) {
+                    }
+                });
+            },1000)
+        }
+
+        $("#btnUpload").click(function () {
+            $("#upload-box").empty();
+            $("#upload-box").html('<input type="file" style="display: none" name="file" id="video_file" accept=".mp4,.flv"><div class="info"></div>');
+            const videoFile = $("#video_file")
+            videoFile.click()
+            videoFile.change(function (e) {
+                uploadFile();
+            })
+        })
+
+        new Sortable(uploadImageBox, {
+            group: 'shared',
+            animation: 150
+        });
+
+        form.on('submit(info-form)', function(obj){
+            var loadIndex=layer.load(0,{time: 30*1000});
+            doAjax("<?php echo createUrl('/post/save')?>",obj.field,function (res) {
+                layer.close(loadIndex);
+                if(res.status==='y'){
+                    showSuccessMsg("保存成功!");
+                    parent.layer.close(parent.layerIndex);
+                    parent.table.reload('table');
+                    return;
+                }
+                showErrorMsg(res.error);
+            });
+            return false;
+        });
+
+    });
+</script>

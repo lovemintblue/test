@@ -1,0 +1,46 @@
+{
+  "table_name": "comics_history",
+  "class_name": "ComicsHistoryModel",
+  "description": "视频历史记录管理",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "user_id",
+      "type": "int",
+      "description": "用户id",
+      "index": "Normal"
+    },
+    {
+      "name": "comics_id",
+      "type": "string",
+      "description": "资源编号",
+      "index": "Normal"
+    },
+    {
+      "name": "chapter_id",
+      "type": "string",
+      "description": "章节编号"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "description": "日期",
+      "index": "Normal"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间",
+      "index": "Normal"
+    }
+  ]
+}

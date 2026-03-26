@@ -1,0 +1,52 @@
+{
+  "table_name": "movie_tag",
+  "class_name": "MovieTagModel",
+  "description": "视频标签管理",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "名称"
+    },
+    {
+      "name": "parent_id",
+      "type": "int",
+      "description": "上级ID"
+    },
+    {
+      "name": "attribute",
+      "type": "string",
+      "description": "属性 新番 原作 人物"
+    },
+    {
+      "name": "series",
+      "type": "string",
+      "description": "所属系列 全部 动漫 视频"
+    },
+    {
+      "name": "is_hot",
+      "type": "int",
+      "description": "是否热门 1是 0否"
+    },
+    {
+      "name": "count",
+      "type": "int",
+      "description": "资源数量"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

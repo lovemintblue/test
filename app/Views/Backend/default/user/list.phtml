@@ -1,0 +1,357 @@
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header system-main-nav">搜索</div>
+        <div class="layui-card-body">
+            <form class="layui-form toolbar" lay-filter="searchForm">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">等级:</label>
+                        <div class="layui-input-inline" lay-search>
+                            <select name="group_id">
+                                <option value="">请选择..</option>
+                                <?php foreach ($groupArr as $userGroup): ?>
+                                    <option value="<?php echo $userGroup['id']; ?>"><?php echo $userGroup['name']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">Up主:</label>
+                        <div class="layui-input-inline">
+                            <select name="is_up" lay-search>
+                                <option value="">请选择..</option>
+                                <?php foreach ($isUpArr as $key=>$item): ?>
+                                    <option value="<?php echo $key; ?>" ><?php echo $item; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">有效用户:</label>
+                        <div class="layui-input-inline">
+                            <select name="is_valid" lay-search>
+                                <option value="">请选择..</option>
+                                <?php foreach ($isUpArr as $key=>$item): ?>
+                                    <option value="<?php echo $key; ?>" ><?php echo $item; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">状态:</label>
+                        <div class="layui-input-inline">
+                            <select name="is_disabled" lay-search>
+                                <option value="">请选择..</option>
+                                <?php foreach ($disabledArr as $key=>$item): ?>
+                                    <option value="<?php echo $key; ?>" ><?php echo $item; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">设备类型:</label>
+                        <div class="layui-input-inline">
+                            <select name="device_type" lay-search>
+                                <option value="">请选择..</option>
+                                <?php foreach ($deviceArr as $key=>$item): ?>
+                                    <option value="<?php echo $key; ?>" ><?php echo $item; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">注册时间:</label>
+                        <div class="layui-input-inline" >
+                            <input type="text" name="start_time" id="laydate-start-at" placeholder="yyyy-mm-dd H:i:s" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid">-</div>
+                        <div class="layui-input-inline" >
+                            <input type="text" name="end_time" id="laydate-end-at" placeholder="yyyy-mm-dd H:i:s" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">用户ID:</label>
+                        <div class="layui-input-inline">
+                            <input name="user_id" class="layui-input" placeholder="请输入用户ID"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">用户名:</label>
+                        <div class="layui-input-inline">
+                            <input name="username" class="layui-input" placeholder="请输入用户名"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">上级ID:</label>
+                        <div class="layui-input-inline">
+                            <input name="parent_id" class="layui-input" placeholder="请输入上级用户ID"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">渠道名:</label>
+                        <div class="layui-input-inline">
+                            <input name="channel_name" class="layui-input" placeholder="请输入渠道名"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">手机号码:</label>
+                        <div class="layui-input-inline">
+                            <input name="phone" class="layui-input" placeholder="请输入手机号码"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">&emsp;
+                        <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="searchFormBtn">搜索</button>
+                        <button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+            <!-- 数据表格 -->
+            <table class="layui-hide" id="table" lay-filter="table"></table>
+            <!-- 数据表格-顶部工具条 -->
+            <script type="text/html" id="table-toolbar">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-xs" lay-event="up">解冻</button>
+                    <button class="layui-btn layui-btn-xs layui-btn-danger" lay-event="down">冻结</button>
+                    <button class="layui-btn layui-btn-xs layui-btn-warm" lay-event="find">找回账号</button>
+                    <button class="layui-btn layui-btn-xs layui-btn-primary" lay-event="es">刷新索引</button>
+                </div>
+            </script>
+            <!-- 数据表格-行工具条 -->
+            <script type="text/html" id="table-item-toolbar">
+                <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="recharge">充值</a>
+            </script>
+        </div>
+    </div>
+</div>
+<div id="recharge" style="display: none;">
+    <form class="layui-form" action="" lay-filter="rechargeForm" id="rechargeForm">
+        <div class="layui-form-item" style="margin-top: 10px;">
+            <label class="layui-form-label">金额</label>
+            <div class="layui-input-inline">
+                <input type="text" name="money" placeholder="正数增加,负数减少" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-inline">
+                <input type="text" name="remark" placeholder="" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">谷歌验证码</label>
+            <div class="layui-input-inline">
+                <input type="text" name="google" placeholder="" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    var layerIndex,layer,table,form,laydate,$;
+    layui.use(['layer', 'form', 'table', 'admin','laydate'], function () {
+        $ = layui.jquery;
+        layer = layui.layer;
+        form = layui.form;
+        table = layui.table;
+        laydate = layui.laydate;
+
+        /*初始化表格*/
+        table.render({
+            elem: '#table'
+            ,url: location.href
+            ,method: "post"
+            ,where: form.val("searchForm")
+            ,skin:'line'
+            ,size: 'sm' //小尺寸的表格
+            ,toolbar: '#table-toolbar'
+            ,request: {
+                limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            }
+            ,page: {
+                layout: ['prev', 'page', 'next', 'skip', 'count', 'limit']
+                ,curr: 1 //设定初始在第 1 页
+                ,groups: 6 //只显示 5 个连续页码
+                ,first: '首页'
+                ,last: '尾页'
+                ,limit:30
+                ,limits:[10,30,50,100]
+            }
+            ,parseData: function(res){ //res 即为原始返回的数据
+                return res;
+            }
+            ,cols: [[
+                {title:'操作', toolbar: '#table-item-toolbar',align: 'center', width:150},
+                {type: 'checkbox'}
+                ,{field: '_id',width:100, title: '用户ID',templet:function (row) {
+                    return "<p >"+row._id+"</p>"+"<p>"+row.username+"</p>"
+                },align: 'center'}
+                ,{field: 'nickname', title: '昵称',width:150,templet:function (row) {
+                        var html = '';
+                        html += '<span>'+row.nickname+'</span><br/>';
+                        html += '<span>性别:'+row.sex+'</span><br/>';
+                        html += '<p style="color: #4d56d2">标签:'+(row.tag?row.tag:'-')+'</p>';
+                        return html;
+                },align: 'center'}
+                ,{field: 'img', title:'头像',width:100, templet: function (row) {
+                    if(row.img){
+                        var link = '<?php echo $mediaUrl;?>' + row.img;
+                        return '<a target="_blank" href="'+link+'" ><img src="'+link+'" onmouseout="hideImg(this)" onmouseover="showImg(this)" class="table-tips-img" style="max-width: 50px;max-height: 50px"/></a>'
+                    }
+                    return '-';
+                }, align: 'center'}
+                ,{field:'balance', title: '余额',align: 'center',width:100}
+                ,{field:'income', title: '收益',align: 'center',width:100}
+                ,{field:'integral', title: '积分',align: 'center',width:100}
+                ,{field:'is_up', title: '是否UP',align: 'center',width:80}
+                ,{field: 'group_start_time', title: 'VIP信息',width:200,templet:function (row) {
+                    return "<p>等级:"+row.group_name+"</p>"+
+                        "<p>折扣:"+row.group_rate+"</p>"+
+                        "<p>开始:"+row.group_start_time+"</p>"+
+                        "<p>到期:"+row.group_end_time+"</p>"
+                }, align: 'center'}
+                ,{field: 'parent_id', title: '上级', align: 'center',width:80}
+                ,{field: 'phone', title: '电话/账号',width:150,templet:function (row) {
+                    if(row.phone){
+                        return row.phone;
+                    }
+                    return  '-';
+                }, align: 'center'}
+                ,{field: 'device_type', title: '设备',width:120,templet:function (row) {
+                        if(row.device_ext!=null && row.device_ext!=""){
+                            return row.device_type+"("+row.device_ext+")"+' v:'+row.device_version;
+                        }
+                        return  row.device_type+' v:'+row.device_version;
+                }, align: 'center'}
+                ,{field:'movie_fee_rate', title: '视频分成(%)',align: 'center',width:80}
+                ,{field:'post_fee_rate', title: '帖子分成(%)',align: 'center',width:80}
+                ,{field: 'channel_name', title: '渠道名', align: 'center',width:80}
+                ,{field: 'is_disabled', title: '状态', align: 'center',width:80}
+                ,{field: 'share_num', title: '分享人数', align: 'center',width:80}
+                ,{field: 'register_at', title: '注册信息',width:140,templet:function (row) {
+                    return "<p>IP:"+row.register_ip+"</p>"+"<p>时间:"+row.register_at+"</p>"+"<p>地区:"+row.register_area+"</p>"
+                }, align: 'center'}
+                ,{field: 'register_at', title: '最近登陆',width:140,templet:function (row) {
+                    return "<p>IP:"+row.last_ip+"</p>"+"<p>时间:"+row.last_at+"</p>"+"<p>登陆次数:"+row.login_num+"</p>"
+                }, align: 'center'}
+
+            ]],
+        });
+        /*表格搜索事件*/
+        form.on('submit(searchFormBtn)', function(obj){
+            table.reload('table',{where:obj.field,page:{curr:1}});
+            return false;
+        });
+        /*表格排序事件*/
+        table.on('sort(table)', function(obj){
+            var order=obj.type==='asc'?1:-1;
+            table.reload('table', {initSort: obj,where: {sort: obj.field,order: order }});
+        });
+        laydate.render({
+            elem: '#laydate-start-at'
+            ,type: 'datetime'
+        });
+        laydate.render({
+            elem: '#laydate-end-at'
+            ,type: 'datetime'
+        });
+        /*表格-顶部工具条事件*/
+        table.on('toolbar(table)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            var data = checkStatus.data;
+            var ids = new Array();
+            for(var index=0;index<data.length;index++)
+            {
+                ids.push(data[index]._id)
+            }
+            switch(obj.event) {
+                case 'find':
+                    findRow();
+                    break;
+                case 'es':
+                    doRow(ids,'es');
+                    break;
+                case 'up':
+                    doRow(ids,'up');
+                    break;
+                case 'down':
+                    doRow(ids,'down');
+                    break;
+            }
+        });
+        /*表格-行事件*/
+        table.on('tool(table)', function(obj){
+            var data = obj.data;
+            switch (obj.event) {
+                case 'edit':
+                    layerIndex=layer.open({
+                        type: 2,
+                        content: "<?php echo createUrl('/user/detail'); ?>?_id="+data._id,
+                        area:  ['70%', '80%']
+                    });
+                    break;
+                case 'recharge':
+                    layerIndex=layer.open({
+                        type: 1,
+                        area: ['360px', '280px'], //宽高
+                        content: $("#recharge"),
+                        btn: ['确定', '取消']
+                        , yes: function (index, layero) {
+                            //按钮【按钮一】的回调
+                            var fromData=form.val("rechargeForm")
+                            fromData.user_id = data._id;
+                            var loadIndex=layer.load(0,{time: 30*1000});
+                            doAjax("<?php echo createUrl('/user/recharge')?>", fromData, function (res) {
+                                layer.close(loadIndex)
+                                if (res.status == 'y') {
+                                    layer.close(index);
+                                    showSuccessMsg("充值成功!请手动刷新页面");
+                                    form.val('rechargeForm',{money:null,pwd:null})
+                                } else {
+                                    showErrorMsg(res.error);
+                                }
+                            });
+                            return false;
+                        }
+                    });
+                    break;
+                case 'del':
+                    var ids = new Array();
+                    ids.push(data._id);
+                    doRow(ids,'del');
+                    break;
+            }
+        });
+
+        //找回账号
+        function findRow() {
+            layer.open({
+                type: 2,
+                content: "<?php echo createUrl('/user/find'); ?>",
+                area:  ['80%', '80%']
+            });
+        }
+
+
+        function doRow(ids,act) {
+            if(ids==null || ids.length<1){
+                showErrorMsg("请选择需要的数据!");
+                return false;
+            }
+            showConfirmMsg("确定操作吗?",function() {
+                var loadIndex=layer.load(0,{time: 30*1000});
+                doAjax("<?php echo createUrl('/user/do')?>",{act:act,id:ids.join(",")},function(res){
+                    layer.close(loadIndex);
+                    if(res.status=='y'){
+                        showSuccessMsg("操作成功!");
+                        table.reload('table');
+                    }else{
+                        showErrorMsg(res.error);
+                    }
+                });
+            });
+        }
+    })
+</script>

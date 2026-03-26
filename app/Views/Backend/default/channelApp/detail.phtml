@@ -1,0 +1,102 @@
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">渠道包详情</div>
+                <div class="layui-card-body">
+                    <form class="layui-form" action="" lay-filter="info-form">
+                        <input type="hidden" name="_id"  placeholder="" autocomplete="off" class="layui-input">
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">名称</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">类型</label>
+                            <div class="layui-input-block">
+                                <select name="type"  class="layui-input">
+                                    <option value="">请选择..</option>
+                                    <?php foreach ($typeArr as $value=>$label):?>
+                                        <option value="<?php echo $value;?>"><?php echo $label;?></option>
+                                    <?php endforeach;?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">渠道码</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="code" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                                <div class="layui-word-aux">国内线路1 china_01  国内线路1 china_02依次类推 海外线路1 oversea_01 海外线路2 oversea_02</div>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">链接</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="link" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">是否自动下载:</label>
+                            <div class="layui-input-block">
+                                <input name="is_auto_download"  lay-filter="select-adv-type" type="radio" value="0" title="关闭" checked/>
+                                <input name="is_auto_download"  lay-filter="select-adv-type" type="radio" value="1" title="是"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">验证码:</label>
+                            <div class="layui-input-block">
+                                <input name="is_need_verify"  lay-filter="select-adv-type" type="radio" value="0" title="关闭" checked/>
+                                <input name="is_need_verify"  lay-filter="select-adv-type" type="radio" value="1" title="开启"/>
+                                <div class="layui-word-aux">开启过后，每次该渠道的包进入APP都需要输入验证码</div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">是否显示:</label>
+                            <div class="layui-input-block">
+                                <input name="is_disabled"  lay-filter="select-adv-type" type="radio" value="0" title="显示" checked/>
+                                <input name="is_disabled" lay-filter="select-adv-type" type="radio" value="1" title="关闭"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit lay-filter="info-form">立即提交</button>
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['index', 'form'], function(){
+        var $ = layui.$
+            ,element = layui.element
+            ,form = layui.form;
+        form.val('info-form',<?php echo json_encode($row);?>);
+        form.render(null, 'info-form');
+
+        element.render('breadcrumb', 'breadcrumb');
+
+        form.on('submit(info-form)', function(obj){
+            var loadIndex=layer.load(0,{time: 30*1000});
+            doAjax("<?php echo createUrl('/channelApp/save')?>",obj.field,function (res) {
+                layer.close(loadIndex);
+                if(res.status==='y'){
+                    showSuccessMsg("保存成功!");
+                    parent.layer.close(parent.layerIndex);
+                    parent.table.reload('table');
+                    return;
+                }
+                showErrorMsg(res.error);
+            });
+            return false;
+        });
+
+    });
+</script>

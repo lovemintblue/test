@@ -1,0 +1,43 @@
+{
+  "table_name": "admin_log",
+  "class_name": "AdminLogModel",
+  "description": "管理员日志",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "admin_id",
+      "type": "string",
+      "description": "管理员编号"
+    },
+    {
+      "name": "admin_name",
+      "type": "string",
+      "description": "管理员名称",
+      "index": "Normal"
+    },
+    {
+      "name": "content",
+      "type": "string",
+      "description": "内容"
+    },
+    {
+      "name": "ip",
+      "type": "string",
+      "description": "ip"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header system-main-nav">搜索</div>
+        <div class="layui-card-body">
+            <form class="layui-form toolbar" lay-filter="searchForm">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">ID:</label>
+                        <div class="layui-input-inline">
+                            <input name="object_id" class="layui-input"  autocomplete="off" placeholder="请输入ID"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">时间范围:</label>
+                        <div class="layui-input-inline" >
+                            <input type="text" name="start_time" id="laydate-start-at" value="<?php echo date("Y-m-d");?>" placeholder="yyyy-mm-dd H:i:s" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid">-</div>
+                        <div class="layui-input-inline" >
+                            <input type="text" name="end_time" id="laydate-end-at" value="<?php echo date("Y-m-d");?>" placeholder="yyyy-mm-dd H:i:s" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="searchFormBtn">搜索</button>
+                        <button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+            <!-- 数据表格 -->
+            <table class="layui-hide" id="table" lay-filter="table"></table>
+            <!-- 数据表格-顶部工具条 -->
+            <script type="text/html" id="table-toolbar">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-xs" lay-event="add">添加</button>
+                    <button class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</button>
+                </div>
+            </script>
+            <!-- 数据表格-行工具条 -->
+            <script type="text/html" id="table-item-toolbar">
+                <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+            </script>
+        </div>
+    </div>
+</div>
+<script>
+    var layerIndex,layer,table,form,$;
+    layui.use(['layer', 'form', 'table','laydate', 'admin'], function () {
+        $ = layui.jquery;
+        layer = layui.layer;
+        form = layui.form;
+        table = layui.table;
+        laydate = layui.laydate;
+
+        /*初始化表格*/
+        table.render({
+            elem: '#table'
+            ,url: location.href
+            ,method: "post"
+            ,where: form.val("searchForm")
+            ,skin:'line'
+            ,size: 'sm' //小尺寸的表格
+            // ,toolbar: '#table-toolbar'
+            ,request: {
+                limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            }
+            ,page: {
+                layout: ['prev', 'page', 'next', 'skip', 'count', 'limit']
+                ,curr: 1 //设定初始在第 1 页
+                ,groups: 6 //只显示 5 个连续页码
+                ,first: '首页'
+                ,last: '尾页'
+                ,limit:30
+                ,limits:[10,30,50,100]
+            }
+            ,totalRow:true
+            ,parseData: function(res){ //res 即为原始返回的数据
+                return res;
+            }
+            ,cols: [[
+                {type: 'checkbox'}
+                // ,{field:'_id', title: 'ID',align: 'center',sort:true}
+                ,{field: 'object_id', title: 'ID',align: 'center',totalRow:true,sort:true}
+                ,{field: 'name', title: '名称',align: 'center',totalRow:true}
+                ,{field: 'date_label', title: '日期',align: 'center',totalRow:true,sort:true}
+                ,{field: 'detail', title: '详情次数',align: 'center',totalRow:true,sort:true}
+                ,{field: 'click', title: '阅读次数',align: 'center',totalRow:true,sort:true}
+                ,{field: 'favorite', title: '收藏次数',align: 'center',totalRow:true,sort:true}
+                ,{field: 'updated_at', title: '统计时间',align: 'center',totalRow:true}
+                // ,{field:'created_at', title: '创建时间',align: 'center',totalRow:true}
+            ]],
+        });
+        laydate.render({
+            elem: '#laydate-start-at'//指定元素
+            , trigger: 'click'
+            , type: 'date'
+        });
+        laydate.render({
+            elem: '#laydate-end-at'//指定元素
+            , trigger: 'click'
+            , type: 'date'
+        });
+        /*表格搜索事件*/
+        form.on('submit(searchFormBtn)', function(obj){
+            table.reload('table',{where:obj.field,page:{curr:1}});
+            return false;
+        });
+        /*表格排序事件*/
+        table.on('sort(table)', function(obj){
+            var order=obj.type==='asc'?1:-1;
+            table.reload('table', {initSort: obj,where: {sort: obj.field,order: order }});
+        });
+    })
+</script>

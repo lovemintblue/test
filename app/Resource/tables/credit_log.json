@@ -1,0 +1,82 @@
+{
+  "table_name": "credit_log",
+  "class_name": "CreditLogModel",
+  "description": "积分日志",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "user_id",
+      "type": "int",
+      "description": "用户编号",
+      "index": "Normal"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "用户名",
+      "index": "Normal"
+    },
+    {
+      "name": "type",
+      "type": "int",
+      "description": "业务类型 1签到 2兑换",
+      "index": "Normal"
+    },
+    {
+      "name": "item_type",
+      "type": "int",
+      "description": "获得物品类型 会员 vip 观影券 movie 裸聊 naked"
+    },
+    {
+      "name": "add_num",
+      "type": "double",
+      "description": "增加数量"
+    },
+    {
+      "name": "num",
+      "type": "double",
+      "description": "数量"
+    },
+    {
+      "name": "num_log",
+      "type": "double",
+      "description": "余额"
+    },
+    {
+      "name": "remark",
+      "type": "string",
+      "description": "remark"
+    },
+    {
+      "name": "object_id",
+      "type": "int",
+      "description": "积分兑换物品id"
+    },
+    {
+      "name": "ext",
+      "type": "string",
+      "description": "扩展信息"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "description": "签到日期",
+      "index": "Normal"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间",
+      "index": "Normal"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

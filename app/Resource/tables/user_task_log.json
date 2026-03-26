@@ -1,0 +1,46 @@
+{
+  "table_name": "user_task_log",
+  "class_name": "UserTaskLogModel",
+  "description": "用户任务日志",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "task_id",
+      "type": "int",
+      "description": "任务编号",
+      "index": "Normal"
+    },
+    {
+      "name": "task_type",
+      "type": "string",
+      "description": "任务编号",
+      "index": "Normal"
+    },
+    {
+      "name": "user_id",
+      "type": "int",
+      "description": "用户编号",
+      "index": "Normal"
+    },
+    {
+      "name": "date_label",
+      "type": "string",
+      "description": "日期编号",
+      "index": "Normal"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

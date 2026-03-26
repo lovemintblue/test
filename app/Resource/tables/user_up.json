@@ -1,0 +1,39 @@
+{
+  "table_name": "user_up",
+  "class_name": "UserUpModel",
+  "description": "热门UP",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "user_id",
+      "type": "int",
+      "description": "用户编号",
+      "index": "Normal"
+    },
+    {
+      "name": "username",
+      "type": "int",
+      "description": "用户名",
+      "index": "Normal"
+    },
+    {
+      "name": "sort",
+      "type": "string",
+      "description": "排序"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

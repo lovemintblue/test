@@ -1,0 +1,73 @@
+{
+  "table_name": "admin_user",
+  "class_name": "AdminUserModel",
+  "description": "管理用户",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "role_id",
+      "type": "int",
+      "description": "角色编号"
+    },
+    {
+      "name": "real_name",
+      "type": "string",
+      "description": "真实姓名"
+    },
+    {
+      "name": "email",
+      "type": "string",
+      "description": "Email"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "用户名",
+      "index": "Unique"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "密码"
+    },
+    {
+      "name": "slat",
+      "type": "string",
+      "description": "密码盐"
+    },
+    {
+      "name": "google_code",
+      "type": "string",
+      "description": "谷歌验证码"
+    },
+    {
+      "name": "login_at",
+      "type": "string",
+      "description": "登陆时间"
+    },
+    {
+      "name": "login_ip",
+      "type": "string",
+      "description": "登陆ip"
+    },
+    {
+      "name": "is_disabled",
+      "type": "int",
+      "description": "是否禁用"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

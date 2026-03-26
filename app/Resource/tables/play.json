@@ -1,0 +1,112 @@
+{
+  "table_name": "play",
+  "class_name": "PlayModel",
+  "description": "玩法管理",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "title",
+      "type": "string",
+      "description": "标题"
+    },
+    {
+      "name": "number",
+      "type": "string",
+      "description": "约炮、裸聊任务编号"
+    },
+    {
+      "name": "tag",
+      "type": "string",
+      "description": "约炮、裸聊标签"
+    },
+    {
+      "name": "city",
+      "type": "string",
+      "description": "约炮、裸聊地址"
+    },
+    {
+      "name": "type",
+      "type": "string",
+      "description": "类型 game游戏 luoliao裸聊 yuepao约炮"
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "description": "描述"
+    },
+    {
+      "name": "img_x",
+      "type": "string",
+      "description": "封面"
+    },
+    {
+      "name": "video",
+      "type": "string",
+      "description": "视频"
+    },
+    {
+      "name": "images",
+      "type": "array",
+      "description": "图集"
+    },
+    {
+      "name": "params",
+      "type": "array",
+      "description": "游戏参数"
+    },
+    {
+      "name": "download_link",
+      "type": "string",
+      "description": "游戏下载链接"
+    },
+    {
+      "name": "comment",
+      "type": "int",
+      "description": "评论次数"
+    },
+    {
+      "name": "last_comment",
+      "type": "int",
+      "description": "最后评论"
+    },
+    {
+      "name": "money",
+      "type": "int",
+      "description": "金币"
+    },
+    {
+      "name": "pay_type",
+      "type": "string",
+      "description": "购买类型 money<0免费 money=0vip money>0金币"
+    },
+    {
+      "name": "buy",
+      "type": "int",
+      "description": "购买次数"
+    },
+    {
+      "name": "sort",
+      "type": "int",
+      "description": "排序"
+    },
+    {
+      "name": "score",
+      "type": "string",
+      "description": "推荐指数"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

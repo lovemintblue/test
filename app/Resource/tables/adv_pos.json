@@ -1,0 +1,48 @@
+{
+  "table_name": "adv_pos",
+  "class_name": "AdvPosModel",
+  "description": "广告位置",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "广告位名称"
+    },
+    {
+      "name": "code",
+      "type": "string",
+      "description": "广告位标识",
+      "index": "Unique"
+    },
+    {
+      "name": "is_disabled",
+      "type": "tinyint",
+      "description": "是否禁用0 1禁用"
+    },
+    {
+      "name": "width",
+      "type": "int",
+      "description": "宽"
+    },
+    {
+      "name": "height",
+      "type": "int",
+      "description": "高"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">金币套餐详情</div>
+                <div class="layui-card-body">
+                    <form class="layui-form" action="" lay-filter="info-form">
+                        <input type="hidden" name="_id"  placeholder="" autocomplete="off" class="layui-input">
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">名称:</label>
+                            <div class="layui-input-block">
+                                <input name="name" placeholder="请输入名称" class="layui-input" lay-verType="tips"
+                                       lay-verify="required" required/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">类型:</label>
+                            <div class="layui-input-block">
+                                <?php foreach ($typeItems as $value=>$label):?>
+                                    <input name="type" <?php if($value=='point'):?>checked<?php endif;?> type="radio" value="<?php echo $value;?>" title="<?php echo $label;?>"/>
+                                <?php endforeach;?>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">数量:</label>
+                            <div class="layui-input-block">
+                                <input name="num" placeholder="请输入数量" value="0" type="number" class="layui-input" lay-verType="tips"
+                                       lay-verify="required" required />
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">价格:</label>
+                            <div class="layui-input-block">
+                                <input name="price" placeholder="请输入价格" value="0" type="text" class="layui-input " lay-verType="tips"
+                                       lay-verify="required" required />
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">价格提示:</label>
+                            <div class="layui-input-block">
+                                <input name="price_tips" placeholder="请输入价格提示" value="" type="text" class="layui-input"  />
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">描述:</label>
+                            <div class="layui-input-block">
+                                <textarea name="description" class="layui-textarea"></textarea>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">排序:</label>
+                            <div class="layui-input-block">
+                                <input name="sort" placeholder="请输入排序" class="layui-input" type="number" value="0" lay-verType="tips"
+                                       lay-verify="required" required/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">赠送金币:</label>
+                            <div class="layui-input-block">
+                                <input name="gift_num" placeholder="请输入赠送" value="0" type="number" class="layui-input"  />
+                                <div class="layui-word-aux">非特殊情况建议不要赠送</div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">赠送VIP天数:</label>
+                            <div class="layui-input-block">
+                                <input name="vip_num" placeholder="请输入赠送天数" value="0" type="number" class="layui-input"  />
+                                <div class="layui-word-aux">非特殊情况建议不要赠送</div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">是否禁用:</label>
+                            <div class="layui-input-block">
+                                <input name="is_disabled" type="radio" value="0" title="否" checked/>
+                                <input name="is_disabled" type="radio" value="1" title="是"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required ">谷歌验证码:</label>
+                            <div class="layui-input-block">
+                                <input name="google_code" placeholder="请输入谷歌验证码" value="" type="text" class="layui-input"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit lay-filter="info-form">立即提交</button>
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['index', 'form', 'upload'], function(){
+        var $ = layui.$
+            ,element = layui.element
+            ,upload = layui.upload
+            ,form = layui.form
+            ,row = <?php echo json_encode($row);?>;
+
+        form.val('info-form', row);
+        form.render(null, 'info-form');
+
+        element.render('breadcrumb', 'breadcrumb');
+
+        form.on('submit(info-form)', function(obj){
+            var loadIndex=layer.load(0,{time: 30*1000});
+            doAjax("<?php echo createUrl('/product/save')?>",obj.field,function (res) {
+                layer.close(loadIndex);
+                if(res.status==='y'){
+                    showSuccessMsg("保存成功!");
+                    parent.layer.close(parent.layerIndex);
+                    parent.table.reload('table');
+                    return;
+                }
+                showErrorMsg(res.error);
+            });
+            return false;
+        });
+
+    });
+</script>

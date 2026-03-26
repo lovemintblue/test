@@ -1,0 +1,39 @@
+{
+  "table_name": "user_sign",
+  "class_name": "UserSignModel",
+  "description": "用户签到",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "user_id",
+      "type": "int",
+      "description": "用户编号",
+      "index": "Normal"
+    },
+    {
+      "name": "exchanges",
+      "type": "array",
+      "description": "用户兑换情况"
+    },
+    {
+      "name": "days",
+      "type": "array",
+      "description": "当月签到（[1,2,3,4]）"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间",
+      "index": "Normal"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

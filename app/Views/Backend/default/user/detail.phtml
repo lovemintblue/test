@@ -1,0 +1,215 @@
+<style>
+    .layui-upload-img-bg{width: 187px; height: 92px; margin: 0 10px 10px 0;}
+</style>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">用户详情</div>
+                <div class="layui-card-body">
+                    <form class="layui-form" action="" lay-filter="info-form">
+                        <input type="hidden" name="_id"  placeholder="" autocomplete="off" class="layui-input">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">昵称</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="nickname" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">个性签名</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="sign" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">性别</label>
+                            <div class="layui-input-block">
+                                <?php foreach ($sexArr as $key=>$item): ?>
+                                    <input type="radio" name="sex" value="<?php echo $key; ?>" title="<?php echo $item; ?>" >
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                        <div class="layui-row">
+                            <div class="layui-col-md6">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label layui-form-required">头像:</label>
+                                    <div class="layui-input-block">
+                                        <div id="imgX" class="adv-type-image upload-select-picture-card">
+                                            <span class="layui-icon layui-icon-addition"></span>
+                                        </div>
+                                        <input name="img" id="imgXInput" value="" type="hidden" class="layui-input"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md6">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">背景图:</label>
+                                    <div class="layui-input-block">
+                                        <div id="imgY" class="adv-type-image upload-select-picture-card">
+                                            <span class="layui-icon layui-icon-addition"></span>
+                                        </div>
+                                        <input name="bg_img" id="imgYInput" value="" type="hidden" class="layui-input"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">会员</label>
+                            <div class="layui-input-block">
+                                <select name="group_id" >
+                                    <option value="0">请选择</option>
+                                    <?php foreach ($groupArr as $item):?>
+                                    <option value="<?php echo $item['id'];?>"><?php echo $item['id'].' | '.$item['name'];?></option>
+                                    <?php endforeach;?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">VIP结束时间</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="group_end_time"  readonly id="laydate-end-at" placeholder="yyyy-MM-dd HH:mm:ss">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">视频分成(%)</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="movie_fee_rate" placeholder=""  autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">帖子分成(%)</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="post_fee_rate" placeholder=""  autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">用户标签</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="tag" placeholder=""  autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-row">
+                            <div class="layui-col-md6">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">是否up主</label>
+                                    <div class="layui-input-block">
+                                        <input type="radio" name="is_up" value="0" title="否" checked>
+                                        <input type="radio" name="is_up" value="1" title="是" >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">特权</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="right" value="" title="无" checked>
+                                <input type="radio" name="right" value="money" title="金币免费">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">是否禁用</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="is_disabled" value="0" title="否" checked>
+                                <input type="radio" name="is_disabled" value="1" title="是" >
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">禁用原因</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="error_msg" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">注册时间</label>
+                            <div class="layui-input-inline" >
+                                <input type="text" name="register_at" readonly placeholder="" autocomplete="off" class="layui-input layui-disabled">
+                            </div>
+                            <div class="layui-form-mid">设备:</div>
+                            <div class="layui-input-inline" >
+                                <input type="text" name="device_type" readonly placeholder="" autocomplete="off" class="layui-input layui-disabled">
+                            </div>
+                            <div class="layui-form-mid">版本:</div>
+                            <div class="layui-input-inline" >
+                                <input type="text" name="device_version" readonly placeholder="" autocomplete="off" class="layui-input layui-disabled">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit lay-filter="info-form">立即提交</button>
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['index', 'form','upload','laydate'], function(){
+        var $ = layui.$
+            ,element = layui.element
+            ,upload = layui.upload
+            ,laydate = layui.laydate
+            ,form = layui.form;
+        form.val('info-form',<?php echo json_encode($row);?>);
+        if(form.val("info-form").img){
+            $("#imgX").html("<img width='102' height='102' src='<?php echo $mediaUrl;?>"+form.val("info-form").img+"'>");
+        }
+        if(form.val("info-form").bg_img){
+            $("#imgY").html("<img width='102' height='102' src='<?php echo $mediaUrl;?>"+form.val("info-form").bg_img+"'>");
+        }
+        laydate.render({
+            elem: '#laydate-end-at'
+            ,type: 'datetime'
+        });
+
+        form.render(null, 'info-form');
+
+        element.render('breadcrumb', 'breadcrumb');
+        upload.render({
+            elem: '#imgX' //绑定元素
+            ,url: '<?php echo $uploadUrl; ?>' //上传接口
+            ,done: function(res){
+                $("#imgX").html("<img width='102' height='102' src='<?php echo $mediaUrl;?>"+res.data+"'>");
+                $("#imgXInput").val(res.data);
+            }
+            ,error: function(){
+                //请求异常回调
+            }
+        });
+        upload.render({
+            elem: '#imgY' //绑定元素
+            ,url: '<?php echo $uploadUrl; ?>' //上传接口
+            ,done: function(res){
+                $("#imgY").html("<img width='102' height='102' src='<?php echo $mediaUrl;?>"+res.data+"'>");
+                $("#imgYInput").val(res.data);
+            }
+            ,error: function(){
+                //请求异常回调
+            }
+        });
+
+        form.on('submit(info-form)', function(obj){
+            if(obj.field.is_disabled==1&&obj.field.error_msg.length==0){
+                showErrorMsg('请输入禁用原因');
+            }
+
+            var loadIndex=layer.load(0,{time: 30*1000});
+            doAjax("<?php echo createUrl('/user/save')?>",obj.field,function (res) {
+                layer.close(loadIndex);
+                if(res.status==='y'){
+                    showSuccessMsg("保存成功!");
+                    parent.layer.close(parent.layerIndex);
+                    parent.table.reload('table');
+                    return;
+                }
+                showErrorMsg(res.error);
+            });
+            return false;
+        });
+
+    });
+</script>

@@ -1,0 +1,53 @@
+{
+  "table_name": "article_category",
+  "class_name": "ArticleCategoryModel",
+  "description": "文章分类",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "code",
+      "type": "string",
+      "description": "唯一标识",
+      "index": "Unique"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "名称"
+    },
+    {
+      "name": "img",
+      "type": "string",
+      "description": "图片"
+    },
+    {
+      "name": "language",
+      "type": "string",
+      "description": "语言"
+    },
+    {
+      "name": "sort",
+      "type": "int",
+      "description": "排序"
+    },
+    {
+      "name": "parent_id",
+      "type": "int",
+      "description": "上级编号"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

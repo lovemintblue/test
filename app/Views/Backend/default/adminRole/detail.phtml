@@ -1,0 +1,152 @@
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">角色详情</div>
+                <div class="layui-card-body">
+                    <form class="layui-form" action="" lay-filter="info-form">
+                        <input type="hidden" name="_id"  placeholder="" autocomplete="off" class="layui-input">
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">角色名称:</label>
+                            <div class="layui-input-block">
+                                <input name="name" placeholder="请输入角色名称" class="layui-input" lay-verType="tips"
+                                       lay-verify="required" required/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">是否禁用:</label>
+                            <div class="layui-input-block">
+                                <input name="is_disabled" type="radio" value="0" title="启用" checked/>
+                                <input name="is_disabled" type="radio" value="1" title="禁用"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label ">描述:</label>
+                            <div class="layui-input-block">
+                                <input name="description" placeholder="请输入描述" class="layui-input"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label ">操作:</label>
+                            <div class="layui-input-block">
+                                <input type="checkbox" lay-skin="primary"  title="全选" lay-filter="selectAll" class="right-all">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <?php foreach ($authorities as $authority):?>
+                                    <div class="right-row">
+                                        <div class="layui-row" style="font-weight: bold"><input lay-filter="select-parent-right" class="right-checkbox parent-right"  type="checkbox" name="rights[]" lay-skin="primary"  value="<?php echo $authority['key'];?>" title="<?php echo $authority['name'];?>"></div>
+                                        <div class="layui-row">
+                                            <?php foreach ($authority['child'] as $child):?>
+                                                <input type="checkbox" lay-skin="primary" class="right-checkbox child-right" lay-filter="select-child-right" data-type="child" name="rights[]" value="<?php echo $child['key'];?>" title="<?php echo $child['name'];?>">
+                                            <?php endforeach;?>
+                                        </div>
+                                    </div>
+                                    <div class="ln_solid"></div>
+                                <?php endforeach;?>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit lay-filter="info-form">立即提交</button>
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['index', 'form'], function(){
+        var $ = layui.$
+            ,element = layui.element
+            ,form = layui.form
+            ,row = <?php echo json_encode($row);?>;
+
+        form.val('info-form', row);
+        form.render(null, 'info-form');
+
+        element.render('breadcrumb', 'breadcrumb');
+
+        ///回显所有权限
+        if(row){
+            $(".right-checkbox").each(function () {
+                var value = this.value;
+                for (var i=0;i<row['rights'].length;i++)
+                {
+                    var item = row['rights'][i];
+                    if(item===value){
+                        this.checked = true;
+                        break;
+                    }
+                }
+            });
+            checkboxChange();
+        }
+
+        /**全选**/
+        form.on('checkbox(selectAll)', function(data){
+            var isCheckAll = data.elem.checked;
+            $(".right-checkbox").each(function(i,e){
+                this.checked = isCheckAll;
+            });
+            form.render('checkbox','info-form');
+        });
+        /** 子选项 **/
+        form.on('checkbox(select-child-right)', function(data){
+            checkboxChange()
+        });
+        /** 父级权限**/
+        form.on('checkbox(select-parent-right)', function(data){
+            var isChecked = data.elem.checked;
+            $(this).parents('.right-row').find(".child-right").each(function(){
+                this.checked = isChecked;
+            });
+            checkboxChange()
+        });
+        /***处理二级权限选中***/
+        function checkboxChange()
+        {
+            var checkedAll = true;
+            $(".child-right").each(function () {
+                var selectd = true;
+                var $obj =$(this);
+                $obj.parents('.right-row').find(".child-right").each(function () {
+                    if(!this.checked){
+                        selectd= false;
+                        return;
+                    }
+                });
+                $obj.parents('.right-row').find(".parent-right")[0].checked=selectd;
+            });
+            $(".parent-right").each(function(index){
+                if(!this.checked){
+                    checkedAll = false;
+                }
+            });
+            $(".right-all")[0].checked = checkedAll;
+            form.render('checkbox','info-form');
+        }
+
+        form.on('submit(info-form)', function(obj){
+            var loadIndex=layer.load(0,{time: 30*1000});
+            doAjax("<?php echo createUrl('/adminRole/save')?>",obj.field,function (res) {
+                layer.close(loadIndex);
+                if(res.status==='y'){
+                    showSuccessMsg("保存成功!");
+                    parent.layer.close(parent.layerIndex);
+                    parent.table.reload('table');
+                    return;
+                }
+                showErrorMsg(res.error);
+            });
+            return false;
+        });
+
+    });
+</script>

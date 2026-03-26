@@ -1,0 +1,59 @@
+{
+  "table_name": "message",
+  "class_name": "MessageModel",
+  "description": "消息管理",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "user_id",
+      "type": "int",
+      "description": "用户编号",
+      "index": "Normal"
+    },
+    {
+      "name": "chat_id",
+      "type": "string",
+      "description": "会话编号",
+      "index": "Normal"
+    },
+    {
+      "name": "to_user_id",
+      "type": "int",
+      "description": "对方编号"
+    },
+    {
+      "name": "type",
+      "type": "string",
+      "description": "类型message"
+    },
+    {
+      "name": "content",
+      "type": "string",
+      "description": "消息内容"
+    },
+    {
+      "name": "ip",
+      "type": "string",
+      "description": "发送IP"
+    },
+    {
+      "name": "ext",
+      "type": "string",
+      "description": "扩展信息"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

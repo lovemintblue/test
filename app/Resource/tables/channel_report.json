@@ -1,0 +1,104 @@
+{
+  "table_name": "channel_report",
+  "class_name": "ChannelReportModel",
+  "description": "渠道报表",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "code",
+      "type": "string",
+      "description": "渠道标识",
+      "index": "Normal"
+    },
+    {
+      "name": "date",
+      "type": "string",
+      "description": "日期",
+      "index": "Normal"
+    },
+    {
+      "name": "user_reg",
+      "type": "int",
+      "index": "用户注册"
+    },
+    {
+      "name": "android_reg",
+      "type": "int",
+      "index": "安卓注册"
+    },
+    {
+      "name": "web_reg",
+      "type": "int",
+      "index": "WEB注册"
+    },
+    {
+      "name": "ios_reg",
+      "type": "int",
+      "index": "IOS注册"
+    },
+    {
+      "name": "app_day",
+      "type": "int",
+      "index": "总日活"
+    },
+    {
+      "name": "yesterday_app_day",
+      "type": "int",
+      "index": "次日日活"
+    },
+    {
+      "name": "today_app_day",
+      "type": "int",
+      "description": "今日日活"
+    },
+    {
+      "name": "order_num",
+      "type": "int",
+      "index": "订单金额"
+    },
+    {
+      "name": "point_num",
+      "type": "int",
+      "index": "金币充值"
+    },
+    {
+      "name": "today_order_num",
+      "type": "int",
+      "index": "今日订单金额"
+    },
+    {
+      "name": "yesterday_order_num",
+      "type": "int",
+      "index": "次日订单金额"
+    },
+    {
+      "name": "game_order_num",
+      "type": "int",
+      "index": "游戏充值"
+    },
+    {
+      "name": "today_game_order_num",
+      "type": "int",
+      "index": "今日游戏充值"
+    },
+    {
+      "name": "yesterday_game_order_num",
+      "type": "int",
+      "index": "次日游戏充值"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

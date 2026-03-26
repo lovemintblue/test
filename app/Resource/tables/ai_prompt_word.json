@@ -1,0 +1,53 @@
+{
+  "table_name": "ai_prompt_word",
+  "class_name": "AiPromptWordModel",
+  "description": "提示词",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "名称"
+    },
+    {
+      "name": "en_name",
+      "type": "string",
+      "description": "英文名称"
+    },
+    {
+      "name": "group",
+      "type": "string",
+      "description": "分组"
+    },
+    {
+      "name": "is_hot",
+      "type": "int",
+      "description": "是否热门 1是 0否"
+    },
+    {
+      "name": "position",
+      "type": "string",
+      "description": "位置",
+      "index": "Normal"
+    },
+    {
+      "name": "sort",
+      "type": "int",
+      "description": "排序"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

@@ -1,0 +1,184 @@
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">意见反馈详情</div>
+                <div class="layui-card-body layui-col-md12">
+                    <div class="layui-col-md4">
+                        <div class="layui-row feedback-base-info">
+                            <div class="layui-col-md4 text-center">
+                                <img src="<?php echo $mediaUrl.$row['user_img'];?>" width="80" height="80">
+                            </div>
+                            <div class="layui-col-md8 text-left">
+                                <div>用户编号：<?php echo $row['to_user_id'];?></div>
+                                <div>用户昵称：<?php echo $row['user_nickname'];?></div>
+                                <div>用户组：<?php echo $row['group_name']?:'-';?></div>
+                                <div><?php echo $row['device_type'];?> <?php echo $row['device_version'];?></div>
+                            </div>
+                        </div>
+                        <div class="layui-row">
+                            <div class="quick-message-box layui-card">
+                                <div class="layui-card-header">快捷回复 （点击区域添加到输入框）</div>
+                                <div id="quick-message-list" class="layui-card-body">
+                                    <?php foreach ($quickMessages as $quickMessage):?>
+                                        <div class="quick-message">
+                                            <div class="quick-message-title"><?php echo $quickMessage['name'];?></div>
+                                            <div class="quick-message-content text-overflow"><?php echo $quickMessage['content'];?></div>
+                                        </div>
+                                    <?php endforeach;?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md8 message-box">
+                        <div class="layui-row" style="height: 430px;" id="message-list">
+
+                        </div>
+                        <div class="layui-row">
+                            <form id="editForm" lay-filter="editForm" class="layui-form">
+                                <input name="type" type="hidden" value="text" id="message-type"/>
+                                <input name="user_id"  type="hidden" value="<?php echo $row['user_id'];?>"/>
+                                <input name="to_user_id"  type="hidden" value="<?php echo $row['to_user_id'];?>"/>
+                                <div class="layui-form-item text-left">
+                                    <button class="layui-btn" lay-filter="btnUploadSubmit" id="btnUploadSubmit"  type="button"><i class="layui-icon">&#xe60d;</i>上传图片</button>
+                                </div>
+                                <div class="layui-row">
+                                    <div class="layui-form-item">
+                                        <textarea name="content" id="message-content" placeholder="请输入回复内容" class="layui-textarea" ay-verType="tips" lay-verify="required" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item text-right">
+                                    <button class="layui-btn" lay-submit lay-filter="info-form">回复</button>
+                                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['index', 'form', 'laydate', 'upload', 'flow'], function(){
+        var $ = layui.$
+            ,element = layui.element
+            ,laydate = layui.laydate
+            ,upload = layui.upload
+            ,form = layui.form
+            ,flow = layui.flow
+            ,row = <?php echo json_encode($row);?>;
+
+        form.val('info-form', row);
+        form.render(null, 'info-form');
+
+        element.render('breadcrumb', 'breadcrumb');
+
+        // 初始加载消息
+        // loadMessage(row.to_user_id,-1);
+
+        //点击快捷回复
+        $("#quick-message-list .quick-message").click(function () {
+            var content = $(this).find(".quick-message-content").html();
+            var type = "text";
+            if(content.indexOf('.jpg')>0 || content.indexOf('.png') >0|| content.indexOf('.jpeg')>0 || content.indexOf('.gif')>0){
+                type = "image";
+            }
+            $("#message-content").val(content);
+            $("#message-type").val(type);
+        });
+
+        //上传图片
+        upload.render({
+            elem: '#btnUploadSubmit' //绑定元素
+            ,url: '<?php echo $uploadUrl; ?>' //上传接口
+            ,done: function(res){
+                $("#message-content").val(res.data);
+                $("#message-type").val('image');
+            },error: function(){
+                //请求异常回调
+                showErrorMsg('上传文件错误!')
+            }
+        });
+
+        //提交数据
+        form.on('submit(info-form)', function(obj){
+            var loadIndex=layer.load(0,{time: 30*1000});
+            doAjax("<?php echo createUrl('/feedback/save')?>",obj.field,function (res) {
+                layer.close(loadIndex);
+                if(res.status==='y'){
+                    showSuccessMsg("回复成功!");
+                    parent.layer.close(parent.layerIndex);
+                    parent.table.reload('table');
+                    return;
+                }
+                showErrorMsg(res.error);
+            });
+            return false;
+        });
+
+        layui.use('flow', function(){
+            flow.load({
+                elem: '#message-list' //指定列表容器
+                ,scrollElem: '#message-list'
+                ,end: '没有更多了'
+                ,isAuto: false
+                ,mb: 200
+                ,done: function(page, next){ //到达临界点（默认滚动触发），触发下一页
+                    doAjax('<?php  echo createUrl('/feedback/message');?>', {"user_id":row.to_user_id , "to_user_id":row.user_id,"pageSize":10,"page":page}, function (res) {
+                        if (res.data.length>0) {
+                            var html = getHtml(res.data);
+                            $('.layui-flow-more').after(html);
+
+                            var messageBox = document.getElementById('message-list');
+                            if(page==1){
+                                messageBox.scrollTop = messageBox.scrollHeight;
+                            }
+                            var imgList = $(".message-img").map(function (i) {
+                                return {
+                                    alt: '图片',
+                                    src: $(this).attr("src")
+                                }
+                            });
+                            $(".message-img").each(function(index){
+                                $(this).click(function(){
+                                    layer.photos({photos: {data: imgList, start: index}, shade: .1, closeBtn: true});
+                                });
+                            });
+
+                            next('', true);
+                        }else{
+                            next('', false);
+                        }
+                    });
+                }
+            });
+        });
+
+        function getHtml(data) {
+            var html = '';
+            for (i=0;i<data.length;i++)
+            {
+                var className = data[i]['is_my']==='y'?'admin':'user';
+                html += '<div class="message-item '+className+'"><div class="message-time">';
+                html += data[i]['time_label'];
+                var extData = data[i]['ext'];
+                if(extData && extData!=""){
+                    html += "("+extData+")";
+                }
+                html += '</div><div class="message-content">';
+                if(data[i].type==='image'){
+                    var img = "<?php echo $mediaUrl;?>"+data[i]['content'];
+                    html += '<img class="message-img"  src="'+img+'">';
+                }else{
+                    html += data[i]['content'];
+                }
+                html +='</div></div>';
+            }
+            return html;
+        }
+
+    });
+</script>

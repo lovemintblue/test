@@ -1,0 +1,58 @@
+{
+  "table_name": "user_message",
+  "class_name": "UserMessageModel",
+  "description": "用户消息",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "user_id",
+      "type": "int",
+      "description": "用户编号",
+      "index": "Normal"
+    },
+    {
+      "name": "title",
+      "type": "string",
+      "description": "标题"
+    },
+    {
+      "name": "content",
+      "type": "string",
+      "description": "内容"
+    },
+    {
+      "name": "type",
+      "type": "string",
+      "description": "类型 文本:text 链接:link"
+    },
+    {
+      "name": "link",
+      "type": "string",
+      "description": "跳转地址"
+    },
+    {
+      "name": "date_label",
+      "type": "string",
+      "description": "日期"
+    },
+    {
+      "name": "read_status",
+      "type": "int",
+      "description": "阅读状态"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

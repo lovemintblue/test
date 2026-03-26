@@ -1,0 +1,73 @@
+{
+  "table_name": "user_code_log",
+  "class_name": "UserCodeLogModel",
+  "description": "用户兑换码日志",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "名称"
+    },
+    {
+      "name": "code",
+      "type": "string",
+      "description": "兑换码",
+      "index": "Normal"
+
+    },
+    {
+      "name": "code_key",
+      "type": "string",
+      "description": "兑换码key",
+      "index": "Normal"
+    },
+    {
+      "name": "code_id",
+      "type": "int",
+      "description": "兑换码编号",
+      "index": "Normal"
+    },
+    {
+      "name": "object_id",
+      "type": "int",
+      "description": "资源id 用户组或金币"
+    },
+    {
+      "name": "type",
+      "type": "int",
+      "description": "兑换码类型 用户组:group 金币:point"
+    },
+    {
+      "name": "user_id",
+      "type": "int",
+      "description": "使用人编号",
+      "index": "Normal"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "用户名",
+      "index": "Normal"
+    },
+    {
+      "name": "add_num",
+      "type": "int",
+      "description": "增加数量 天数或金币数"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

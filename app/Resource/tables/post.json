@@ -1,0 +1,154 @@
+{
+  "table_name": "post",
+  "class_name": "PostModel",
+  "description": "社区帖子",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "title",
+      "type": "string",
+      "description": "标题"
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "description": "标题色值"
+    },
+    {
+      "name": "categories",
+      "type": "string",
+      "description": "分类id"
+    },
+    {
+      "name": "content",
+      "type": "string",
+      "description": "内容"
+    },
+    {
+      "name": "images",
+      "type": "array",
+      "description": "图片"
+    },
+    {
+      "name": "files",
+      "type": "array",
+      "description": "附件"
+    },
+    {
+      "name": "user_id",
+      "type": "int",
+      "description": "用户编号",
+      "index": "Normal"
+    },
+    {
+      "name": "click",
+      "type": "int",
+      "description": "虚拟点击次数"
+    },
+    {
+      "name": "real_click",
+      "type": "int",
+      "description": "真实点击次数"
+    },
+    {
+      "name": "love",
+      "type": "int",
+      "description": "虚拟点赞次数"
+    },
+    {
+      "name": "real_love",
+      "type": "int",
+      "description": "真实点赞次数"
+    },
+    {
+      "name": "favorite",
+      "type": "int",
+      "description": "虚拟收藏次数"
+    },
+    {
+      "name": "real_favorite",
+      "type": "int",
+      "description": "真实收藏次数"
+    },
+    {
+      "name": "comment",
+      "type": "int",
+      "description": "评论次数"
+    },
+    {
+      "name": "last_comment",
+      "type": "int",
+      "description": "最后评论"
+    },
+    {
+      "name": "money",
+      "type": "int",
+      "description": "金币"
+    },
+    {
+      "name": "pay_type",
+      "type": "string",
+      "description": "购买类型 money<0免费 money=0vip money>0金币"
+    },
+    {
+      "name": "is_top",
+      "type": "int",
+      "description": "是否置顶 1是 0否"
+    },
+    {
+      "name": "is_hot",
+      "type": "int",
+      "description": "是否热门 1是 0否"
+    },
+    {
+      "name": "ip",
+      "type": "string",
+      "description": "ip"
+    },
+    {
+      "name": "province",
+      "type": "string",
+      "description": "ip获取的省份"
+    },
+    {
+      "name": "city",
+      "type": "string",
+      "description": "ip获取的城市"
+    },
+    {
+      "name": "sort",
+      "type": "int",
+      "description": "排序"
+    },
+    {
+      "name": "status",
+      "type": "int",
+      "description": "状态 0待审核 1正常 2审核不通过 3处理中 -1禁用"
+    },
+    {
+      "name": "deny_msg",
+      "type": "string",
+      "description": "审核未通过原因"
+    },
+    {
+      "name": "is_async_mms",
+      "type": "int",
+      "description": "是否异步媒资库的",
+      "index": "Normal"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

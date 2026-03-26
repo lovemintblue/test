@@ -1,0 +1,196 @@
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">广告详情</div>
+                <div class="layui-card-body">
+                    <form class="layui-form" action="" lay-filter="info-form">
+                        <input type="hidden" name="_id"  placeholder="" autocomplete="off" class="layui-input">
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">名称:</label>
+                            <div class="layui-input-block">
+                                <input name="name" placeholder="请输入广告名称" autocomplete="off" class="layui-input" lay-verType="tips"
+                                       lay-verify="required" required/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">广告位:</label>
+                            <div class="layui-input-block">
+                                <select name="position_code" lay-verType="tips" lay-verify="required" required>
+                                    <option value="">请选择..</option>
+                                    <?php foreach ($posItems as $posItem):?>
+                                        <option value="<?php echo $posItem['code'];?>"><?php echo sprintf('%s(%sX%s)',$posItem['name'],$posItem['width'],$posItem['height']);?></option>
+                                    <?php endforeach;?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required ">链接:</label>
+                            <div class="layui-input-block">
+                                <input name="link" placeholder="请输入链接" autocomplete="off"  value="" type="text" class="layui-input" lay-verType="tips" lay-verify="required" required/>
+                                <div class="layui-word-aux">
+                                    https://  http://  跳转外部网页打开<br>
+                                    appstore:// 跳转应用中心<br>
+                                    buyvip:// 跳转购买会员<br>
+                                    recharge:// 跳转充值<br>
+                                    share:// 跳转分享页面<br>
+                                    aity://   AI去衣<br>
+                                    aihl://   Ai换脸<br>
+                                    postdetail://id  跳转到帖子详情  id就是帖子id<br>
+                                    noveldetail://id  跳转到小说详情  id就是小说id<br>
+                                    comicdetail://id  跳转到漫画详情  id就是漫画id<br>
+                                    moviedetail://id 跳转到视频详情   id就是视频id
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">开始时间:</label>
+                            <div class="layui-input-block">
+                                <input name="start_time" id="start_time" autocomplete="off"  placeholder="请输入开始时间" value="" type="text" class="layui-input icon-date" lay-verType="tips" lay-verify="required" required />
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">结束时间:</label>
+                            <div class="layui-input-block">
+                                <input name="end_time" id="end_time" autocomplete="off"  placeholder="请输入结束" value="" type="text" class="layui-input icon-date" lay-verType="tips" lay-verify="required" required />
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">权限:</label>
+                            <div class="layui-input-block">
+                                <input name="right" type="radio" value="all" title="全部用户" checked/>
+                                <input name="right" type="radio" value="normal" title="普通用户"/>
+                                <input name="right" type="radio" value="vip" title="会员用户"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">类型:</label>
+                            <div class="layui-input-block">
+                                <input name="type"  lay-filter="select-adv-type" type="radio" value="image" title="图片" checked/>
+                                <input name="type" lay-filter="select-adv-type" type="radio" value="video" title="视频"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">内容:</label>
+                            <div class="layui-input-block">
+                                <div id="imgX" class="user-tag upload-select-picture-card">
+                                    <span class="layui-icon layui-icon-addition"></span>
+                                </div>
+                                <input name="content" id="imgXInput"  value="" type="text" class="layui-input" style="display: none" />
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">渠道:</label>
+                            <div class="layui-input-block">
+                                <input name="channel_code" placeholder="请输入所属渠道" autocomplete="off" value="" type="text" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">排序:</label>
+                            <div class="layui-input-block">
+                                <input name="sort" placeholder="请输入排序" autocomplete="off"  value="0" type="number" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required ">谷歌验证码:</label>
+                            <div class="layui-input-block">
+                                <input name="google_code" placeholder="请输入谷歌验证码" autocomplete="off"  value="" type="text" class="layui-input"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit lay-filter="info-form">立即提交</button>
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['index', 'form', 'laydate', 'upload'], function(){
+        var $ = layui.$
+            ,element = layui.element
+            ,laydate = layui.laydate
+            ,upload = layui.upload
+            ,form = layui.form
+            ,row = <?php echo json_encode($row);?>;
+
+        form.val('info-form', row);
+        form.render(null, 'info-form');
+
+        element.render('breadcrumb', 'breadcrumb');
+
+        //回显部分数据
+        if(row && row.type==='image' && row.content){
+            $(".adv-type-image").hide();
+            $(".adv-type-video").show();
+            $("#imgX").html("<img width='102' height='102' src='<?php echo $mediaUrl;?>"+row.content+"'>");
+        }
+
+        //时间
+        laydate.render({
+            elem: '#end_time',
+            type: 'datetime'
+        });
+        laydate.render({
+            elem: '#start_time',
+            type: 'datetime'
+        });
+
+        //上传图片
+        upload.render({
+            elem: '#imgX' //绑定元素
+            ,url: '<?php echo $uploadUrl; ?>' //上传接口
+            ,before: function(obj){
+                layer.load(0,{time: 30*1000});
+            }
+            ,done: function(res){
+                layer.closeAll('loading');
+                if(res.status=='y') {
+                    $("#imgX").html("<img width='102' height='102' src='<?php echo $mediaUrl;?>"+res.data+"'>");
+                    $("#imgXInput").val(res.data);
+                }else {
+                    showErrorMsg(res.error)
+                }
+            }
+            ,error: function(){
+                //请求异常回调
+                showErrorMsg('上传异常')
+            }
+        });
+
+        //选择类型
+        form.on('radio(select-adv-type)', function(data){
+            if(data.value==='image'){
+                $(".adv-type-image").show();
+                $(".adv-type-video").hide();
+            }else{
+                $(".adv-type-image").hide();
+                $(".adv-type-video").show();
+            }
+        });
+
+        form.on('submit(info-form)', function(obj){
+            var loadIndex=layer.load(0,{time: 30*1000});
+            doAjax("<?php echo createUrl('/adv/save')?>",obj.field,function (res) {
+                layer.close(loadIndex);
+                if(res.status==='y'){
+                    showSuccessMsg("保存成功!");
+                    parent.layer.close(parent.layerIndex);
+                    parent.table.reload('table');
+                    return;
+                }
+                showErrorMsg(res.error);
+            });
+            return false;
+        });
+
+    });
+</script>

@@ -1,0 +1,72 @@
+{
+  "table_name": "product",
+  "class_name": "ProductModel",
+  "description": "产品套餐",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "套餐名称"
+    },
+    {
+      "name": "type",
+      "type": "string",
+      "description": "类型 point金币"
+    },
+    {
+      "name": "num",
+      "type": "int",
+      "description": "数量"
+    },
+    {
+      "name": "gift_num",
+      "type": "int",
+      "description": "赠送数量"
+    },
+    {
+      "name": "vip_num",
+      "type": "int",
+      "description": "赠送vip天数"
+    },
+    {
+      "name": "price",
+      "type": "double",
+      "description": "价格"
+    },
+    {
+      "name": "sort",
+      "type": "int",
+      "description": "排序"
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "description": "描述"
+    },
+    {
+      "name": "price_tips",
+      "type": "string",
+      "description": "价格提示"
+    },
+    {
+      "name": "is_disabled",
+      "type": "int",
+      "description": "是否禁用"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

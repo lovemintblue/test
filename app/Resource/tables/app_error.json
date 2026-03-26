@@ -1,0 +1,50 @@
+{
+  "table_name": "app_error",
+  "class_name": "AppErrorModel",
+  "description": "错误日志表",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "device_type",
+      "type": "string",
+      "description": "类型",
+      "index": "Normal"
+    },
+    {
+      "name": "device_version",
+      "type": "string",
+      "description": "接口版本"
+    },
+    {
+      "name": "date",
+      "type": "string",
+      "description": "日期",
+      "index": "Normal"
+    },
+    {
+      "name": "content",
+      "type": "string",
+      "description": "内容"
+    },
+    {
+      "name": "ip",
+      "type": "string",
+      "description": "IP",
+      "index": "Normal"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

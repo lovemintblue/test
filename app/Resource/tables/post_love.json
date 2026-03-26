@@ -1,0 +1,33 @@
+{
+  "table_name": "post_love",
+  "class_name": "PostLoveModel",
+  "description": "帖子点赞",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "user_id",
+      "type": "int",
+      "description": "用户编号",
+      "index": "Normal"
+    },
+    {
+      "name": "post_id",
+      "type": "int",
+      "description": "帖子编号"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "table_name": "user_act",
+  "class_name": "UserActModel",
+  "description": "用户行为统计",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "user_id",
+      "type": "int",
+      "description": "用户编号",
+      "index": "Normal"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "用户名",
+      "index": "Normal"
+    },
+    {
+      "name": "channel_name",
+      "type": "string",
+      "description": "渠道",
+      "index": "Normal"
+    },
+    {
+      "name": "register_at",
+      "type": "int",
+      "description": "注册时间",
+      "index": "Normal"
+    },
+    {
+      "name": "act",
+      "type": "array",
+      "description": "用户行为",
+      "index": "Normal"
+    },
+    {
+      "name": "is_valid",
+      "type": "int",
+      "description": "是否有效用户 1是 0否",
+      "index": "Normal"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

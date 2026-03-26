@@ -1,0 +1,83 @@
+{
+  "table_name": "user_buy_log",
+  "class_name": "UserBuyLogModel",
+  "description": "用户购买记录(视频,漫画)",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "order_sn",
+      "type": "string",
+      "description": "订单编号",
+      "index": "Unique"
+    },
+    {
+      "name": "user_id",
+      "type": "int",
+      "description": "用户id",
+      "index": "Normal"
+    },
+    {
+      "name": "username",
+      "type": "int",
+      "description": "用户名",
+      "index": "Normal"
+    },
+    {
+      "name": "channel_name",
+      "type": "int",
+      "description": "渠道名称",
+      "index": "Normal"
+    },
+    {
+      "name": "object_id",
+      "type": "int",
+      "description": "资源id",
+      "index": "Normal"
+    },
+    {
+      "name": "object_img",
+      "type": "string",
+      "description": "资源图片"
+    },
+    {
+      "name": "object_type",
+      "type": "string",
+      "description": "资源类型 视频:movie 游戏:game"
+    },
+    {
+      "name": "object_money",
+      "type": "int",
+      "description": "资源金额"
+    },
+    {
+      "name": "object_money_old",
+      "type": "int",
+      "description": "资源金额-原价"
+    },
+    {
+      "name": "register_at",
+      "type": "int",
+      "description": "注册日期"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "description": "购买日期"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间",
+      "index": "Normal"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

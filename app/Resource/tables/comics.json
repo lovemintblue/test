@@ -1,0 +1,73 @@
+{
+  "table_name": "comics",
+  "class_name": "ComicsModel",
+  "description": "漫画资源",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "名称"
+    },
+    {
+      "name": "child_title",
+      "type": "string",
+      "description": "子标题"
+    },
+    {
+      "name": "img",
+      "type": "string",
+      "description": "封面"
+    },
+    {
+      "name": "status",
+      "type": "int",
+      "description": "状态0待上架  1已上架",
+      "index": "Normal"
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "description": "描述"
+    },
+    {
+      "name": "cat_id",
+      "type": "string",
+      "description": "分类"
+    },
+    {
+      "name": "chapter_count",
+      "type": "int",
+      "description": "总章节"
+    },
+    {
+      "name": "issue_date",
+      "type": "int",
+      "description": "发行日期"
+    },
+    {
+      "name": "source_site",
+      "type": "string",
+      "description": "资源站点"
+    },
+    {
+      "name": "source_link",
+      "type": "string",
+      "description": "资源链接"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

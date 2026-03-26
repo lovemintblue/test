@@ -1,0 +1,65 @@
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header system-main-nav">搜索</div>
+        <div class="layui-card-body">
+            <form class="layui-form toolbar" lay-filter="searchForm">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">月份:</label>
+                        <div class="layui-input-inline">
+                            <input name="month" id="domain-date" value="<?php echo date("Y-m");?>" class="layui-input icon-date" placeholder="请输入日期"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">渠道码:</label>
+                        <div class="layui-input-inline">
+                            <input name="channel_code" class="layui-input" placeholder="请输入渠道码"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="searchFormBtn">搜索</button>
+                        <button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+            <!-- 数据表格 -->
+            <table class="layui-hide" id="table" lay-filter="table"></table>
+        </div>
+    </div>
+</div>
+<script>
+    var layerIndex,table,form,$;
+    layui.use(['form', 'table', 'admin', 'laydate', 'layer'], function () {
+        $ = layui.jquery;
+        form = layui.form;
+        layer = layui.layer;
+        laydate = layui.laydate;
+        table = layui.table;
+
+        /*初始化表格*/
+        table.render({
+            elem: '#table'
+            ,url: location.href
+            ,method: "post"
+            ,where: form.val("searchForm")
+            ,skin:'line'
+            ,size: 'sm' //小尺寸的表格
+            ,toolbar: '#table-toolbar'
+            ,cols: [[
+                {field: 'month', title: '月份',align: 'center'}
+                ,{field: 'channel_code', title: '渠道码',align: 'center'}
+                ,{field: 'name', title: '名称',align: 'center'}
+                ,{field: 'url', title: '链接',align: 'center'}
+            ]],
+        });
+        /*表格搜索事件*/
+        form.on('submit(searchFormBtn)', function(obj){
+            table.reload('table',{where:obj.field,page:{curr:1}});
+            return false;
+        });
+        laydate.render({
+            elem: '#domain-date',
+            type: 'month'
+        });
+    })
+</script>

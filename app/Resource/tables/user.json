@@ -1,0 +1,298 @@
+{
+  "table_name": "user",
+  "class_name": "UserModel",
+  "description": "用户",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "nickname",
+      "type": "string",
+      "description": "昵称"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "用户名",
+      "index": "Unique"
+    },
+    {
+      "name": "phone",
+      "type": "string",
+      "description": "手机号码",
+      "index": "Unique"
+    },
+    {
+      "name": "country_code",
+      "type": "string",
+      "description": "国家代码"
+    },
+    {
+      "name": "device_id",
+      "type": "string",
+      "description": "设备编号",
+      "index": "Unique"
+    },
+    {
+      "name": "device_type",
+      "type": "string",
+      "description": "设备类型",
+      "index": "Normal"
+    },
+    {
+      "name": "device_version",
+      "type": "double",
+      "description": "设备版本号"
+    },
+    {
+      "name": "device_ext",
+      "type": "string",
+      "description": "tf名称"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "description": "密码"
+    },
+    {
+      "name": "slat",
+      "type": "string",
+      "description": "盐"
+    },
+    {
+      "name": "balance",
+      "type": "double",
+      "description": "可用余额"
+    },
+    {
+      "name": "credit",
+      "type": "double",
+      "description": "可用积分"
+    },
+    {
+      "name": "sing",
+      "type": "string",
+      "description": "个性签名"
+    },
+    {
+      "name": "is_disabled",
+      "type": "int",
+      "description": "是否禁用 1是 0否",
+      "index": "Normal"
+    },
+    {
+      "name": "error_msg",
+      "type": "string",
+      "description": "禁用原因"
+    },
+    {
+      "name": "img",
+      "type": "string",
+      "description": "头像"
+    },
+    {
+      "name": "bg_img",
+      "type": "string",
+      "description": "背景图"
+    },
+    {
+      "name": "group_id",
+      "type": "int",
+      "description": "用户组",
+      "index": "Normal"
+    },
+    {
+      "name": "group_rate",
+      "type": "int",
+      "description": "用户折扣"
+    },
+    {
+      "name": "group_name",
+      "type": "string",
+      "description": "用户组名称"
+    },
+    {
+      "name": "group_start_time",
+      "type": "int",
+      "description": "组开始时间"
+    },
+    {
+      "name": "group_end_time",
+      "type": "int",
+      "description": "组结束时间"
+    },
+    {
+      "name": "level",
+      "type": "int",
+      "description": "用户等级"
+    },
+    {
+      "name": "sex",
+      "type": "int",
+      "description": "性别 1男 2女"
+    },
+    {
+      "name": "parent_name",
+      "type": "string",
+      "description": "推荐人"
+    },
+    {
+      "name": "parent_id",
+      "type": "int",
+      "description": "推荐人编号",
+      "index": "Normal"
+    },
+    {
+      "name": "channel_name",
+      "type": "string",
+      "description": "渠道",
+      "index": "Normal"
+    },
+    {
+      "name": "register_at",
+      "type": "int",
+      "description": "注册时间",
+      "index": "Normal"
+    },
+    {
+      "name": "register_date",
+      "type": "int",
+      "description": "注册日",
+      "index": "Normal"
+    },
+    {
+      "name": "register_ip",
+      "type": "string",
+      "description": "注册ip"
+    },
+    {
+      "name": "login_num",
+      "type": "int",
+      "description": "登录次数"
+    },
+    {
+      "name": "last_at",
+      "type": "int",
+      "description": "最后登录时间",
+      "index": "Normal"
+    },
+    {
+      "name": "last_date",
+      "type": "int",
+      "description": "最后登录日",
+      "index": "Normal"
+    },
+    {
+      "name": "last_ip",
+      "type": "string",
+      "description": "最近登录ip"
+    },
+    {
+      "name": "share_num",
+      "type": "int",
+      "description": "分享人数",
+      "index": "Normal"
+    },
+    {
+      "name": "fans",
+      "type": "int",
+      "description": "粉丝数量"
+    },
+    {
+      "name": "follow",
+      "type": "int",
+      "description": "关注数量"
+    },
+    {
+      "name": "gift_count",
+      "type": "double",
+      "description": "累计收益 (视频销售 帖子打赏 用户打赏)"
+    },
+    {
+      "name": "money_count",
+      "type": "double",
+      "description": "累计充值"
+    },
+    {
+      "name": "send_count",
+      "type": "double",
+      "description": "累计送出"
+    },
+    {
+      "name": "country",
+      "type": "string",
+      "description": "国家"
+    },
+    {
+      "name": "province",
+      "type": "string",
+      "description": "省"
+    },
+    {
+      "name": "city",
+      "type": "string",
+      "description": "城市"
+    },
+    {
+      "name": "location",
+      "type": "string",
+      "description": "地址"
+    },
+    {
+      "name": "register_area",
+      "type": "string",
+      "description": "注册地址"
+    },
+    {
+      "name": "is_china",
+      "type": "int",
+      "description": "是否中国用户"
+    },
+    {
+      "name": "withdraw_info",
+      "type": "array",
+      "description": "提现信息数组 保存上一次提现的信息,解冻则清空该字段"
+    },
+    {
+      "name": "tag",
+      "type": "array",
+      "description": "用户标签数组"
+    },
+    {
+      "name": "is_system",
+      "type": "int",
+      "description": "是否系统生成"
+    },
+    {
+      "name":"has_buy",
+      "type":"int",
+      "description": "是否已经购买了的",
+      "index": "Normal"
+    },
+    {
+      "name": "right",
+      "type": "array",
+      "description": "权利 (金币免费:money)"
+    },
+    {
+      "name": "is_valid",
+      "type": "int",
+      "description": "是否有效用户 1是 0否",
+      "index": "Normal"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间",
+      "index": "Normal"
+    }
+  ]
+}

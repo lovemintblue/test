@@ -1,0 +1,72 @@
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">绘画内容模版详情</div>
+                <div class="layui-card-body">
+                    <form class="layui-form" action="" lay-filter="info-form">
+                        <input type="hidden" name="_id"  placeholder="" autocomplete="off" class="layui-input">
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">内容</label>
+                            <div class="layui-input-block">
+                                <textarea name="content" rows="10" lay-verify="required"  maxlength="2000" placeholder="请输入"  class="layui-textarea"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">热门</label>
+                            <div class="layui-input-block">
+                                <?php foreach ($hot as $key=>$item): ?>
+                                    <input type="radio" name="is_hot" value="<?php echo $key; ?>" title="<?php echo $item; ?>" <?php if($key==0):?>checked<?php endif?> >
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">排序:</label>
+                            <div class="layui-input-block">
+                                <input name="sort" placeholder="请输入排序" class="layui-input" type="number" value="0" lay-verType="tips" lay-verify="required" required/>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit lay-filter="info-form">立即提交</button>
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['index', 'form'], function(){
+        var $ = layui.$
+            ,element = layui.element
+            ,form = layui.form;
+        form.val('info-form',<?php echo $row;?>);
+        form.render(null, 'info-form');
+
+        element.render('breadcrumb', 'breadcrumb');
+
+        form.on('submit(info-form)', function(obj){
+            var loadIndex=layer.load(0,{time: 30*1000});
+            doAjax("<?php echo createUrl('/aiContentTemplate/save')?>",obj.field,function (res) {
+                layer.close(loadIndex);
+                if(res.status==='y'){
+                    showSuccessMsg("保存成功!");
+                    parent.layer.close(parent.layerIndex);
+                    parent.table.reload('table');
+                    return;
+                }
+                showErrorMsg(res.error);
+            });
+            return false;
+        });
+
+    });
+</script>

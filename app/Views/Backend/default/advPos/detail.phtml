@@ -1,0 +1,82 @@
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">广告位详情</div>
+                <div class="layui-card-body">
+                    <form class="layui-form" action="" lay-filter="info-form">
+                        <input type="hidden" name="_id"  placeholder="" autocomplete="off" class="layui-input">
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">名称:</label>
+                            <div class="layui-input-block">
+                                <input name="name" placeholder="请输入广告位名称" class="layui-input" lay-verType="tips"
+                                       lay-verify="required" required/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">标识:</label>
+                            <div class="layui-input-block">
+                                <input name="code" placeholder="请输入标识" class="layui-input" lay-verType="tips"
+                                       lay-verify="required" required/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">是否禁用:</label>
+                            <div class="layui-input-block">
+                                <input name="is_disabled" type="radio" value="0" title="否" checked/>
+                                <input name="is_disabled" type="radio" value="1" title="是"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">宽:</label>
+                            <div class="layui-input-block">
+                                <input name="width" placeholder="请输入宽" value="0" type="number" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">高:</label>
+                            <div class="layui-input-block">
+                                <input name="height" placeholder="请输入高" value="0" type="number" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit lay-filter="info-form">立即提交</button>
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['index', 'form'], function(){
+        var $ = layui.$
+            ,element = layui.element
+            ,form = layui.form;
+        form.val('info-form',<?php echo json_encode($row);?>);
+        form.render(null, 'info-form');
+
+        element.render('breadcrumb', 'breadcrumb');
+
+        form.on('submit(info-form)', function(obj){
+            var loadIndex=layer.load(0,{time: 30*1000});
+            doAjax("<?php echo createUrl('/advPos/save')?>",obj.field,function (res) {
+                layer.close(loadIndex);
+                if(res.status==='y'){
+                    showSuccessMsg("保存成功!");
+                    parent.layer.close(parent.layerIndex);
+                    parent.table.reload('table');
+                    return;
+                }
+                showErrorMsg(res.error);
+            });
+            return false;
+        });
+
+    });
+</script>

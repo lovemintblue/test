@@ -1,0 +1,9 @@
+/.env
+/runtime
+/public/media
+/app/Resource/ips/ips.txt
+/.idea
+/vendor
+/composer.lock
+/public/runtime
+/public/upload

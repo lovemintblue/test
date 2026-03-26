@@ -1,0 +1,42 @@
+{
+  "table_name": "ai_content_template",
+  "class_name": "AiContentTemplateModel",
+  "description": "内容模版",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "content",
+      "type": "string",
+      "description": "内容文案"
+    },
+    {
+      "name": "is_hot",
+      "type": "int",
+      "description": "是否热门 1是 0否"
+    },
+    {
+      "name": "position",
+      "type": "string",
+      "description": "位置"
+    },
+    {
+      "name": "sort",
+      "type": "int",
+      "description": "排序"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

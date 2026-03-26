@@ -1,0 +1,173 @@
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header system-main-nav">搜索</div>
+        <div class="layui-card-body">
+            <form class="layui-form toolbar" lay-filter="searchForm">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">使用状态:</label>
+                        <div class="layui-input-inline">
+                            <select name="status">
+                                <option value="">请选择..</option>
+                                <?php foreach ($codeStatus as $value=>$label):?>
+                                    <option value="<?php echo $value;?>"><?php echo $label;?></option>
+                                <?php endforeach;?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">类型:</label>
+                        <div class="layui-input-inline">
+                            <select name="type">
+                                <option value="">请选择..</option>
+                                <?php foreach ($typeArr as $value=>$label):?>
+                                    <option value="<?php echo $value;?>"><?php echo $label;?></option>
+                                <?php endforeach;?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">用户ID:</label>
+                        <div class="layui-input-inline">
+                            <input name="user_id" class="layui-input" placeholder="输入用户ID"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">兑换码:</label>
+                        <div class="layui-input-inline">
+                            <input name="code" class="layui-input" placeholder="输入兑换码"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">兑换码组:</label>
+                        <div class="layui-input-inline">
+                            <input name="code_key" class="layui-input" placeholder="输入兑换码组"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="searchFormBtn">搜索</button>
+                        <button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+            <!-- 数据表格 -->
+            <table class="layui-hide" id="table" lay-filter="table"></table>
+            <!-- 数据表格-顶部工具条 -->
+            <script type="text/html" id="table-toolbar">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-xs" lay-event="add">添加</button>
+                    <button class="layui-btn layui-btn-xs layui-btn-danger" lay-event="disable">作废</button>
+                </div>
+            </script>
+        </div>
+    </div>
+</div>
+<script>
+    var layerIndex,layer,table,form,$;
+    layui.use(['layer', 'form', 'table', 'admin'], function () {
+        $ = layui.jquery;
+        layer = layui.layer;
+        form = layui.form;
+        table = layui.table;
+
+        /*初始化表格*/
+        table.render({
+            elem: '#table'
+            ,url: location.href
+            ,method: "post"
+            ,where: form.val("searchForm")
+            ,skin:'line'
+            ,size: 'sm' //小尺寸的表格
+            ,toolbar: '#table-toolbar'
+            ,request: {
+                limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            }
+            ,page: {
+                layout: ['prev', 'page', 'next', 'skip', 'count', 'limit']
+                ,curr: 1 //设定初始在第 1 页
+                ,groups: 6 //只显示 5 个连续页码
+                ,first: '首页'
+                ,last: '尾页'
+                ,limit:30
+                ,limits:[10,30,50,100]
+            }
+            ,parseData: function(res){ //res 即为原始返回的数据
+                return res;
+            }
+            ,cols: [[
+                {type: 'checkbox'}
+                ,{field:'_id', title: 'ID',align: 'center', width: 100, sort:true}
+                ,{field: 'name', title: '名称',align: 'center'}
+                ,{field: 'user_id', title: '用户ID',align: 'center'}
+                ,{field: 'code_key', title: '兑换码组',align: 'center',width: 180}
+                ,{field: 'code', title: '兑换码',align: 'center', width: 120}
+                ,{field: 'money', title: '抵扣金额',align: 'center', width: 80}
+
+                // ,{field: 'can_use_num', title: '使用次数',align: 'center'}
+                // ,{field: 'used_num', title: '已使用次数',align: 'center'}
+                ,{field: 'status_text', title: '状态',align: 'center'}
+                ,{field: 'type_text', title: '类型',align: 'center'}
+                ,{field: 'label', title: '兑换时间',align: 'center'}
+                ,{field: 'expired_at', title: '过期时间',align: 'center'}
+                ,{field: 'created_at', title: '创建时间',align: 'center'}
+            ]],
+        });
+        /*表格搜索事件*/
+        form.on('submit(searchFormBtn)', function(obj){
+            table.reload('table',{where:obj.field,page:{curr:1}});
+            return false;
+        });
+        /*表格排序事件*/
+        table.on('sort(table)', function(obj){
+            var order=obj.type==='asc'?1:-1;
+            table.reload('table', {initSort: obj,where: {sort: obj.field,order: order }});
+        });
+
+        /*表格-顶部工具条事件*/
+        table.on('toolbar(table)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            var data = checkStatus.data;
+            var ids = new Array();
+            for(var index=0;index<data.length;index++)
+            {
+                ids.push(data[index]._id)
+            }
+            switch(obj.event) {
+                case 'add':
+                    layerIndex=layer.open({
+                        type: 2,
+                        content: "<?php echo createUrl('/UserCoupon/detail'); ?>",
+                        area:  ['800px', '70%']
+                    });
+                    break;
+                case 'disable':
+                    doRow(ids,'disable');
+                    break;
+                case 'export':
+                    doExport();
+                    break;
+            }
+        });
+
+        function doRow(ids,act) {
+            if(ids==null || ids.length<1){
+                showErrorMsg("请选择需要的数据!");
+                return false;
+            }
+            showConfirmMsg("确定操作吗?",function() {
+                var loadIndex=layer.load(0,{time: 30*1000});
+                doAjax("<?php echo createUrl('/UserCoupon/do')?>",{act:act,id:ids.join(",")},function(res){
+                    layer.close(loadIndex);
+                    if(res.status=='y'){
+                        showSuccessMsg("操作成功!");
+                        table.reload('table');
+                    }else{
+                        showErrorMsg(res.error);
+                    }
+                });
+            });
+        }
+    })
+</script>

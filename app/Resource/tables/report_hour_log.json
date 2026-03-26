@@ -1,0 +1,110 @@
+{
+  "table_name": "report_hour_log",
+  "class_name": "ReportHourLogModel",
+  "description": "app统计数据-小时",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "dau",
+      "type": "int",
+      "description": "总日活"
+    },
+    {
+      "name": "dau_android",
+      "type": "int",
+      "description": "安卓日活"
+    },
+    {
+      "name": "dau_ios",
+      "type": "int",
+      "description": "IOS日活"
+    },
+    {
+      "name": "reg",
+      "type": "int",
+      "description": "注册"
+    },
+    {
+      "name": "reg_android",
+      "type": "int",
+      "description": "安卓注册"
+    },
+    {
+      "name": "reg_ios",
+      "type": "int",
+      "description": "IOS注册"
+    },
+    {
+      "name": "order",
+      "type": "int",
+      "description": "订单"
+    },
+    {
+      "name": "order_success",
+      "type": "int",
+      "description": "成功订单数"
+    },
+    {
+      "name": "order_money",
+      "type": "int",
+      "description": "订单金额"
+    },
+    {
+      "name": "tav",
+      "type": "int",
+      "description": "客单价"
+    },
+    {
+      "name": "apr",
+      "type": "int",
+      "description": "日付费率"
+    },
+    {
+      "name": "payr",
+      "type": "int",
+      "description": "支付成功率"
+    },
+    {
+      "name": "arpu",
+      "type": "int",
+      "description": "用户平均收入"
+    },
+    {
+      "name": "month",
+      "type": "string",
+      "description": "年月",
+      "index": "Normal"
+    },
+    {
+      "name": "date",
+      "type": "string",
+      "description": "日期",
+      "index": "Normal"
+    },
+    {
+      "name": "date_limit",
+      "type": "string",
+      "description": "时间范围"
+    },
+    {
+      "name": "pid",
+      "type": "string",
+      "description": "上级id",
+      "index": "Normal"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

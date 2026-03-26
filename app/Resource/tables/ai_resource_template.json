@@ -1,0 +1,94 @@
+{
+  "table_name": "ai_resource_template",
+  "class_name": "AiResourceTemplateModel",
+  "description": "资源模版",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "名称"
+    },
+    {
+      "name": "categories",
+      "type": "array",
+      "description": "分类id"
+    },
+    {
+      "name": "money",
+      "type": "int",
+      "description": "金币"
+    },
+    {
+      "name": "aid",
+      "type": "string",
+      "description": "ai系统返回数据的id"
+    },
+    {
+      "name": "img",
+      "type": "string",
+      "description": "图片地址"
+    },
+    {
+      "name": "video",
+      "type": "string",
+      "description": "视频地址"
+    },
+    {
+      "name": "is_hot",
+      "type": "int",
+      "description": "是否热门 1是 0否"
+    },
+    {
+      "name": "position",
+      "type": "string",
+      "description": "位置",
+      "index": "Normal"
+    },
+    {
+      "name": "width",
+      "type": "int",
+      "description": "宽度"
+    },
+    {
+      "name": "height",
+      "type": "int",
+      "description": "高度"
+    },
+    {
+      "name": "buy",
+      "type": "int",
+      "description": "购买数量"
+    },
+    {
+      "name": "sort",
+      "type": "int",
+      "description": "排序"
+    },
+    {
+      "name": "is_porn",
+      "type": "int",
+      "description": "成人 1是 0否"
+    },
+    {
+      "name": "is_disabled",
+      "type": "int",
+      "description": "是否禁用 1是 0否",
+      "index": "Normal"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

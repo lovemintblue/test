@@ -1,0 +1,32 @@
+{
+  "table_name": "old_token",
+  "class_name": "OldTokenModel",
+  "description": "老账号凭证",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "token",
+      "type": "string",
+      "description": "数据"
+    },
+    {
+      "name": "user_id",
+      "type": "string",
+      "description": "用户编号"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

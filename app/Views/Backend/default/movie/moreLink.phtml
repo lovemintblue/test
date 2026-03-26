@@ -1,0 +1,129 @@
+<style>
+    #list-chapter {
+        margin-right: 10px;
+        margin-left: 10px;
+        max-height: 650px;
+        overflow: scroll;
+    }
+    #chapter-content {
+        overflow: scroll;
+        text-align: center;
+        margin: 10px auto;
+        border-radius: 5px;
+    }
+    #chapter-content img {
+        max-width: 100%;
+    }
+    .chapter-item {
+        display: block;
+        height: 28px;
+        line-height: 28px;
+        border: 1px solid #1890FF;
+        border-radius: 4px;
+        margin-right: 8px;
+        cursor: pointer;
+        padding: 0px 10px;
+        font-size: 12px;
+        color: #1890FF;
+        white-space: nowrap;
+        text-align: center;
+        width: 80%;
+        overflow: hidden;
+        background: #FFFFFF;
+    }
+
+    #list-chapter .on {
+        color: #FFFFFF;
+        background-color: #1890FF;
+    }
+    #list-chapter .layui-row{
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">剧集</div>
+                <div class="layui-card-body">
+                    <form class="layui-form" action="" lay-filter="info-form">
+                        <input type="hidden" name="movie_id"  placeholder="" value="<?php echo $movie['_id'];?>" autocomplete="off" class="layui-input">
+                    <div class="layui-row">
+                        <div class="layui-col-md4">
+                            <div id="list-chapter">
+                                <?php
+                                $freeLinks = [];
+                                if($movie['free_links']){
+                                    $freeLinks = explode(',',$movie['free_links']);
+                                }
+                                ?>
+                                <?php foreach ($rows as $row): ?>
+                                    <div class="layui-row">
+                                        <div class="layui-col-md2">
+                                            <input type="checkbox" name="free_links[]" <?php if ($freeLinks && in_array($row['id'], $freeLinks)): ?>checked<?php endif; ?>
+                                                   value="<?php echo $row['id']; ?>"  lay-skin="primary"
+                                                   title="免费">
+                                        </div>
+                                        <div class="layui-col-md10">
+                                            <div class="chapter-item"
+                                                 data-id="<?php echo $row['id']; ?>"  data-m3u8="<?php echo $row['m3u8_url'];?>" data-preview_m3u8_url="<?php echo $row['preview_m3u8_url'];?>">
+                                                <?php echo $row['id']; ?>||<?php echo $row['name']; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                        <div class="layui-col-md8">
+                            <div id="chapter-content">
+                                <video controls="controls" style="width:800px;height: 500px" id="originalPlayer"></video>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="info-form">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="<?php  echo createStaticUrl('/admin/default/assets/js/hls.min.js'); ?>"></script>
+<script>
+    layui.use(['index', 'form', 'upload', 'laydate', 'element', 'util'], function () {
+        var $ = layui.$, element = layui.element, form = layui.form, upload = layui.upload, laydate = layui.laydate,
+            util = layui.util;
+        form.render(null, 'info-form');
+        element.render('breadcrumb', 'breadcrumb');
+
+        var hlsOriginal = new Hls();
+        $("#list-chapter .chapter-item").click(function () {
+            $("#list-chapter .chapter-item").removeClass('on');
+            $(this).addClass('on');
+            hlsOriginal.loadSource("<?php echo $mediaUrlVideo.$mediaPath;?>"+$(this).attr('data-m3u8')+"<?php echo $mediaUrlVideoSign;?>"); // 传入路径
+            hlsOriginal.attachMedia(document.getElementById('originalPlayer'));
+        })
+
+        form.on('submit(info-form)', function (obj) {
+            var loadIndex = layer.load(0, {time: 30 * 1000});
+            doAjax("<?php echo createUrl('/movie/updateLinks')?>", obj.field, function (res) {
+                layer.close(loadIndex);
+                if (res.status === 'y') {
+                    showSuccessMsg("保存成功!");
+                    parent.layer.close(parent.layerIndex);
+                    parent.table.reload('table');
+                    return;
+                }
+                showErrorMsg(res.error);
+            });
+            return false;
+        });
+
+
+    });
+</script>

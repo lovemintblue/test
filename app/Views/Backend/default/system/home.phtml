@@ -1,0 +1,422 @@
+<!-- 正文开始 -->
+<div class="layui-fluid ew-console-wrapper">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    会员总数
+                </div>
+                <div class="layui-card-body">
+                    <p class="lay-big-font"><?php echo intval($data['user_total']['value']);?></p>
+                    <p>购买人数<?php echo intval($data['user_total_has_buy']['value']);?><span class="pull-right">统计时间:<?php echo date('m-d H:i',$data['user_total']['updated_at']);?></span></p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    今日注册
+                </div>
+                <div class="layui-card-body">
+                    <p class="lay-big-font"><?php echo intval($data['user_reg'][0]['value']);?></p>
+                    <p>统计日期<span class="pull-right"><?php echo date('m-d H:i',$data['user_reg'][0]['updated_at']);?></span></p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    今日充值
+                </div>
+                <div class="layui-card-body">
+                    <?php
+                      $orderNum = $data['money'][0]['order_num'] * 1;
+                      $orderMoney = $data['money'][0]['total_amount'] * 1;
+                    ?>
+                    <p class="lay-big-font"><?php echo $orderMoney;?></p>
+                    <p><?php echo sprintf('订单数:%s,总金额%s,单价%s',$orderNum,$orderMoney,$orderNum>0? formatNum(sprintf('%.2f',$orderMoney/$orderNum),2):0);?></p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    游戏充值
+                </div>
+                <div class="layui-card-body">
+                    <?php
+                    $orderNum = $data['game'][0]['order_num'] * 1;
+                    $orderMoney = $data['game'][0]['total_amount'] * 1;
+                    ?>
+                    <p class="lay-big-font"><?php echo $orderMoney;?></p>
+                    <p><?php echo sprintf('订单数:%s,总金额%s,单价%s',$orderNum,$orderMoney,$orderNum>0? sprintf('%.2f',$orderMoney/$orderNum):0);?></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    订单充值
+                </div>
+                <div class="layui-card-body"  style="height: 350px;" id="userOrderChat">
+
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    日活统计
+                </div>
+                <div class="layui-card-body" style="height: 350px" id="appDayChat" >
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md8">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    用户注册
+                </div>
+                <div class="layui-card-body"  style="height: 350px;" id="userChat">
+
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    设备统计
+                </div>
+                <div class="layui-card-body"  style="height: 350px" id="deviceChat">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md8">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    留存率
+                </div>
+                <div class="layui-card-body" style="height: 350px"  id="ruChat">
+
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    地区统计
+                </div>
+                <div class="layui-card-body" style="height: 350px" id="areaChat">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    三方统计-数据总览
+                </div>
+                <div class="layui-card-body" style="height: 350px"  id="webLogChat">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="<?php  echo createStaticUrl('/admin/default/assets/libs/echarts/echarts.min.js'); ?>"></script>
+<?php
+ $userOrderData = array();
+ foreach ($data['money'] as $item){
+     $userOrderData[$item['date']] = $item['total_amount'];
+ }
+$userData = array();
+foreach ($data['user_reg'] as $item){
+    $userData[$item['date']] = $item['value'];
+}
+
+
+
+$appDayData = array();
+foreach ($data['app_day'] as $item){
+    $appDayData[$item['date']] = $item['value'];
+}
+
+$areaData = array();
+foreach ($data['top_area'] as $item){
+    $areaData[$item['area']] = $item['num'] * 1;
+}
+
+ ?>
+
+<script>
+    layui.use(['layer'], function () {
+        var $ = layui.jquery;
+        /** 用户充值 */
+        var userOrderCharts = echarts.init(document.getElementById('userOrderChat'));
+        userOrderCharts.setOption({
+            color: ['#3398DB'],
+            title: {
+                text: ''
+            },
+            tooltip: {trigger: 'axis'},
+            legend: {data:['订单金额']},
+            grid: {left: '3%', right: '4%', bottom: '3%', containLabel: true},
+            toolbox: {feature: {saveAsImage: {}}},
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                axisLine: {lineStyle: {color: '#E0E0E0'}, symbol: ['none', 'arrow'], symbolOffset: [0, 10]},
+                axisLabel: {color: '#8c8c8c', interval: function (index, value) {return index === 0 || ((index + 1) % 5 === 0);}},
+                axisTick: {alignWithLabel: true},
+                data: <?php echo json_encode(array_reverse(array_keys($userOrderData))); ?>
+            },
+            yAxis: {
+                type: 'value',
+                boundaryGap: ['0', '20%'],
+                axisTick: {show: false},
+                axisLine: {lineStyle: {color: '#E0E0E0'}, symbol: ['none', 'arrow'], symbolOffset: [0, 10]},
+                axisLabel: {color: '#8c8c8c'},
+                splitArea: {show: false},
+            },
+            series: [
+                {
+                    name:'订单金额',
+                    type:'line',
+                    stack: '金额',
+                    data:<?php echo json_encode(array_reverse(array_values($userOrderData))); ?>
+                }
+            ]
+        });
+
+        /** 留存率 */
+        var ruCharts = echarts.init(document.getElementById('ruChat'));
+        ruCharts.setOption({
+            // color: ['#3398DB'],
+            title: {text: ''},
+            tooltip: {trigger: 'axis'},
+            legend: {
+                data: ['次日留存', '3日留存', '7日留存', '15日留存', '30日留存']
+            },
+            grid: {left: '3%', right: '4%', bottom: '3%', containLabel: true},
+            toolbox: {feature: {saveAsImage: {}},},
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                // axisLine: {lineStyle: {color: '#E0E0E0'}, symbol: ['none', 'arrow'], symbolOffset: [0, 10]},
+                // axisLabel: {
+                //     color: '#8c8c8c', interval: function (index, value) {
+                //         return index === 0 || ((index + 1) % 5 === 0);
+                //     }
+                // },
+                axisTick: {alignWithLabel: true},
+                data: <?php echo json_encode($data['ur']['title']); ?>
+            },
+            yAxis: {type: 'value',},
+            series: [
+                {
+                    name:'次日留存',
+                    type:'line',
+                    data:<?php echo json_encode(array_values($data['ur']['day_1'])); ?>
+                },
+                {
+                    name:'3日留存',
+                    type:'line',
+                    data:<?php echo json_encode(array_values($data['ur']['day_3'])); ?>
+                },
+                {
+                    name:'7日留存',
+                    type:'line',
+                    data:<?php echo json_encode(array_values($data['ur']['day_7'])); ?>
+                },
+                {
+                    name:'15日留存',
+                    type:'line',
+                    data:<?php echo json_encode(array_values($data['ur']['day_15'])); ?>
+                },
+                {
+                    name:'30日留存',
+                    type:'line',
+                    data:<?php echo json_encode(array_values($data['ur']['day_30'])); ?>
+                }
+            ]
+        });
+
+        /** 用户注册 */
+        var userCharts = echarts.init(document.getElementById('userChat'));
+        userCharts.setOption({
+            color: ['#3398DB'],
+            title: {text: ''},
+            tooltip: {trigger: 'axis'},
+            legend: {data:['注册人数']},
+            grid: {left: '3%', right: '4%', bottom: '3%', containLabel: true},
+            toolbox: {feature: {saveAsImage: {}}},
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                axisLine: {lineStyle: {color: '#E0E0E0'}, symbol: ['none', 'arrow'], symbolOffset: [0, 10]},
+                axisLabel: {color: '#8c8c8c', interval: function (index, value) {return index === 0 || ((index + 1) % 5 === 0);}},
+                axisTick: {alignWithLabel: true},
+                data: <?php echo json_encode(array_reverse(array_keys($userData))); ?>
+            },
+            yAxis: {
+                type: 'value',
+                boundaryGap: ['0', '20%'],
+                axisTick: {show: false},
+                axisLine: {lineStyle: {color: '#E0E0E0'}, symbol: ['none', 'arrow'], symbolOffset: [0, 10]},
+                axisLabel: {color: '#8c8c8c'},
+                splitArea: {show: false},
+            },
+            series: [
+                {
+                    name:'注册人数',
+                    type:'line',
+                    stack: '人数',
+                    data:<?php echo json_encode(array_reverse(array_values($userData))); ?>
+                }
+            ]
+        });
+
+        /** 日活统计 */
+        var appDayCharts = echarts.init(document.getElementById('appDayChat'));
+        appDayCharts.setOption({
+            color: ['#3398DB'],
+            title: {text: ''},
+            tooltip: {trigger: 'axis'},
+            legend: {data:['日活']},
+            grid: {left: '3%', right: '4%', bottom: '3%', containLabel: true},
+            toolbox: {feature: {saveAsImage: {}}},
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                axisLine: {lineStyle: {color: '#E0E0E0'}, symbol: ['none', 'arrow'], symbolOffset: [0, 10]},
+                axisLabel: {color: '#8c8c8c', interval: function (index, value) {return index === 0 || ((index + 1) % 5 === 0);}},
+                axisTick: {alignWithLabel: true},
+                data: <?php echo json_encode(array_reverse(array_keys($appDayData))); ?>
+            },
+            yAxis: {
+                type: 'value',
+                boundaryGap: ['0', '20%'],
+                axisTick: {show: false},
+                axisLine: {lineStyle: {color: '#E0E0E0'}, symbol: ['none', 'arrow'], symbolOffset: [0, 10]},
+                axisLabel: {color: '#8c8c8c'},
+                splitArea: {show: false},
+            },
+            series: [
+                {
+                    name:'日活',
+                    type:'line',
+                    stack: '人数',
+                    data:<?php echo json_encode(array_reverse(array_values($appDayData))); ?>
+                }
+            ]
+        });
+
+        /***设备统计**/
+        var deviceCharts = echarts.init(document.getElementById('deviceChat'));
+        deviceCharts.setOption({
+            color: ['#3398DB'],
+            tooltip : {trigger: 'axis', axisPointer : {type : 'shadow'}},
+            grid: {left: '3%', right: '4%', bottom: '3%', containLabel: true},
+            xAxis : [{type : 'category', data : ['h5','android'], axisTick: {alignWithLabel: true}}],
+            yAxis : [{type : 'value'}],
+            series : [
+                {
+                    name:'设备统计',
+                    type:'bar',
+                    barWidth: '60%',
+                    data:<?php echo json_encode(array(
+                        $data['device_type_h5']['value']*1,
+                        $data['device_type_android']['value']*1
+                    )); ?>
+                }
+            ]
+        });
+
+        /***地区统计**/
+        var areaCharts = echarts.init(document.getElementById('areaChat'));
+        areaCharts.setOption({
+            color: ['#3398DB'],
+            tooltip : {trigger: 'axis', axisPointer : {type : 'shadow'}},
+            grid: {left: '3%', right: '4%', bottom: '3%', containLabel: true},
+            xAxis : [
+                {
+                    type : 'category',
+                    data : <?php echo json_encode(array_keys($areaData)); ?>,
+                    axisTick: {alignWithLabel: true}
+                }
+            ],
+            yAxis : [{type : 'value'}],
+            series : [
+                {
+                    name:'地区统计',
+                    type:'bar',
+                    barWidth: '60%',
+                    data:<?php echo json_encode(array_values($areaData)); ?>
+                }
+            ]
+        });
+
+        /** 网站统计 */
+        var webLogCharts = echarts.init(document.getElementById('webLogChat'));
+        webLogCharts.setOption({
+            // color: ['#3398DB'],
+            title: {text: ''},
+            tooltip: {trigger: 'axis'},
+            legend: {
+                data: <?php echo json_encode(array_values($data['web_log']['types'])); ?>
+            },
+            grid: {left: '3%', right: '4%', bottom: '3%', containLabel: true},
+            toolbox: {feature: {saveAsImage: {}},},
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                // axisLine: {lineStyle: {color: '#E0E0E0'}, symbol: ['none', 'arrow'], symbolOffset: [0, 10]},
+                // axisLabel: {
+                //     color: '#8c8c8c', interval: function (index, value) {
+                //         return index === 0 || ((index + 1) % 5 === 0);
+                //     }
+                // },
+                axisTick: {alignWithLabel: true},
+                data: <?php echo json_encode($data['web_log']['date']); ?>
+            },
+            yAxis: {type: 'value',},
+            series: [
+                <?php foreach($data['web_log']['types'] as $key=>$val):?>
+                <?php if(!empty($data['web_log'][$key])):?>
+                {
+                    name:"<?php echo $val;?>",
+                    type:'line',
+                    data:<?php echo json_encode(array_values($data['web_log'][$key])); ?>
+                },
+                <?php endif;?>
+                <?php endforeach;?>
+            ]
+        });
+
+        window.onresize = function () {
+            userOrderCharts.resize();
+            ruCharts.resize();
+            userCharts.resize();
+            appDayCharts.resize();
+            deviceCharts.resize();
+            areaCharts.resize();
+            webLogCharts.resize();
+        };
+
+    });
+
+</script>

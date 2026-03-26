@@ -1,0 +1,79 @@
+{
+  "table_name": "adv",
+  "class_name": "AdvModel",
+  "description": "广告",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "广告名称"
+    },
+    {
+      "name": "position_code",
+      "type": "string",
+      "description": "广告位标识",
+      "index": "Normal"
+    },
+    {
+      "name": "type",
+      "type": "string",
+      "description": "广告类型 video视频 image图片"
+    },
+    {
+      "name": "c",
+      "type": "string",
+      "description": "权利 (全部:all 普通用户:normal 会员:vip)"
+    },
+    {
+      "name": "channel_code",
+      "type": "string",
+      "description": "渠道code",
+      "index": "Normal"
+    },
+    {
+      "name": "content",
+      "type": "string",
+      "description": "广告内容"
+    },
+    {
+      "name": "start_time",
+      "type": "int",
+      "description": "开始时间"
+    },
+    {
+      "name": "end_time",
+      "type": "int",
+      "description": "结束"
+    },
+    {
+      "name": "sort",
+      "type": "int",
+      "description": "排序"
+    },
+    {
+      "name": "click",
+      "type": "int",
+      "description": "点击次数"
+    },
+    {
+      "name": "link",
+      "type": "string",
+      "description": "广告链接"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

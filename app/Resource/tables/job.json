@@ -1,0 +1,64 @@
+{
+  "table_name": "job",
+  "class_name": "JobModel",
+  "description": "队列任务",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "uniqid",
+      "type": "string",
+      "description": "唯一编号",
+      "index": "Unique"
+    },
+    {
+      "name": "job",
+      "type": "string",
+      "description": "任务"
+    },
+    {
+      "name": "exception",
+      "type": "string",
+      "description": "异常"
+    },
+    {
+      "name": "failed_at",
+      "type": "int",
+      "description": "异常时间"
+    },
+    {
+      "name": "plan_at",
+      "type": "int",
+      "description": "计划执行时间"
+    },
+    {
+      "name": "status",
+      "type": "int",
+      "description": "状态 0等待 1执行中 2执行成功 -1执行失败",
+      "index": "Normal"
+    },
+    {
+      "name": "level",
+      "type": "string",
+      "description": "等级 低low 中medium 高high"
+    },
+    {
+      "name": "success_at",
+      "type": "int",
+      "description": "成功时间"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

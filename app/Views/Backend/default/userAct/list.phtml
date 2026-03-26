@@ -1,0 +1,130 @@
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header system-main-nav">搜索</div>
+        <div class="layui-card-body">
+            <form class="layui-form toolbar" lay-filter="searchForm">
+                <div class="layui-form-item">
+<!--                    <div class="layui-inline">-->
+<!--                        <label class="layui-form-label">有效用户:</label>-->
+<!--                        <div class="layui-input-inline">-->
+<!--                            <select name="is_valid" lay-search>-->
+<!--                                <option value="">请选择..</option>-->
+<!--                                --><?php //foreach ($isUpArr as $key=>$item): ?>
+<!--                                    <option value="--><?php //echo $key; ?><!--" >--><?php //echo $item; ?><!--</option>-->
+<!--                                --><?php //endforeach; ?>
+<!--                            </select>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <div class="layui-inline">
+                        <label class="layui-form-label">用户ID:</label>
+                        <div class="layui-input-inline">
+                            <input name="user_id" class="layui-input" placeholder="用户ID"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">用户名:</label>
+                        <div class="layui-input-inline">
+                            <input name="username" class="layui-input" placeholder="用户名"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">渠道名称:</label>
+                        <div class="layui-input-inline">
+                            <input name="channel_name" class="layui-input" placeholder="渠道名称"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">注册时间:</label>
+                        <div class="layui-input-inline">
+                            <input name="reg_start_time"  id="reg_start_time" value="<?php echo date('Y-m-d 00:00:00')?>" class="layui-input date" placeholder="开始时间"/>
+                        </div>
+
+                        <label class="layui-form-label">~</label>
+                        <div class="layui-input-inline">
+                            <input name="reg_end_time" id="reg_end_time" class="layui-input date" placeholder="结束时间"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">&emsp;
+                        <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="searchFormBtn">搜索</button>
+                        <button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+            <!-- 数据表格 -->
+            <table class="layui-hide" id="table" lay-filter="table"></table>
+        </div>
+    </div>
+</div>
+<script>
+    var layerIndex,layer,table,form,laydate,$;
+    layui.use(['layer', 'form', 'table', 'admin','laydate'], function () {
+        $ = layui.jquery;
+        layer = layui.layer;
+        form = layui.form;
+        table = layui.table;
+        laydate = layui.laydate;
+
+        /*初始化表格*/
+        table.render({
+            elem: '#table'
+            ,url: location.href
+            ,method: "post"
+            ,where: form.val("searchForm")
+            ,skin:'line'
+            ,size: 'sm' //小尺寸的表格
+            ,toolbar: '#table-toolbar'
+            ,autoSort: false
+            ,request: {
+                limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            }
+            ,page: {
+                layout: ['prev', 'page', 'next', 'skip', 'count', 'limit']
+                ,curr: 1 //设定初始在第 1 页
+                ,groups: 6 //只显示 5 个连续页码
+                ,first: '首页'
+                ,last: '尾页'
+                ,limit:30
+                ,limits:[10,30,50,100]
+            }
+            ,totalRow:true
+            ,parseData: function(res){ //res 即为原始返回的数据
+                return res;
+            }
+            ,cols: [[
+                {field: 'user_id', title: '用户ID',align: 'center',width:120},
+                {field: 'username', title: '用户名',align: 'center',width:120},
+                {field: 'channel_name', title: '渠道',width:120,align: 'center'},
+                // {field: 'is_valid_text', title: '是否有效',width:120,align: 'center'},
+                <?php foreach ($userActArr as $key=>$val):?>
+                {field: "<?php echo 'act.'.$key;?>", title: "<?php echo $val;?>",width:120,align: 'center', sort:true,templet: function (row,key1) {
+                        if(row.act){
+                            return row.act["<?php echo $key;?>"]
+                        }
+                        return 0;
+                    }},
+                <?php endforeach;?>
+                {field: 'register_at', title: '注册时间',width:160,align: 'center', sort:true},
+            ]]
+        });
+        /*表格搜索事件*/
+        form.on('submit(searchFormBtn)', function(obj){
+            table.reload('table',{where:obj.field,page:{curr:1}});
+            return false;
+        });
+        /*表格排序事件*/
+        table.on('sort(table)', function(obj,obj1){
+            var order=obj.type==='asc'?1:-1;
+            table.reload('table', {initSort: obj,where: {sort: obj.field,order: order }});
+        });
+        laydate.render({
+            elem: '#reg_start_time'//指定元素
+            , trigger: 'click'
+            , type: 'datetime'
+        });
+        laydate.render({
+            elem: '#reg_end_time'//指定元素
+            , trigger: 'click'
+            , type: 'datetime'
+        });
+    })
+</script>

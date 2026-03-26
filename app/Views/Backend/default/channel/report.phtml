@@ -1,0 +1,205 @@
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header system-main-nav">搜索</div>
+        <div class="layui-card-body">
+            <form class="layui-form toolbar" lay-filter="searchForm">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">渠道码:</label>
+                        <div class="layui-input-inline">
+                            <input name="code" class="layui-input"  autocomplete="off" placeholder="请输入名称"/>
+                        </div>
+                    </div>
+
+                    <div class="layui-inline">
+                        <label class="layui-form-label">时间范围:</label>
+                        <div class="layui-input-inline" >
+                            <input type="text" name="start_time" id="laydate-start-at" value="<?php echo date("Y-m-d");?>" placeholder="yyyy-mm-dd H:i:s" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid">-</div>
+                        <div class="layui-input-inline" >
+                            <input type="text" name="end_time" id="laydate-end-at" value="<?php echo date("Y-m-d");?>" placeholder="yyyy-mm-dd H:i:s" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="searchFormBtn">搜索</button>
+                        <button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+            <!-- 数据表格 -->
+            <table class="layui-hide" id="table" lay-filter="table"></table>
+            <!-- 数据表格-顶部工具条 -->
+            <script type="text/html" id="table-toolbar">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-xs" lay-event="up">启用</button>
+                    <button class="layui-btn layui-btn-xs layui-btn-danger" lay-event="down">禁用</button>
+                    <!--                    <button class="layui-btn layui-btn-xs" lay-event="add">添加</button>-->
+                    <!--                    <button class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</button>-->
+                </div>
+            </script>
+            <!-- 数据表格-行工具条 -->
+            <script type="text/html" id="table-item-toolbar">
+                <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+            </script>
+        </div>
+    </div>
+</div>
+<script>
+    var layerIndex,layer,table,form,laydate,$;
+    layui.use(['layer', 'form', 'table', 'admin','laydate'], function () {
+        $ = layui.jquery;
+        layer = layui.layer;
+        form = layui.form;
+        table = layui.table;
+        laydate = layui.laydate;
+
+        /*初始化表格*/
+        table.render({
+            elem: '#table'
+            ,autoSort: false
+            ,url: location.href
+            ,method: "post"
+            ,where: form.val("searchForm")
+            ,skin:'line'
+            ,size: 'sm' //小尺寸的表格
+            ,toolbar: '#table-toolbar'
+            ,request: {
+                limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            }
+            ,page: {
+                layout: ['prev', 'page', 'next', 'skip', 'count', 'limit']
+                ,curr: 1 //设定初始在第 1 页
+                ,groups: 6 //只显示 5 个连续页码
+                ,first: '首页'
+                ,last: '尾页'
+                ,limit:30
+                ,limits:[10,30,50,100,500,1000,3000]
+            }
+            ,totalRow:true
+            ,parseData: function(res){ //res 即为原始返回的数据
+                return res;
+            }
+            ,cols: [[
+                {type: 'checkbox'},
+                {field: 'code', title: '渠道标识'},
+                {field: 'date', title: '日期',align: 'center',sort:true,width: 100},
+                {field: 'user_reg', title: '总注册',align: 'center',sort:true,width: 100},
+                // {field: 'user_reg_valid', title: '有效注册',align: 'center',sort:true},
+                {field: 'user_reg_invalid', title: '无效注册',align: 'center',sort:true,width: 100},
+                {field: 'android_reg', title: '安卓注册',align: 'center',sort:true,width: 100},
+                {field: 'h5_reg', title: 'H5注册',align: 'center',sort:true,width: 100},
+                {field: 'pv', title: '落地页PV',align: 'center',sort:true,width: 100},
+                {field: 'uv', title: '落地页UV',align: 'center',sort:true,width: 100},
+                {field: 'ip', title: '落地页IP',align: 'center',sort:true,width: 100},
+                {field: 'click_android', title: '安卓下载点击',align: 'center',sort:true,width: 100},
+                {field: 'click_ios', title: 'IOS下载点击',align: 'center',sort:true,width: 100},
+                {field: 'order_num', title: '会员充值',align: 'center',sort:true,width: 100},
+                {field: 'point_num', title: '金币充值',align: 'center',sort:true,width: 100},
+                {field: 'today_order_num', title: '当日充值',align: 'center',sort:true,width: 100},
+                {field: 'yesterday_order_num', title: '次日充值',align: 'center',sort:true,width: 100},
+                {field: 'android_app_day', title: '安卓总日活',align: 'center',sort:true,width: 100},
+                {field: 'app_day', title: '总日活',align: 'center',sort:true,width: 100},
+                {field: 'h5_app_day', title: 'H5总日活',align: 'center',sort:true,width: 100},
+                {field: 'android_today_app_day', title: '安卓当日日活',align: 'center',sort:true,width: 100},
+                {field: 'h5_today_app_day', title: 'H5当日日活',align: 'center',sort:true,width: 100},
+
+                <?php foreach ($appDayArr as $key=>$val):?>
+                {field: "<?php echo 'android_app_day'.$key;?>", title: "<?php echo '安卓'.$val;?>",width:100,align: 'center',sort:true},
+                {field: "<?php echo 'h5_app_day'.$key;?>", title: "<?php echo 'H5'.$val;?>",width:100,align: 'center',sort:true},
+                <?php endforeach;?>
+
+                {field: 'is_disabled', title: '状态',align: 'center',sort:true},
+                {field: 'updated_at', title: '更新时间',width: 200},
+            ]],
+        });
+        laydate.render({
+            elem: '#laydate-start-at'//指定元素
+            , trigger: 'click'
+            , type: 'date'
+        });
+        laydate.render({
+            elem: '#laydate-end-at'//指定元素
+            , trigger: 'click'
+            , type: 'date'
+        });
+        /*表格搜索事件*/
+        form.on('submit(searchFormBtn)', function(obj){
+            table.reload('table',{where:obj.field,page:{curr:1}});
+            return false;
+        });
+        /*表格排序事件*/
+        table.on('sort(table)', function(obj){
+            var order=obj.type==='asc'?1:-1;
+            table.reload('table', {initSort: obj,where: {sort: obj.field,order: order }});
+        });
+
+        /*表格-顶部工具条事件*/
+        table.on('toolbar(table)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            var data = checkStatus.data;
+            var ids = new Array();
+            for(var index=0;index<data.length;index++)
+            {
+                if(data[index].channel_id){
+                    ids.push(data[index].channel_id)
+                }
+            }
+            switch(obj.event) {
+                case 'up':
+                    doRow(ids,'up');
+                    break;
+                case 'down':
+                    doRow(ids,'down');
+                    break;
+                case 'add':
+                    layerIndex=layer.open({
+                        type: 2,
+                        content: "<?php echo createUrl('/channel/detail'); ?>",
+                        area:  ['800px', '500px']
+                    });
+                    break;
+                case 'del':
+                    doRow(ids,'del');
+                    break;
+            }
+        });
+        /*表格-行事件*/
+        table.on('tool(table)', function(obj){
+            var data = obj.data;
+            switch (obj.event) {
+                case 'edit':
+                    layerIndex=layer.open({
+                        type: 2,
+                        content: "<?php echo createUrl('/channel/detail'); ?>?_id="+data._id,
+                        area:  ['800px', '50%']
+                    });
+                    break;
+                case 'del':
+                    var ids = new Array();
+                    ids.push(data._id);
+                    doRow(ids,'del');
+                    break;
+            }
+        });
+        function doRow(ids,act) {
+            if(ids==null || ids.length<1){
+                showErrorMsg("请选择需要的数据!");
+                return false;
+            }
+            showConfirmMsg("确定操作吗?",function() {
+                var loadIndex=layer.load(0,{time: 30*1000});
+                doAjax("<?php echo createUrl('/channel/do')?>",{act:act,id:ids.join(",")},function(res){
+                    layer.close(loadIndex);
+                    if(res.status=='y'){
+                        showSuccessMsg("操作成功!");
+                        table.reload('table');
+                    }else{
+                        showErrorMsg(res.error);
+                    }
+                });
+            });
+        }
+    })
+</script>

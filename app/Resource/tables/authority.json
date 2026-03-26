@@ -1,0 +1,58 @@
+{
+  "table_name": "authority",
+  "class_name": "AuthorityModel",
+  "description": "系统资源",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "名称"
+    },
+    {
+      "name": "parent_id",
+      "type": "string",
+      "description": "上级id"
+    },
+    {
+      "name": "sort",
+      "type": "int",
+      "description": "排序"
+    },
+    {
+      "name": "key",
+      "type": "string",
+      "description": "唯一标识符",
+      "index": "Unique"
+    },
+    {
+      "name": "class_name",
+      "type": "string",
+      "description": "样式名"
+    },
+    {
+      "name": "is_menu",
+      "type": "int",
+      "description": "是否菜单"
+    },
+    {
+      "name": "link",
+      "type": "string",
+      "description": "链接"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

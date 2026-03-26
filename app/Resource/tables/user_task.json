@@ -1,0 +1,43 @@
+{
+  "table_name": "user_task",
+  "class_name": "UserTaskModel",
+  "description": "用户任务",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "名称"
+    },
+    {
+      "name": "type",
+      "type": "string",
+      "description": "类型",
+      "index": "Normal"
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "description": "描述"
+    },
+    {
+      "name": "max_num",
+      "type": "int",
+      "description": "单日最大"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

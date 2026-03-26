@@ -1,0 +1,135 @@
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header system-main-nav">搜索</div>
+        <div class="layui-card-body">
+            <form class="layui-form toolbar" lay-filter="searchForm">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">用户编号:</label>
+                        <div class="layui-input-inline">
+                            <input name="to_user_id" class="layui-input" placeholder="输入用户编号"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">开始时间:</label>
+                        <div class="layui-input-inline">
+                            <input name="start_time" id="start_time" class="layui-input icon-date" placeholder="输入内容"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">结束时间:</label>
+                        <div class="layui-input-inline">
+                            <input name="end_time" id="end_time" class="layui-input icon-date" placeholder="输入内容"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">状态:</label>
+                        <div class="layui-input-inline">
+                            <select name="status">
+                                <option value="">请选择..</option>
+                                <option value="0" selected>处理中</option>
+                                <option value="1">已处理</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="searchFormBtn">搜索</button>
+                        <button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+            <!-- 数据表格 -->
+            <table class="layui-hide" id="table" lay-filter="table"></table>
+            <!-- 数据表格-行工具条 -->
+            <script type="text/html" id="table-item-toolbar">
+                <a class="layui-btn layui-btn-xs" lay-event="reply">回复</a>
+            </script>
+        </div>
+    </div>
+</div>
+<script>
+    var layerIndex,layer,table,form,laydate,$;
+    layui.use(['layer', 'form', 'table', 'admin', 'laydate'], function () {
+        $ = layui.jquery;
+        layer = layui.layer;
+        form = layui.form;
+        table = layui.table;
+        laydate = layui.laydate;
+
+        /*初始化表格*/
+        table.render({
+            elem: '#table'
+            ,url: location.href
+            ,method: "post"
+            ,where: form.val("searchForm")
+            ,skin:'line'
+            ,size: 'sm' //小尺寸的表格
+            ,toolbar: '#table-toolbar'
+            ,request: {
+                limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            }
+            ,page: {
+                layout: ['prev', 'page', 'next', 'skip', 'count', 'limit']
+                ,curr: 1 //设定初始在第 1 页
+                ,groups: 6 //只显示 5 个连续页码
+                ,first: '首页'
+                ,last: '尾页'
+                ,limit:30
+                ,limits:[10,30,50,100]
+            }
+            ,parseData: function(res){ //res 即为原始返回的数据
+                return res;
+            }
+            ,cols: [[
+                {type: 'checkbox'}
+                ,{field: 'to_user_id', title: '用户编号', align: 'center', width: 120}
+                ,{field: 'to_user_nickname', title: '昵称', align: 'center'}
+                ,{field: 'to_user_img', title:'头像',align: 'center', templet: function (row) {
+                        if(row.to_user_img){
+                            var link='<?php echo $mediaUrl;?>'+row.to_user_img;
+                            return '<a target="_blank" href="'+link+'" ><img src="'+link+'" onmouseout="hideImg(this)" onmouseover="showImg(this)" class="table-tips-img" style="max-width: 30px;max-height: 25px"/></a>'
+                        }
+                        return '-';
+                    }, width: 60}
+                ,{field: 'device_type', title: '设备类型', align: 'center'}
+                ,{field: 'status', title: '状态', align: 'center'}
+                ,{field: 'content', title: '内容', align: 'center'}
+                ,{field: 'updated_at', title: '时间', align: 'center', sort:true}
+                ,{title:'操作', toolbar: '#table-item-toolbar',align: 'center', width:150}
+            ]],
+        });
+        /*表格搜索事件*/
+        form.on('submit(searchFormBtn)', function(obj){
+            table.reload('table',{where:obj.field,page:{curr:1}});
+            return false;
+        });
+        /*表格排序事件*/
+        table.on('sort(table)', function(obj){
+            var order=obj.type==='asc'?1:-1;
+            table.reload('table', {initSort: obj,where: {sort: obj.field,order: order }});
+        });
+        //时间
+        laydate.render({
+            elem: '#end_time',
+            type: 'datetime'
+        });
+        laydate.render({
+            elem: '#start_time',
+            type: 'datetime'
+        });
+
+        /*表格-行事件*/
+        table.on('tool(table)', function(obj){
+            var data = obj.data;
+            switch (obj.event) {
+                case 'reply':
+                    layerIndex=layer.open({
+                        type: 2,
+                        content: "<?php echo createUrl('/feedback/detail'); ?>?_id="+data._id,
+                        area:  ['80%', '90%']
+                    });
+                    break;
+            }
+        });
+    })
+</script>

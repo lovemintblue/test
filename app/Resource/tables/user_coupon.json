@@ -1,0 +1,81 @@
+{
+  "table_name": "user_coupon",
+  "class_name": "UserCouponModel",
+  "description": "用户优惠券",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "名称"
+    },
+    {
+      "name": "type",
+      "type": "int",
+      "description": "优惠券类型 观影:movie 裸聊:naked"
+    },
+    {
+      "name": "user_id",
+      "type": "int",
+      "description": "用户id",
+      "index": "Normal"
+    },
+    {
+      "name": "code_key",
+      "type": "string",
+      "description": "优惠券key",
+      "index": "Normal"
+    },
+    {
+      "name": "code",
+      "type": "string",
+      "description": "优惠券",
+      "index": "Unique"
+    },
+    {
+      "name": "status",
+      "type": "int",
+      "description": "状态 0未使用 1已使用 -1作废"
+    },
+    {
+      "name": "money",
+      "type": "int",
+      "description": "金额"
+    },
+    {
+      "name": "can_use_num",
+      "type": "int",
+      "description": "使用次数"
+    },
+    {
+      "name": "used_num",
+      "type": "int",
+      "description": "已使用次数"
+    },
+    {
+      "name": "expired_at",
+      "type": "int",
+      "description": "有效期 过期无效"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "description": "使用日期",
+      "index": "Normal"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

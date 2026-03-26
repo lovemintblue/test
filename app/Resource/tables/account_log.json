@@ -1,0 +1,77 @@
+{
+  "table_name": "account_log",
+  "class_name": "AccountLogModel",
+  "description": "账号日志日志",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "order_sn",
+      "type": "string",
+      "description": "编号",
+      "index": "Normal"
+    },
+    {
+      "name": "user_id",
+      "type": "int",
+      "description": "用户编号",
+      "index": "Normal"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "用户名",
+      "index": "Normal"
+    },
+    {
+      "name": "record_type",
+      "type": "string",
+      "description": "类型 point金币",
+      "index": "Normal"
+    },
+    {
+      "name": "type",
+      "type": "int",
+      "description": "业务类型1充值 2 提现 3余额支付 4退款到余额 5佣金入账 6佣金退回 7提现回滚 8余额扣除 9打赏 ",
+      "index": "Normal"
+    },
+    {
+      "name": "num",
+      "type": "double",
+      "description": "数量"
+    },
+    {
+      "name": "num_log",
+      "type": "double",
+      "description": "余额"
+    },
+    {
+      "name": "remark",
+      "type": "string",
+      "description": "remark"
+    },
+    {
+      "name": "object_id",
+      "type": "string",
+      "description": "对应的事件编号"
+    },
+    {
+      "name": "ext",
+      "type": "string",
+      "description": "扩展信息"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "table_name": "adv_app",
+  "class_name": "AdvAppModel",
+  "description": "应用中心",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "名称"
+    },
+    {
+      "name": "image",
+      "type": "string",
+      "description": "图片"
+    },
+    {
+      "name": "download_url",
+      "type": "string",
+      "description": "下载地址"
+    },
+    {
+      "name": "download",
+      "type": "string",
+      "description": "下载次数,直接填写"
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "description": "描述"
+    },
+    {
+      "name": "sort",
+      "type": "int",
+      "description": "排序"
+    },
+    {
+      "name": "is_self",
+      "type": "int",
+      "description": "是否自有",
+      "index": "Normal"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

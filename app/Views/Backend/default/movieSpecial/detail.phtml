@@ -1,0 +1,162 @@
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">视频专题详情</div>
+                <div class="layui-card-body">
+                    <form class="layui-form" action="" lay-filter="info-form">
+                        <input type="hidden" name="_id"  placeholder="" autocomplete="off" class="layui-input">
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">名称:</label>
+                            <div class="layui-input-block">
+                                <input name="name" placeholder="请输入名称" class="layui-input" lay-verType="tips"
+                                       lay-verify="required" required/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">检索条件:</label>
+                            <div class="layui-input-block">
+                                <input name="filter" placeholder="请输入" class="layui-input" lay-verType="tips"
+                                       lay-verify="required" required/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">图片:</label>
+                            <div class="layui-input-block">
+                                <div id="imgX" class="user-tag upload-select-picture-card">
+                                    <span class="layui-icon layui-icon-addition"></span>
+                                </div>
+                                <input name="img" id="imgXInput"  value="" type="text" class="layui-input" style="display: none" />
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">背景图:</label>
+                            <div class="layui-input-block">
+                                <div id="imgY" class="user-tag-bg upload-select-picture-card">
+                                    <span class="layui-icon layui-icon-addition"></span>
+                                </div>
+                                <input name="bg_img" id="imgYInput"  value="" type="text" class="layui-input" style="display: none" />
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">排序:</label>
+                            <div class="layui-input-block">
+                                <input name="sort" placeholder="请输入排序" value="0" class="layui-input" lay-verType="tips"
+                                       lay-verify="required" required/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">描述:</label>
+                            <div class="layui-input-block">
+                                <textarea name="description"   style="height: 150px" class="layui-textarea editer-text"></textarea>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">分区</label>
+                            <div class="layui-input-block">
+                                <?php foreach ($posArr as $key=>$item): ?>
+                                    <input type="radio" name="position" value="<?php echo $key; ?>" title="<?php echo $key.' | '.$item; ?>" <?php if($key==0):?>checked<?php endif?> >
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label layui-form-required">是否显示:</label>
+                            <div class="layui-input-block">
+                                <input name="is_disabled"  lay-filter="select-adv-type" type="radio" value="0" title="显示" checked/>
+                                <input name="is_disabled" lay-filter="select-adv-type" type="radio" value="1" title="关闭"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit lay-filter="info-form">立即提交</button>
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['index', 'form', 'upload'], function(){
+        var $ = layui.$
+            ,element = layui.element
+            ,upload = layui.upload
+            ,form = layui.form
+            ,row = <?php echo json_encode($row);?>;
+
+        form.val('info-form', row);
+        form.render(null, 'info-form');
+
+        element.render('breadcrumb', 'breadcrumb');
+
+        //回显部分数据
+        if(row&&row.img){
+            $("#imgX").html("<img width='102' height='102' src='<?php echo $mediaUrl;?>"+row.img+"'>");
+        }
+        if(row&&row.bg_img){
+            $("#imgY").html("<img width='102' height='102' src='<?php echo $mediaUrl;?>"+row.bg_img+"'>");
+        }
+
+        //上传图片
+        upload.render({
+            elem: '#imgX' //绑定元素
+            ,url: '<?php echo $mediaUrl.'/api/tools/upload'; ?>' //上传接口
+            ,before: function(obj){
+                layer.load(0,{time: 30*1000});
+            }
+            ,done: function(res){
+                layer.closeAll('loading');
+                if(res.status=='y'){
+                    $("#imgX").html("<img width='102' height='102' src='<?php echo $mediaUrl;?>"+res.data+"'>");
+                    $("#imgXInput").val(res.data);
+                }else {
+                    showErrorMsg(res.error)
+                }
+            }
+            ,error: function(e){
+                //请求异常回调
+                showErrorMsg('上传异常')
+            }
+        });
+        upload.render({
+            elem: '#imgY' //绑定元素
+            ,url: '<?php echo $mediaUrl.'/api/tools/upload'; ?>' //上传接口
+            ,before: function(obj){
+                layer.load(0,{time: 30*1000});
+            }
+            ,done: function(res){
+                layer.closeAll('loading');
+                if(res.status=='y') {
+                    $("#imgY").html("<img width='102' height='102' src='<?php echo $mediaUrl;?>"+res.data+"'>");
+                    $("#imgYInput").val(res.data);
+                }else {
+                    showErrorMsg(res.error)
+                }
+            }
+            ,error: function(){
+                //请求异常回调
+                showErrorMsg('上传异常')
+            }
+        });
+
+        form.on('submit(info-form)', function(obj){
+            var loadIndex=layer.load(0,{time: 30*1000});
+            doAjax("<?php echo createUrl('/movieSpecial/save')?>",obj.field,function (res) {
+                layer.close(loadIndex);
+                if(res.status==='y'){
+                    showSuccessMsg("保存成功!");
+                    parent.layer.close(parent.layerIndex);
+                    parent.table.reload('table');
+                    return;
+                }
+                showErrorMsg(res.error);
+            });
+            return false;
+        });
+
+    });
+</script>

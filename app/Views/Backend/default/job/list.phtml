@@ -1,0 +1,121 @@
+<!-- 正文开始 -->
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header system-main-nav">任务管理<small>任务列表</small></div>
+        <div class="layui-card-body movie-page">
+            <form class="layui-form toolbar search-form" lay-filter="searchForm">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">状态:</label>
+                        <div class="layui-input-inline">
+                            <select name="status">
+<!--                                <option value="">请选择...</option>-->
+                                <?php foreach ($statusArr as $value=>$label):?>
+                                    <option value="<?php echo $value;?>"><?php echo $label;?></option>
+                                <?php endforeach;?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">任务等级:</label>
+                        <div class="layui-input-inline">
+                            <select name="level">
+                                <option value="">请选择...</option>
+                                <?php foreach ($levelArr as $value=>$label):?>
+                                    <option value="<?php echo $value;?>"><?php echo $label;?></option>
+                                <?php endforeach;?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">&emsp;
+                        <button class="layui-btn icon-btn" lay-filter="btnTbSearch" lay-submit><i class="layui-icon">&#xe615;</i>查询
+                        </button>
+                        <button class="layui-btn layui-btn-primary" lay-filter="btnTbReset" lay-submit><i
+                                    class="layui-icon">&#xe716;</i>重置
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <!-- 数据表格 -->
+            <div class="layui-row ">
+                <table id="dataTable" lay-filter="dataTable"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['layer', 'form', 'table', 'util', 'admin'], function () {
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var form = layui.form;
+        var table = layui.table;
+        /* 渲染表格 */
+        var insTb = table.render({
+            elem: '#dataTable',
+            url: location.href,
+            page: true,
+            where: form.val("searchForm"),
+            method: 'post',
+            toolbar: ['<p>',
+                '<button lay-event="retry" class="layui-btn layui-btn-sm icon-btn"><i class="layui-icon">&#xe605;</i>批量重试</button>&nbsp;',
+                '</p>'].join(''),
+            cellMinWidth: 100,
+            cols: [[
+                {type: 'checkbox'},
+                {field: '_id', title: '编号', width: 100},
+                {field: 'uniqid', title: '唯一编号', width: 400},
+                {field: 'level_text', title: '级别',width:100},
+                {field: 'status_text', title: '状态',width:100},
+                {field: 'failed_at', title: '异常时间'},
+                {field: 'exception', title: '异常信息',templet: function (row) {
+                        if(row.exception){
+                            return `<div>`+row.exception+`</div>`;
+                            return '<a target="_blank" href="'+link+'" ><img src="'+link+'" onmouseout="hideImg(this)" onmouseover="showImg(this)" class="table-tips-img" style="max-width: 100px;max-height: 100px"/></a>'
+                        }
+                        return '-';
+                    }},
+                {field: 'created_at', title: '创建时间'},
+                {field: 'updated_at', title: '更新时间'},
+            ]]
+        });
+        /* 表格搜索 */
+        form.on('submit(btnTbSearch)', function (data) {
+            insTb.reload({where: data.field, page: {curr: 1}});
+            return false;
+        });
+        form.on('submit(btnTbReset)', function (data) {
+            data.form.reset();
+            form.render(null, 'searchForm');
+            var newData = form.val('searchForm');
+            insTb.reload({where: newData, page: {curr: 1}});
+            return false;
+        });
+
+        /* 表格头工具栏点击事件 */
+        table.on('toolbar(dataTable)', function (obj) {
+            var checkRows = table.checkStatus('dataTable');
+            if (checkRows.data.length === 0) {
+                showErrorMsg('请选择要操作的数据!');
+                return;
+            }
+            var ids = checkRows.data.map(function (d) {
+                return d['_id'];
+            });
+            if (obj.event === 'retry') { // 重试
+                doAction(ids.join(','),'retry')
+            }else if (obj.event === 'del') {
+                doAction(ids.join(','),'del')
+            }
+        });
+
+        /* 操作 */
+        function doAction(ids,action) {
+            showConfirmMsg('确定要操作选中数据吗？', function () {
+                doLoadAjax("<?php  echo createUrl('/job/do');?>", {"ids": ids,'act':action}, function (res) {
+                    insTb.reload();
+                });
+            })
+        }
+    });
+</script>

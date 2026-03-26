@@ -1,0 +1,45 @@
+{
+  "table_name": "user_coupon_log",
+  "class_name": "UserCouponLogModel",
+  "description": "用户优惠券使用记录",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "user_id",
+      "type": "int",
+      "description": "用户id",
+      "index": "Normal"
+    },
+    {
+      "name": "code_id",
+      "type": "int",
+      "description": "优惠券id",
+      "index": "Normal"
+    },
+    {
+      "name": "code",
+      "type": "string",
+      "description": "优惠券",
+      "index": "Unique"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "description": "使用日期"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

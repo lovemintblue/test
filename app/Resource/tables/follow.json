@@ -1,0 +1,40 @@
+{
+  "table_name": "follow",
+  "class_name": "FollowModel",
+  "description": "关注",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "user_id",
+      "type": "int",
+      "description": "编号",
+      "index": "Normal"
+    },
+    {
+      "name": "object_id",
+      "type": "int",
+      "description": "编号",
+      "index": "Normal"
+    },
+    {
+      "name": "object_type",
+      "type": "int",
+      "description": "编号",
+      "index": "Normal"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

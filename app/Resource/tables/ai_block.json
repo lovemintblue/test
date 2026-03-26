@@ -1,0 +1,54 @@
+{
+  "table_name": "ai_block",
+  "class_name": "AiBlockModel",
+  "description": "AI功能模块",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "名称"
+    },
+    {
+      "name": "min_version",
+      "type": "string",
+      "description": "功能支持的最低版本"
+    },
+    {
+      "name": "ico",
+      "type": "string",
+      "description": "图标 hot热门"
+    },
+    {
+      "name": "position",
+      "type": "string",
+      "description": "位置",
+      "index": "Normal"
+    },
+    {
+      "name": "sort",
+      "type": "int",
+      "description": "排序"
+    },
+    {
+      "name": "is_disabled",
+      "type": "int",
+      "description": "是否显示",
+      "index": "Normal"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

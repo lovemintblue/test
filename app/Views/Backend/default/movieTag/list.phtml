@@ -1,0 +1,216 @@
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header system-main-nav">搜索</div>
+        <div class="layui-card-body">
+            <form class="layui-form toolbar" lay-filter="searchForm">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">名称:</label>
+                        <div class="layui-input-inline">
+                            <input name="name" class="layui-input"  autocomplete="off" placeholder="请输入名称"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">上级ID:</label>
+                        <div class="layui-input-inline">
+                            <select name="parent_id" lay-search>
+                                <option value="">请选择...</option>
+                                <option value="0">一级标签</option>
+                                <?php foreach ($tags as $key=>$item): ?>
+                                    <option value="<?php echo $item['id']; ?>"><?php echo $item['id'].' | '.$item['name']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+<!--                            <input name="parent_id" class="layui-input"  autocomplete="off" placeholder="请输入上级ID"/>-->
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">属性:</label>
+                        <div class="layui-input-inline">
+                            <select name="attribute" lay-search>
+                                <option value="">请选择..</option>
+                                <?php foreach ($attribute as $key=>$item): ?>
+                                    <option value="<?php echo $key; ?>"><?php echo $item; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">分区:</label>
+                        <div class="layui-input-inline">
+                            <select name="series" lay-search>
+                                <option value="">请选择..</option>
+                                <?php foreach ($series as $key=>$item): ?>
+                                    <option value="<?php echo $key; ?>"><?php echo $item; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">热门:</label>
+                        <div class="layui-input-inline">
+                            <select name="is_hot" lay-search>
+                                <option value="">请选择..</option>
+                                <?php foreach ($hot as $key=>$item): ?>
+                                    <option value="<?php echo $key; ?>"><?php echo $item; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="searchFormBtn">搜索</button>
+                        <button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+            <!-- 数据表格 -->
+            <table class="layui-hide" id="table" lay-filter="table"></table>
+            <!-- 数据表格-顶部工具条 -->
+            <script type="text/html" id="table-toolbar">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-xs" lay-event="add">添加</button>
+                    <button class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</button>
+                    <button class="layui-btn layui-btn-xs" lay-event="update">批量设置</button>
+                </div>
+            </script>
+            <!-- 数据表格-行工具条 -->
+            <script type="text/html" id="table-item-toolbar">
+                <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+            </script>
+        </div>
+    </div>
+</div>
+<script>
+    var layerIndex,layer,table,form,$;
+    layui.use(['layer', 'form', 'table', 'admin'], function () {
+        $ = layui.jquery;
+        layer = layui.layer;
+        form = layui.form;
+        table = layui.table;
+
+        /*初始化表格*/
+        table.render({
+            elem: '#table'
+            ,url: location.href
+            ,method: "post"
+            ,where: form.val("searchForm")
+            ,skin:'line'
+            ,size: 'sm' //小尺寸的表格
+            ,toolbar: '#table-toolbar'
+            ,request: {
+                limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            }
+            ,page: {
+                layout: ['prev', 'page', 'next', 'skip', 'count', 'limit']
+                ,curr: 1 //设定初始在第 1 页
+                ,groups: 6 //只显示 5 个连续页码
+                ,first: '首页'
+                ,last: '尾页'
+                ,limit:30
+                ,limits:[10,30,50,100]
+            }
+            ,parseData: function(res){ //res 即为原始返回的数据
+                return res;
+            }
+            ,cols: [[
+                {type: 'checkbox'}
+                ,{field:'_id', title: 'ID',align: 'center',sort:true}
+                ,{field:'name', title: '名称',align: 'center'}
+                ,{field:'parent_id', title: '上级ID',align: 'center',sort:true}
+                ,{field:'attribute', title: '属性',align: 'center'}
+                ,{field:'series', title: '分区',align: 'center'}
+                ,{field:'is_hot', title: '热门',align: 'center'}
+                ,{field:'count', title: '资源数量',align: 'center',sort:true}
+                ,{field:'created_at', title: '创建时间',align: 'center'}
+                ,{title:'操作', toolbar: '#table-item-toolbar',align: 'center', width:150}
+            ]],
+        });
+        /*表格搜索事件*/
+        form.on('submit(searchFormBtn)', function(obj){
+            table.reload('table',{where:obj.field,page:{curr:1}});
+            return false;
+        });
+        /*表格排序事件*/
+        table.on('sort(table)', function(obj){
+            var order=obj.type==='asc'?1:-1;
+            table.reload('table', {initSort: obj,where: {sort: obj.field,order: order }});
+        });
+
+        /*表格-顶部工具条事件*/
+        table.on('toolbar(table)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            var data = checkStatus.data;
+            var ids = new Array();
+            for(var index=0;index<data.length;index++)
+            {
+                ids.push(data[index]._id)
+            }
+            switch(obj.event) {
+                case 'add':
+                    layerIndex=layer.open({
+                        type: 2,
+                        content: "<?php echo createUrl('/movieTag/detail'); ?>",
+                        area:  ['800px', '500px']
+                    });
+                    break;
+                case 'del':
+                    doRow(ids,'del');
+                    break;
+                case 'update':
+                    updateRow(ids);
+                    break;
+            }
+        });
+        /*表格-行事件*/
+        table.on('tool(table)', function(obj){
+            var data = obj.data;
+            switch (obj.event) {
+                case 'edit':
+                    layerIndex=layer.open({
+                        type: 2,
+                        content: "<?php echo createUrl('/movieTag/detail'); ?>?_id="+data._id,
+                        area:  ['800px', '50%']
+                    });
+                    break;
+                case 'del':
+                    var ids = new Array();
+                    ids.push(data._id);
+                    doRow(ids,'del');
+                    break;
+            }
+        });
+        function doRow(ids,act) {
+            if(ids==null || ids.length<1){
+                showErrorMsg("请选择需要的数据!");
+                return false;
+            }
+            showConfirmMsg("确定操作吗?",function() {
+                var loadIndex=layer.load(0,{time: 30*1000});
+                doAjax("<?php echo createUrl('/movieTag/do')?>",{act:act,id:ids.join(",")},function(res){
+                    layer.close(loadIndex);
+                    if(res.status=='y'){
+                        showSuccessMsg("操作成功!");
+                        table.reload('table');
+                    }else{
+                        showErrorMsg(res.error);
+                    }
+                });
+            });
+        }
+
+        //批量设置
+        function updateRow(ids) {
+            ids=ids.join(',');
+            if(ids==null || ids.length<1){
+                showErrorMsg("请选择需要的数据!");
+                return false;
+            }
+            layerIndex=layer.open({
+                type: 2,
+                shade: 0.8,
+                content: "<?php echo createUrl('/movieTag/update'); ?>?ids="+ids,
+                area: ['50%', '60%'],
+            });
+        }
+    })
+</script>

@@ -1,0 +1,156 @@
+{
+  "table_name": "recharge",
+  "class_name": "RechargeModel",
+  "description": "充值表",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "order_sn",
+      "type": "string",
+      "description": "订单编号",
+      "index": "Unique"
+    },
+    {
+      "name": "trade_sn",
+      "type": "string",
+      "description": "支付编号",
+      "index": "Normal"
+    },
+    {
+      "name": "user_id",
+      "type": "int",
+      "description": "用户编号",
+      "index": "Normal"
+    },
+    {
+      "name": "device_type",
+      "type": "string",
+      "description": "设备类型"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "description": "用户名",
+      "index": "Normal"
+    },
+    {
+      "name": "record_type",
+      "type": "string",
+      "description": "类型 point金币",
+      "index": "Normal"
+    },
+    {
+      "name": "status",
+      "type": "int",
+      "description": "状态0处理中 1成功 -1失败"
+    },
+    {
+      "name": "amount",
+      "type": "double",
+      "description": "金额"
+    },
+    {
+      "name": "real_amount",
+      "type": "double",
+      "description": "实际金额"
+    },
+    {
+      "name": "product_id",
+      "type": "int",
+      "description": "产品编号"
+    },
+    {
+      "name": "give",
+      "type": "int",
+      "description": "赠送数量"
+    },
+    {
+      "name": "vip",
+      "type": "int",
+      "description": "赠送VIP天数"
+    },
+    {
+      "name": "num",
+      "type": "int",
+      "description": "数量"
+    },
+    {
+      "name": "fee",
+      "type": "double",
+      "description": "费率"
+    },
+    {
+      "name": "pay_id",
+      "type": "int",
+      "description": "支付方式编号"
+    },
+    {
+      "name": "pay_name",
+      "type": "string",
+      "description": "支付方式"
+    },
+    {
+      "name": "pay_at",
+      "type": "int",
+      "description": "支付时间"
+    },
+    {
+      "name": "pay_rate",
+      "type": "double",
+      "description": "支付费率"
+    },
+    {
+      "name": "pay_date",
+      "type": "string",
+      "description": "支付日期"
+    },
+    {
+      "name": "channel_name",
+      "type": "string",
+      "description": "渠道",
+      "index": "Normal"
+    },
+    {
+      "name": "register_at",
+      "type": "int",
+      "description": "注册时间",
+      "index": "Normal"
+    },
+    {
+      "name": "register_date",
+      "type": "string",
+      "description": "注册时间"
+    },
+    {
+      "name": "is_new_user",
+      "type": "int",
+      "description": "是否新用户",
+      "index": "Normal"
+    },
+    {
+      "name": "register_ip",
+      "type": "string",
+      "description": "注册ip"
+    },
+    {
+      "name": "created_ip",
+      "type": "string",
+      "description": "ip"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间",
+      "index": "Normal"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

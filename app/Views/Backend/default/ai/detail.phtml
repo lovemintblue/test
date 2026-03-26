@@ -1,0 +1,180 @@
+<style>
+    .img-ai{
+        height: 118px;
+        width: 118px;
+    }
+    video{
+        width: 220px;
+    }
+    p{
+        display: inline-block;
+        vertical-align: top;
+    }
+    .layui-col-md12 {
+        padding:8px 0;
+    }
+</style>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header"><?php echo $row['position_text'];?>-订单详情</div>
+                <div class="layui-card-body">
+                    <div class="layui-card-header">用户需求</div>
+                    <blockquote class="layui-elem-quote">
+                        <div class="layui-row">
+                            <?php if(!empty($row['extra']['method'])):?>
+                                <div class="layui-col-md12"><p style='color:#01AAED'><?php echo $row['position_text'];?>method：</p><?php echo $row['extra']['method'];?></div>
+                            <?php endif;?>
+                            <!--小说-->
+                            <?php if(!empty($row['extra']['background'])):?>
+                                <div class="layui-col-md12"><p style='color:#01AAED'><?php echo $row['position_text'];?>人物设定：</p><?php echo $row['extra']['background'];?></div>
+                            <?php endif;?>
+                            <?php if(!empty($row['extra']['scene'])):?>
+                                <div class="layui-col-md12"><p style='color:#01AAED'><?php echo $row['position_text'];?>场景地点：</p><?php echo $row['extra']['scene'];?></div>
+                            <?php endif;?>
+                            <?php if(!empty($row['extra']['story'])):?>
+                                <div class="layui-col-md12"><p style='color:#01AAED'><?php echo $row['position_text'];?>故事情节：</p><?php echo $row['extra']['story'];?></div>
+                            <?php endif;?>
+                            <?php if(!empty($row['extra']['description'])):?>
+                                <div class="layui-col-md12"><p style='color:#01AAED'><?php echo $row['position_text'];?>细节描述：</p><?php echo $row['extra']['description'];?></div>
+                            <?php endif;?>
+                            <!--绘画-->
+                            <?php if(!empty($row['extra']['size'])):?>
+                                <div class="layui-col-md12"><p style='color:#01AAED'><?php echo $row['position_text'];?>size：</p><?php echo $row['extra']['size'];?></div>
+                            <?php endif;?>
+                            <?php if(!empty($row['extra']['prompt'])):?>
+                                <div class="layui-col-md12"><p style='color:#01AAED'><?php echo $row['position_text'];?>形容词：</p><?php echo $row['extra']['prompt'];?></div>
+                            <?php endif;?>
+                            <?php if(!empty($row['extra']['content'])):?>
+                                <div class="layui-col-md12"><p style='color:#01AAED'><?php echo $row['position_text'];?>描述：</p><?php echo $row['extra']['content'];?></div>
+                            <?php endif;?>
+                        </div>
+                        <div class="layui-row">
+                            <?php if(!empty($row['extra']['source-path'])):?>
+                                <div class="layui-col-md6"><p style='color:#01AAED'>人脸参照：</p><a target="_blank" href="<?php echo $mediaUrl.$row['extra']['source-path'];?>" ><img class="img-ai" src="<?php echo $mediaUrl.$row['extra']['source-path'];?>" onmouseout="hideImg(this)" onmouseover="showImg(this)"/></a></div>
+                            <?php endif;?>
+                            <?php if(strtolower(pathinfo($row['extra']['target-path'], PATHINFO_EXTENSION))==='m3u8'):?>
+                                <div class="layui-col-md6"><p style='color:#01AAED'>视频模版：</p><video controls="controls" data-url="<?php echo $mediaUrlVideo.$row['extra']['target-path'];?>" style="max-width:800px;max-height: 500px" id="targetPathPlayer"></video></div>
+                            <?php elseif(!empty($row['extra']['target-path'])):?>
+                                <div class="layui-col-md6"><p style='color:#01AAED'>模版图片：</p><a target="_blank" href="<?php echo $mediaUrl.$row['extra']['target-path'];?>" ><img class="img-ai" src="<?php echo $mediaUrl.$row['extra']['target-path'];?>" onmouseout="hideImg(this)" onmouseover="showImg(this)"/></a></div>
+                            <?php endif;?>
+                        </div>
+                    </blockquote>
+                    <div class="layui-card-header">处理结果</div>
+                    <blockquote class="layui-elem-quote">
+                        <div class="layui-row">
+                            <?php foreach($row['out_data'] as $out):?>
+                                <?php if(strtolower(pathinfo($out, PATHINFO_EXTENSION))==='m3u8'):?>
+                                    <div class="layui-col-md6"><video controls="controls" data-url="<?php echo $mediaUrlVideo.$out;?>" style="max-width:800px;max-height: 500px" id="outDataPlayer1"></video></div>
+                                <?php elseif(strtolower(pathinfo($out, PATHINFO_EXTENSION))==='zip'):?>
+                                <?php elseif(in_array(strtolower(pathinfo($out, PATHINFO_EXTENSION)),['jpg','png'])):?>
+                                    <div ><a target="_blank" href="<?php echo $mediaUrl.$out;?>" ><img style="margin: 6px;float: left" class="img-ai" src="<?php echo $mediaUrl.$out;?>" onmouseout="hideImg(this)" onmouseover="showImg(this)"/></a></div>
+                                <?php else:?>
+                                    <span style="white-space: pre-wrap;"><?php echo $out;?></span>
+
+                                <?php endif;?>
+                            <?php endforeach;?>
+                        </div>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="<?php  echo createStaticUrl('/admin/default/assets/js/hls.min.js'); ?>"></script>
+
+<script>
+    layui.use(['index', 'form', 'upload'], function(){
+        var $ = layui.$
+            ,element = layui.element
+            ,upload = layui.upload
+            ,form = layui.form
+            ,row = <?php echo json_encode($row);?>;
+        form.val('info-form',row);
+        form.render(null, 'info-form');
+
+        element.render('breadcrumb', 'breadcrumb');
+
+        //回显部分数据
+        if(row&&row.img){
+            $("#imgX").html("<img width='102' height='102' src='<?php echo $mediaUrl;?>"+row.img+"'>");
+
+            getImageSize("<?php echo $mediaUrl.$row['img'];?>")
+                .then(size => {
+                    console.log(size);
+                    $('#image_size').val(size);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+        //上传图片
+        upload.render({
+            elem: '#imgX' //绑定元素
+            ,url: '<?php echo $uploadUrl; ?>' //上传接口
+            ,done: function(res){
+                console.log(res);
+                var item = this.elem;
+                $("#imgX").html("<img width='102' height='102' src='<?php echo $mediaUrl;?>"+res.data+"'>");
+                $("#imgXInput").val(res.data);
+                getImageSize("<?php echo $mediaUrl;?>"+res.data)
+                    .then(size => {
+                        console.log(size);
+                        $('#image_size').val(size);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+            ,error: function(){
+                //请求异常回调
+            }
+        });
+
+        if(document.getElementById('targetPathPlayer')){
+            var hlsTargetPathPlayer = new Hls();
+            hlsTargetPathPlayer.loadSource(document.getElementById('targetPathPlayer').getAttribute('data-url')); // 传入路径
+            hlsTargetPathPlayer.attachMedia(document.getElementById('targetPathPlayer'));
+        }
+        if(document.getElementById('outDataPlayer1')){
+            var hlsOutDataPlayer1 = new Hls();
+            hlsOutDataPlayer1.loadSource(document.getElementById('outDataPlayer1').getAttribute('data-url')); // 传入路径
+            hlsOutDataPlayer1.attachMedia(document.getElementById('outDataPlayer1'));
+        }
+
+        form.on('submit(info-form)', function(obj){
+            var loadIndex=layer.load(0,{time: 30*1000});
+            doAjax("<?php echo createUrl('/aiResourceTemplate/save')?>",obj.field,function (res) {
+                layer.close(loadIndex);
+                if(res.status==='y'){
+                    showSuccessMsg("保存成功!");
+                    parent.layer.close(parent.layerIndex);
+                    parent.table.reload('table');
+                    return;
+                }
+                showErrorMsg(res.error);
+            });
+            return false;
+        });
+
+        function getImageSize(imageUrl) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+
+                img.onload = function() {
+                    resolve(`${img.width}x${img.height}`);
+                };
+
+                img.onerror = function() {
+                    reject('Unable to load image');
+                };
+
+                img.src = imageUrl;
+            });
+        }
+
+    });
+
+</script>

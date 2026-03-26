@@ -1,0 +1,65 @@
+{
+  "table_name": "payment_log",
+  "class_name": "PaymentLogModel",
+  "description": "支付日志",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "unique_id",
+      "type": "string",
+      "description": "唯一标识",
+      "index": "Unique"
+    },
+    {
+      "name": "type",
+      "type": "string",
+      "description": "类型"
+    },
+    {
+      "name": "order_id",
+      "type": "string",
+      "description": "订单编号"
+    },
+    {
+      "name": "status",
+      "type": "int",
+      "description": "订单状态",
+      "index": "Normal"
+    },
+    {
+      "name": "trade_no",
+      "type": "string",
+      "description": "交易单号",
+      "index": "Normal"
+    },
+    {
+      "name": "money",
+      "type": "double",
+      "description": "金额"
+    },
+    {
+      "name": "pat_at",
+      "type": "int",
+      "description": "支付时间"
+    },
+    {
+      "name": "pay_rate",
+      "type": "double",
+      "description": "支付比例"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

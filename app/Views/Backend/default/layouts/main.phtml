@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title><?php echo $systemName; ?></title>
+    <link rel="stylesheet" href="/admin/default/assets/libs/layui/css/layui.css"/>
+    <link href="/admin/default/assets/images/<?php echo $appid;?>.png" rel="icon">
+    <link rel="stylesheet" href="<?php echo createStaticUrl('/admin/default/assets/module/admin.css'); ?>">
+    <link rel="stylesheet" href="<?php echo createStaticUrl('/admin/default/assets/admin-x.css'); ?>">
+    <!--[if lt IE 9]>
+    <script src="/admin/default/assets/js/html5shiv.min.js"></script>
+    <script src="/admin/default/assets/js/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="/admin/default/assets/libs/layui/layui.js"></script>
+    <script type="text/javascript" src="<?php echo createStaticUrl('/admin/default/assets/js/common.js');?>"></script>
+    <script type="text/javascript" src="/admin/default/assets/js/jquery.min.js"></script>
+    <script src="<?php  echo createStaticUrl('/admin/default/assets/js/tools.js'); ?>"></script>
+    <script>
+        function showImg(obj) {
+            var img = "<img src='" + $(obj).attr('src') + "' style='max-width: 250px;max-height: 300px'/>";
+            var index = layer.tips(img, obj, {
+                tips: [2, 'rgba(41,41,41,.5)'],
+            });
+            $(obj).data('layer-index', index);
+        }
+
+        function hideImg(obj) {
+            var index = $(obj).data('layer-index');
+            if (typeof (index) != 'undefined') {
+                layer.close(index);
+            }
+        }
+    </script>
+    <style>
+        html,body{height: 100%;}
+        .layui-layout-body.main-scroll{overflow-y: auto;}
+        .layui-upload-img{width: 92px; height: 92px; margin: 0 10px 10px 0;}
+        .layui-table-cell {height:auto !important;overflow:visible;text-overflow:inherit;white-space:normal;word-break: break-all;padding: 0;}
+
+    </style>
+</head>
+<?php echo $this->getContent(); ?>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+</html>

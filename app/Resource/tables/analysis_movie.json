@@ -1,0 +1,60 @@
+{
+  "table_name": "analysis_movie",
+  "class_name": "AnalysisMovieModel",
+  "description": "统计视频",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "movie_id",
+      "type": "int",
+      "description": "视频id",
+      "index": "Normal"
+    },
+    {
+      "name": "date_label",
+      "type": "string",
+      "description": "日期",
+      "index": "Normal"
+    },
+    {
+      "name": "time",
+      "type": "string",
+      "description": "时间",
+      "index": "Normal"
+    },
+    {
+      "name": "click",
+      "type": "int",
+      "description": "点击次数"
+    },
+    {
+      "name": "favorite",
+      "type": "int",
+      "description": "收藏次数"
+    },
+    {
+      "name": "buy_num",
+      "type": "int",
+      "description": "销售数量"
+    },
+    {
+      "name": "buy_total",
+      "type": "int",
+      "description": "销售金额"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "table_name": "app_track",
+  "class_name": "AppTrackModel",
+  "description": "数据跟踪",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "type",
+      "type": "string",
+      "description": "类型",
+      "index": "Normal"
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "description": "id",
+      "index": "Normal"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "名称",
+      "index": "Normal"
+    },
+    {
+      "name": "num",
+      "type": "int",
+      "description": "数量"
+    },
+    {
+      "name": "date",
+      "type": "string",
+      "description": "日期",
+      "index": "Normal"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "table_name": "app_log",
+  "class_name": "AppLogModel",
+  "description": "APP日志",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "user_id",
+      "type": "int",
+      "description": "用户编号",
+      "index": "Normal"
+    },
+    {
+      "name": "date",
+      "type": "string",
+      "description": "日期",
+      "index": "Normal"
+    },
+    {
+      "name": "month",
+      "type": "string",
+      "description": "日期",
+      "index": "Normal"
+    },
+    {
+      "name": "channel_name",
+      "type": "string",
+      "description": "渠道",
+      "index": "Normal"
+    },
+    {
+      "name": "device_type",
+      "type": "string",
+      "description": "设备类型"
+    },
+    {
+      "name": "register_date",
+      "type": "string",
+      "description": "注册日期"
+    },
+    {
+      "name": "is_new_user",
+      "type": "int",
+      "description": "是否新用户",
+      "index": "Normal"
+    },
+    {
+      "name": "ip",
+      "type": "string",
+      "description": "ip"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}

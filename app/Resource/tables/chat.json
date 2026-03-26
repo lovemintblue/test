@@ -1,0 +1,62 @@
+{
+  "table_name": "chat",
+  "class_name": "ChatModel",
+  "description": "会话管理",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "string",
+      "description": "编号"
+    },
+    {
+      "name": "user_id",
+      "type": "int",
+      "description": "用户编号",
+      "index": "Normal"
+    },
+    {
+      "name": "chat_id",
+      "type": "string",
+      "description": "会话编号",
+      "index": "Normal"
+    },
+    {
+      "name": "to_user_id",
+      "type": "int",
+      "description": "目标用户编号",
+      "index": "Normal"
+    },
+    {
+      "name": "status",
+      "type": "int",
+      "description": "状态 0未读 1已读",
+      "index": "Normal"
+    },
+    {
+      "name": "type",
+      "type": "string",
+      "description": "类型 text image"
+    },
+    {
+      "name": "content",
+      "type": "string",
+      "description": "消息内容"
+    },
+    {
+      "name": "ip",
+      "type": "string",
+      "description": "ip"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间",
+      "index": "Normal"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "table_name": "movie_day",
+  "class_name": "MovieDayModel",
+  "description": "每日推荐",
+  "fields": [
+    {
+      "name": "_id",
+      "type": "int",
+      "description": "编号"
+    },
+    {
+      "name": "movie_id",
+      "type": "int",
+      "description": "视频ID",
+      "index": "Normal"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "description": "日期"
+    },
+    {
+      "name": "created_at",
+      "type": "int",
+      "description": "创建时间"
+    },
+    {
+      "name": "updated_at",
+      "type": "int",
+      "description": "更新时间"
+    }
+  ]
+}
